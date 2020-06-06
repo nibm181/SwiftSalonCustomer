@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:andoid="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="4dp"
+    andoid:layout_width="match_parent"
+    andoid:layout_height="wrap_content">
+
+    <LinearLayout
+        andoid:layout_width="match_parent"
+        andoid:layout_height="wrap_content"
+        andoid:padding="16dp"
+        andoid:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            andoid:id="@+id/img_hair_stylist"
+            andoid:layout_width="90dp"
+            andoid:layout_height="90dp"
+            andoid:layout_gravity="center_horizontal"/>
+        
+        <TextView
+            andoid:id="@+id/txt_hair_stylist_name"
+            andoid:text="David"
+            andoid:textSize="20sp"
+            andoid:textStyle="bold"
+            andoid:gravity="center_horizontal"
+            andoid:layout_width="match_parent"
+            andoid:layout_height="wrap_content"/>
+        
+        <RatingBar
+            andoid:id="@+id/rtb_hair_stylist"
+            andoid:layout_gravity="center_horizontal"
+            andoid:max="5"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            andoid:layout_width="wrap_content"
+            andoid:layout_height="wrap_content"/>
+
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

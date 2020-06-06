@@ -2,5 +2,11 @@
     <string name="app_name">SwiftSalon</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="mobile">Mobile No.</string>
+    <string name="login">Login</string>
+    <string name="forgotpass">Forogot Passsword</string>
+    <string name="password">Password</string>
+    <string name="salonName">Salon Name</string>
+    <string name="salonSearchBar">Salon Name or Area</string>
+    <string name="hairStylist">Hair Stylist</string>
 </resources>

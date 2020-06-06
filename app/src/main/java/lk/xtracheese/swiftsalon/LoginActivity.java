@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -18,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,8 +31,8 @@ import lk.xtracheese.swiftsalon.Fragments.HomeFragment;
 
 public class LoginActivity extends AppCompatActivity {
 
-    EditText editTextMobNo;
-    EditText editTextPassword;
+    TextInputEditText txtLoginMob;
+    TextInputEditText txtLoginPass;
     Button btnLogin;
 
     String userMobNo;
@@ -44,15 +46,15 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        editTextMobNo = findViewById(R.id.edit_txt_mobile_no);
-        editTextPassword = findViewById(R.id.edit_txt_password);
+        txtLoginMob = findViewById(R.id.edit_txt_mob_no);
+        txtLoginPass = findViewById(R.id.edit_txt_password);
         btnLogin = findViewById(R.id.btn_login);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userMobNo = editTextMobNo.getText().toString();
-                userPassword = editTextPassword.getText().toString();
+                userMobNo = txtLoginMob.getText().toString();
+                userPassword = txtLoginPass.getText().toString();
 
                 RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
                 url = "http://192.168.56.1/SwiftSalon/CustomerLogin.php?userMobNo="+userMobNo+"&userPassword="+userPassword;

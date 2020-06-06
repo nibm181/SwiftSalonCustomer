@@ -2,8 +2,10 @@ package lk.xtracheese.swiftsalon.Fragments;
 
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,6 +13,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -21,6 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,6 +36,7 @@ import java.util.List;
 import dmax.dialog.SpotsDialog;
 import lk.xtracheese.swiftsalon.Adapter.BannerSlideAdapter;
 import lk.xtracheese.swiftsalon.Adapter.LooKBookAdapter;
+import lk.xtracheese.swiftsalon.BookingActivity;
 import lk.xtracheese.swiftsalon.Model.Banner;
 import lk.xtracheese.swiftsalon.Model.LookBook;
 import lk.xtracheese.swiftsalon.R;
@@ -71,8 +76,6 @@ public class HomeFragment extends Fragment {
         bannerSlider = view.findViewById(R.id.banner_slider);
         recylerLookBook = view.findViewById(R.id.recycler_promotion_book);
 
-
-
         //initialize slider
         Slider.init(new PicassoImageLoadingService());
         //get image urls from server
@@ -81,10 +84,12 @@ public class HomeFragment extends Fragment {
         getLookBook();
 
         alertDialog.dismiss();
+
         return view;
 
-
     }
+
+
 
     void getPromotions() {
 

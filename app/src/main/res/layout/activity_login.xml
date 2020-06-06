@@ -6,59 +6,59 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
 
-    <TextView
-        android:id="@+id/txt_mobile_no"
-        android:text="Mobile No."
-        android:textSize="22dp"
-        android:layout_above="@+id/txt_password"
-        android:layout_margin="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/lbl_login_mobile"
+        android:layout_above="@+id/lbl_login_password"
+        android:layout_marginRight="5px"
+        android:layout_marginLeft="5px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/mobile"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-    <EditText
-        android:id="@+id/edit_txt_mobile_no"
-        android:inputType="number"
-        android:layout_alignBaseline="@+id/txt_mobile_no"
-        android:layout_toEndOf="@+id/txt_mobile_no"
-        android:textSize="22dp"
-        android:layout_width="250dp"
-        android:layout_height="50dp"/>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_txt_mob_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
 
-    <TextView
-        android:id="@+id/txt_password"
-        android:text="Password"
-        android:textSize="22dp"
-        android:layout_margin="10dp"
-        android:layout_centerInParent="true"
-        android:layout_alignParentLeft="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/edit_txt_password"
-        android:inputType="textPassword"
-        android:layout_alignBaseline="@+id/txt_password"
-        android:layout_toEndOf="@+id/txt_password"
-        android:layout_alignLeft="@+id/edit_txt_mobile_no"
-        android:textSize="22dp"
-        android:layout_width="250dp"
-        android:layout_height="50dp"/>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/lbl_login_password"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5px"
+        android:layout_marginRight="5px"
+        android:layout_marginTop="20px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/password"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_txt_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btn_login"
         android:textSize="22dp"
-        android:text="Login"
-        android:layout_below="@id/edit_txt_password"
-        android:layout_alignRight="@+id/edit_txt_password"
+        android:text="@string/login"
+        android:layout_below="@id/lbl_login_password"
+        android:layout_alignRight="@+id/lbl_login_password"
         android:layout_marginTop="25dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    <TextView
-        android:id="@+id/txt_forget_password"
-        android:text="Forgot Password"
+    <Button
+        android:id="@+id/btn_forgot_password"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:text="@string/forgotpass"
         android:textSize="22dp"
-        android:textColor="@android:color/background_dark"
+        android:textColor="@android:color/holo_red_light"
         android:layout_below="@+id/btn_login"
         android:layout_alignRight="@+id/btn_login"
         android:layout_marginTop="20dp"
