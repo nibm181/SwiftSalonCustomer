@@ -4,6 +4,7 @@ import java.util.List;
 
 import lk.xtracheese.swiftsalon.Model.HairStylist;
 import lk.xtracheese.swiftsalon.Model.Salon;
+import lk.xtracheese.swiftsalon.Model.TimeSlot;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -18,4 +19,7 @@ public interface GetDataService {
 
     @GET("HairStylist")
     Call<List<HairStylist>> getHairstylist();
+
+    @GET("getTimeSlots")
+    Call<List<TimeSlot>> getTimeSlots();
 }

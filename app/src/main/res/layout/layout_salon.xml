@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="4dp"
     android:id="@+id/card_salon"
+    android:outlineSpotShadowColor="@color/dark_purple"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -17,6 +18,7 @@
         android:id="@+id/txt_salon_name"
         android:text="Salon #1"
         android:textSize="20dp"
+        android:textColor="@color/dark"
         android:textStyle="bold"
         android:gravity="center_horizontal"
         android:layout_width="match_parent"
@@ -25,8 +27,11 @@
     <TextView
         android:id="@+id/txt_salon_addr"
         android:text="Address of Salon #1"
+        android:textColor="@color/dark"
         android:textSize="20dp"
         android:textStyle="bold"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

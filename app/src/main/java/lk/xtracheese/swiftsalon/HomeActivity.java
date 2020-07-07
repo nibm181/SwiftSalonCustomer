@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import lk.xtracheese.swiftsalon.Fragments.HomeFragment;
+import lk.xtracheese.swiftsalon.Fragments.bookingStep1Fragment;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -33,7 +34,8 @@ public class HomeActivity extends AppCompatActivity {
 
                 switch (item.getItemId()) {
                     case R.id.action_booking:
-                        startActivity(new Intent(HomeActivity.this, BookingActivity.class));
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                                new bookingStep1Fragment()).commit();
                         break;
                     case R.id.action_home:
 

@@ -6,6 +6,11 @@
     android:orientation="vertical"
     android:padding="8dp">
 
+    <Spinner
+        android:id="@+id/job_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_hair_stylist"
         android:layout_marginTop="4dp"

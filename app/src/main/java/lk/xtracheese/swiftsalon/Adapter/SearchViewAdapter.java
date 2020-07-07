@@ -4,10 +4,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import lk.xtracheese.swiftsalon.Fragments.BookingStep2Fragment;
-import lk.xtracheese.swiftsalon.Fragments.BookingStep3Fragment;
-import lk.xtracheese.swiftsalon.Fragments.BookingStep4Fragment;
-import lk.xtracheese.swiftsalon.Fragments.bookingStep1Fragment;
+import lk.xtracheese.swiftsalon.Fragments.SelectJobFragment;
+import lk.xtracheese.swiftsalon.Fragments.SelectStylistFragment;
+import lk.xtracheese.swiftsalon.Fragments.SelectTimeSlotFragment;
+import lk.xtracheese.swiftsalon.Fragments.ConfirmAppointmentFragment;
 
 public class SearchViewAdapter extends FragmentPagerAdapter {
 
@@ -19,13 +19,13 @@ public class SearchViewAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int i) {
         switch (i) {
             case 0:
-                return bookingStep1Fragment.getInstance();
+                return SelectStylistFragment.getInstance();
             case 1:
-                return BookingStep2Fragment.getInstance();
+                return SelectJobFragment.newInstance();
             case 2:
-                return BookingStep3Fragment.getInstance();
+                return SelectTimeSlotFragment.getInstance();
             case 3:
-                return BookingStep4Fragment.getInstance();
+                return ConfirmAppointmentFragment.getInstance();
         }
         return null;
     }

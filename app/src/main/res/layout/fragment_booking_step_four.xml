@@ -1,14 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/dark"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
-        android:text="STEP 4"
-        android:textSize="30sp"
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
+        android:id="@+id/booking_confirm_salon_name"
+        android:layout_marginTop="20dp"
+        android:text="Salon"
+        android:textColor="@color/dark"
+        android:textSize="28dp"
+        android:background="@drawable/appointment_confirm_txt_top_bg"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/booking_confirm_salon_addr"
+        android:text="Address"
+        android:textColor="@color/dark"
+        android:textSize="28dp"
+        android:background="@drawable/appointment_confirm_txt_middle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/booking_confirm_hs_name"
+        android:text="Hair Stylist"
+        android:textColor="@color/dark"
+        android:textSize="28dp"
+        android:background="@drawable/appointment_confirm_txt_middle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/booking_confirm_date"
+        android:text="Date"
+        android:textColor="@color/dark"
+        android:textSize="28dp"
+        android:background="@drawable/appointment_confirm_txt_middle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/booking_confirm_contact"
+        android:text="Contact"
+        android:textColor="@color/dark"
+        android:textSize="28dp"
+        android:background="@drawable/appointment_confirm_txt_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+
+</LinearLayout>

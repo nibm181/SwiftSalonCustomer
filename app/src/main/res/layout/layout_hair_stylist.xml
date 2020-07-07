@@ -2,6 +2,7 @@
 <androidx.cardview.widget.CardView
     xmlns:andoid="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    andoid:id="@+id/card_hair_stylist"
     app:cardCornerRadius="4dp"
     andoid:layout_width="match_parent"
     andoid:layout_height="wrap_content">

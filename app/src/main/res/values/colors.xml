@@ -8,6 +8,8 @@
     <color name="dark">#1C1F30</color>
     <color name="purple">#A615E4</color>
     <color name="dark_purple">#5B1A82</color>
+    <color name="dark_dark_purple">#370A52</color>
+    <color name="pink">#b03e94</color>
     <color name="light_grey">#EDEDED</color>
     <color name="grey">#AFAFAF</color>
     <color name="dark_grey">#757575</color>

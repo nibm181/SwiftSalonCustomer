@@ -26,13 +26,12 @@ import lk.xtracheese.swiftsalon.Common.SpacesitemDecoration;
 import lk.xtracheese.swiftsalon.Model.HairStylist;
 import lk.xtracheese.swiftsalon.R;
 
-public class BookingStep2Fragment extends Fragment {
+public class SelectStylistFragment extends Fragment {
 
     Unbinder unbinder;
     LocalBroadcastManager localBroadcastManager;
 
     RecyclerView recyclerHairStylist;
-    HairStylistAdapter hairStylistAdapter;
 
     private BroadcastReceiver HairStylistDoneReceiver = new BroadcastReceiver() {
         @Override
@@ -44,10 +43,10 @@ public class BookingStep2Fragment extends Fragment {
             recyclerHairStylist.setAdapter(hairStylistAdapter);
         }
     };
-    static BookingStep2Fragment instance;
-    public static BookingStep2Fragment getInstance(){
+    static SelectStylistFragment instance;
+    public static SelectStylistFragment getInstance(){
         if(instance == null)
-            instance = new BookingStep2Fragment();
+            instance = new SelectStylistFragment();
         return instance;
     }
 

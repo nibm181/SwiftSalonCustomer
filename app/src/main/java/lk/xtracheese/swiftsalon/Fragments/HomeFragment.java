@@ -94,7 +94,7 @@ public class HomeFragment extends Fragment {
     void getPromotions() {
 
         RequestQueue requestQueue = Volley.newRequestQueue(this.getContext());
-        url = "http://192.168.56.1/SwiftSalon/PromotionBanner.php";
+        url = "http://10.0.2.2/SwiftSalon/PromotionBanner.php";
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET, url, null,
@@ -130,6 +130,7 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.d("debug", error.getMessage());
                     }
                 }
 
@@ -142,7 +143,7 @@ public class HomeFragment extends Fragment {
 
     void getLookBook(){
         RequestQueue requestQueue = Volley.newRequestQueue(this.getContext());
-        url = "http://192.168.56.1/SwiftSalon/LookBook.php";
+        url = "http://10.0.2.2/SwiftSalon/LookBook.php";
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET, url, null,

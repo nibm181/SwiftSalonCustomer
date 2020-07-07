@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClientInstance {
     private static Retrofit retrofit;
-    private static final String BASE_URL = "http://192.168.56.1/SwiftSalon/";
+    private static final String BASE_URL = "http://10.0.2.2/SwiftSalon/";
 
     public static Retrofit getRetrofitInstance() {
         if (retrofit == null) {

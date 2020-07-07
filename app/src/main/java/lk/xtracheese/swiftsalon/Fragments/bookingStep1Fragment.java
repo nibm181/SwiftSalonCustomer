@@ -1,6 +1,7 @@
 package lk.xtracheese.swiftsalon.Fragments;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -25,7 +26,6 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
-import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,8 +39,11 @@ import butterknife.Unbinder;
 import dmax.dialog.SpotsDialog;
 import lk.xtracheese.swiftsalon.Adapter.BannerSlideAdapter;
 import lk.xtracheese.swiftsalon.Adapter.SalonAdapter;
+import lk.xtracheese.swiftsalon.BookingActivity;
+import lk.xtracheese.swiftsalon.Common.Common;
 import lk.xtracheese.swiftsalon.Common.SpacesitemDecoration;
 import lk.xtracheese.swiftsalon.Interface.GetDataService;
+import lk.xtracheese.swiftsalon.Interface.OnSalonClickListener;
 import lk.xtracheese.swiftsalon.Model.Banner;
 import lk.xtracheese.swiftsalon.Model.Salon;
 import lk.xtracheese.swiftsalon.Network.RetrofitClientInstance;
@@ -48,7 +51,7 @@ import lk.xtracheese.swiftsalon.R;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class bookingStep1Fragment extends Fragment {
+public class bookingStep1Fragment extends Fragment implements OnSalonClickListener {
 
     static  bookingStep1Fragment instance;
 
@@ -146,7 +149,7 @@ public class bookingStep1Fragment extends Fragment {
     //recycler view customization
     void initView(){
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
         recyclerView.addItemDecoration(new SpacesitemDecoration(4));
     }
 
@@ -222,8 +225,18 @@ public class bookingStep1Fragment extends Fragment {
 
     /*Method to generate List of data using RecyclerView with custom adapter*/
     private void generateDataList(List<Salon> salonList) {
-        salonAdapter = new SalonAdapter(getActivity(), salonList);
+        salonAdapter = new SalonAdapter(getActivity(), this);
+        salonAdapter.submitList(salonList);
         recyclerView.setAdapter(salonAdapter);
     }
 
+    @Override
+    public void onSalonClick(int position) {
+        Salon salon = salonAdapter.getSelectedSalon(position);
+        Common.currentSalon = salon;
+
+        Intent intent = new Intent(getContext(), BookingActivity.class);
+        startActivity(intent);
+
+    }
 }
