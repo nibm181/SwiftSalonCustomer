@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="BookingActivity">
+    tools:context=".activity.BookingActivity">
 
 
         <com.shuhart.stepview.StepView
@@ -29,7 +29,7 @@
             app:sv_stepNumberTextSize="12sp"
             app:sv_animationType="Line" />
 
-    <lk.xtracheese.swiftsalon.Common.NonSwipeViewPager
+    <lk.xtracheese.swiftsalon.common.NonSwipeViewPager
         android:id="@+id/view_pager"
         android:layout_below="@+id/step_view"
         android:layout_above="@+id/layout_button"
