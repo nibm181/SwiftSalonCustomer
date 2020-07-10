@@ -7,6 +7,7 @@ import java.util.List;
 import lk.xtracheese.swiftsalon.model.Job;
 import lk.xtracheese.swiftsalon.model.Salon;
 import lk.xtracheese.swiftsalon.model.Stylist;
+import lk.xtracheese.swiftsalon.model.StylistJob;
 import lk.xtracheese.swiftsalon.request.response.ApiResponse;
 import lk.xtracheese.swiftsalon.request.response.GenericResponse;
 import okhttp3.ResponseBody;
@@ -40,20 +41,12 @@ public interface SalonApi {
     @PUT("Salon")
     Call<ResponseBody> updateToken(@Field("id") int id, @Field("token") String token);
 
-    @GET("Job")
-    LiveData<ApiResponse<GenericResponse<List<Job>>>> getJobs(@Query("stylist_id") int stylistId);
+    @GET("Stylist_job")
+    LiveData<ApiResponse<GenericResponse<List<StylistJob>>>> getStylistJobs(@Query("stylist_id") int stylistId);
 
     @GET("Job")
     LiveData<ApiResponse<GenericResponse<Job>>> getJob(@Query("id") int id);
 
-    @PUT("Job")
-    LiveData<ApiResponse<GenericResponse<Job>>> updateJob(@Body Job job);
-
-    @POST("Job")
-    LiveData<ApiResponse<GenericResponse<Job>>> saveJob(@Body Job job);
-
-    @DELETE("Job")
-    LiveData<ApiResponse<GenericResponse<Job>>> deleteJob(@Query("id") int id);
 
     @GET("Stylist")
     LiveData<ApiResponse<GenericResponse<List<Stylist>>>> getStylists(@Query("salon_id") int salonId);

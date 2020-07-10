@@ -1,6 +1,7 @@
 package lk.xtracheese.swiftsalon.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,9 @@ import lk.xtracheese.swiftsalon.common.SpacesitemDecoration;
 import lk.xtracheese.swiftsalon.model.Stylist;
 import lk.xtracheese.swiftsalon.viewmodel.SelectStylistViewModel;
 
-public class SelectStylistFragment extends Fragment implements OnItemClickListener {
+public class SelectStylistFragment extends Fragment  {
+
+    private static final String TAG = "SelectStylistFragment";
 
 
     HairStylistAdapter stylistAdapter;
@@ -95,16 +98,11 @@ public class SelectStylistFragment extends Fragment implements OnItemClickListen
 
     //recycler view customization
     void initRecyclerView() {
-        stylistAdapter = new HairStylistAdapter(getActivity(), this);
+        stylistAdapter = new HairStylistAdapter(getActivity() );
         recyclerHairStylist.setAdapter(stylistAdapter);
         recyclerHairStylist.setHasFixedSize(true);
         recyclerHairStylist.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         recyclerHairStylist.addItemDecoration(new SpacesitemDecoration(4));
     }
 
-    @Override
-    public void onItemClick(int position) {
-        Stylist stylist = stylistAdapter.getSelectedSalon(position);
-        Common.currentStylist = stylist;
-    }
 }

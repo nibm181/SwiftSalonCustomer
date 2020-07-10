@@ -2,11 +2,9 @@ package lk.xtracheese.swiftsalon.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,37 +17,33 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import lk.xtracheese.swiftsalon.Interface.OnItemClickListener;
 import lk.xtracheese.swiftsalon.Interface.RecyclerItemSelectedListener;
 import lk.xtracheese.swiftsalon.R;
 import lk.xtracheese.swiftsalon.common.Common;
-import lk.xtracheese.swiftsalon.model.Stylist;
+import lk.xtracheese.swiftsalon.model.StylistJob;
 
-public class HairStylistAdapter extends ListAdapter<Stylist, HairStylistAdapter.MyViewHolder> {
-
-    private static final String TAG = "HairStylistAdapter";
+public class JobAdapter extends ListAdapter <StylistJob, JobAdapter.MyViewHolder> {
 
     Context context;
-    List<Stylist> stylistList;
     List<CardView> cardViewList;
 
     LocalBroadcastManager localBroadcastManager;
 
-    public HairStylistAdapter(Context context ) {
+    public JobAdapter(Context context) {
         super(DIFF_CALLBACK);
         this.context = context;
         cardViewList = new ArrayList<>();
         localBroadcastManager = LocalBroadcastManager.getInstance(context);
     }
 
-    private static DiffUtil.ItemCallback<Stylist> DIFF_CALLBACK = new DiffUtil.ItemCallback<Stylist>() {
+    private  static DiffUtil.ItemCallback<StylistJob> DIFF_CALLBACK = new DiffUtil.ItemCallback<StylistJob>() {
         @Override
-        public boolean areItemsTheSame(@NonNull Stylist oldItem, @NonNull Stylist newItem) {
+        public boolean areItemsTheSame(@NonNull StylistJob oldItem, @NonNull StylistJob newItem) {
             return oldItem.getId() == newItem.getId();
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull Stylist oldItem, @NonNull Stylist newItem) {
+        public boolean areContentsTheSame(@NonNull StylistJob oldItem, @NonNull StylistJob newItem) {
             return oldItem.getName().equals(newItem.getName());
         }
     };
@@ -58,52 +52,47 @@ public class HairStylistAdapter extends ListAdapter<Stylist, HairStylistAdapter.
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(context)
-                .inflate(R.layout.layout_hair_stylist, parent, false);
+                .inflate(R.layout.layout_job, parent, false);
         return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.txtHairStylistName.setText(getItem(position).getName());
-        holder.ratingBar.setRating((float) getItem(position).getRating());
+        holder.txtJobName.setText(getItem(position).getName());
+        holder.txtJobDuration.setText(getItem(position).getDuration());
 
-        if (!cardViewList.contains(holder.cardHairStylist))
-            cardViewList.add(holder.cardHairStylist);
+        if(!cardViewList.contains(holder.cardJob))
+            cardViewList.add(holder.cardJob);
 
         holder.setRecyclerItemSelectedListener(new RecyclerItemSelectedListener() {
             @Override
             public void onItemSelectedListener(View view, int pos) {
-                //set background color for all other hair stylist that are not selected
                 for (CardView cardView : cardViewList) {
                     cardView.setCardBackgroundColor(context.getResources()
                             .getColor(android.R.color.white));
                 }
 
                 //set background color for selected hair stylist
-                holder.cardHairStylist.setCardBackgroundColor(
+                holder.cardJob.setCardBackgroundColor(
                         context.getResources().getColor(R.color.pink)
                 );
-                holder.cardHairStylist.setCardElevation(6);
+                holder.cardJob.setCardElevation(6);
 
-                Common.currentStylist = getItem(pos);
+                Common.currentJob = getItem(pos);
+
                 //send local broadcast to enable button next
                 Intent intent = new Intent(Common.KEY_ENABLE_BUTTON_NEXT);
-                intent.putExtra(Common.KEY_HAIR_STYLIST_SELECTED, getItem(pos));
-                intent.putExtra(Common.KEY_STEP, 1);
+//                intent.putExtra(Common.KEY_JOB_SELECTED, getItem(pos));
+                intent.putExtra(Common.KEY_STEP, 2);
                 localBroadcastManager.sendBroadcast(intent);
             }
         });
+    }
 
+    public class MyViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener{
 
-        }
-
-
-
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView txtHairStylistName;
-        RatingBar ratingBar;
-        CardView cardHairStylist;
-//        OnItemClickListener onItemClickListener;
+        TextView txtJobName, txtJobDuration, txtJobPrice;
+        CardView cardJob;
 
         RecyclerItemSelectedListener recyclerItemSelectedListener;
 
@@ -111,11 +100,13 @@ public class HairStylistAdapter extends ListAdapter<Stylist, HairStylistAdapter.
             this.recyclerItemSelectedListener = recyclerItemSelectedListener;
         }
 
-        public MyViewHolder(@NonNull View itemView  ) {
+        public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtHairStylistName = itemView.findViewById(R.id.txt_hair_stylist_name);
-            ratingBar = itemView.findViewById(R.id.rtb_hair_stylist);
-            cardHairStylist = itemView.findViewById(R.id.card_hair_stylist);
+
+            txtJobName = itemView.findViewById(R.id.txt_job_name);
+            txtJobPrice = itemView.findViewById(R.id.txt_job_price);
+            txtJobDuration = itemView.findViewById(R.id.txt_job_hour);
+            cardJob = itemView.findViewById(R.id.card_job);
 
             itemView.setOnClickListener(this);
         }

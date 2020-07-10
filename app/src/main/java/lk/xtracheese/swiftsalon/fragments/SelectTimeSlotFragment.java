@@ -33,6 +33,7 @@ import lk.xtracheese.swiftsalon.R;
 
 public class SelectTimeSlotFragment extends Fragment {
 
+
     RecyclerView recyclerTimeSlots;
     HorizontalCalendarView horizontalCalendarView;
     SimpleDateFormat simpleDateFormat;

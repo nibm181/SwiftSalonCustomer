@@ -1,5 +1,6 @@
 package lk.xtracheese.swiftsalon.model;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -7,12 +8,18 @@ import com.google.gson.annotations.SerializedName;
 
 @Entity(tableName = "tbl_stylist_job")
 public class StylistJob {
+
     @PrimaryKey
     int id;
+    @ColumnInfo(name = "stylist_id")
     @SerializedName("stylist_id")
     int stylistId;
+    @ColumnInfo(name = "job_id")
     @SerializedName("job_id")
     int jobId;
+    String name;
+    String duration;
+    String price;
 
     public int getId() {
         return id;
@@ -36,5 +43,29 @@ public class StylistJob {
 
     public void setJobId(int jobId) {
         this.jobId = jobId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
     }
 }

@@ -16,6 +16,7 @@ import lk.xtracheese.swiftsalon.model.LookBook;
 import lk.xtracheese.swiftsalon.model.Salon;
 import lk.xtracheese.swiftsalon.model.Stylist;
 import lk.xtracheese.swiftsalon.model.Job;
+import lk.xtracheese.swiftsalon.model.StylistJob;
 import lk.xtracheese.swiftsalon.model.TimeSlot;
 
 import static androidx.room.OnConflictStrategy.IGNORE;
@@ -72,13 +73,13 @@ public interface SwiftSalonDao {
     @Query("SELECT * from tbl_promotion")
     LiveData<List<Banner>> getBanners();
 
-    //TimeSlots
-
+    //Stylistjobs
     @Insert(onConflict = REPLACE)
-    void insertTimeSlots(TimeSlot... timeSlots);
+    void insertStylistJobs(StylistJob... stylistJobs);
 
-    @Query("SELECT * from tbl_promotion")
-    LiveData<List<Banner>> getTimeSlots();
+    @Query("SELECT * from tbl_stylist_job WHERE stylist_id = :stylistId")
+    LiveData<List<StylistJob>> getStylistJobs(int stylistId);
+
 
     // Salon
     @Insert(onConflict = REPLACE)
@@ -96,27 +97,6 @@ public interface SwiftSalonDao {
     @Query("SELECT * FROM tbl_salon WHERE id = :id")
     Salon getRawSalon(int id);
 
-    // Job
-    @Insert(onConflict = IGNORE)
-    long[] insertJobs(Job... jobs);
-
-    @Insert(onConflict = REPLACE)
-    void insertJob(Job job);
-
-    @Query("SELECT * FROM tbl_job tj INNER JOIN tbl_stylist_job tsj ON tj.id = tsj.jobId WHERE tsj.stylistId = :stylistId")
-    LiveData<List<Job>> getJobs(int stylistId);
-
-    @Query("SELECT * FROM tbl_job WHERE id = :id")
-    LiveData<Job> getJob(int id);
-
-    @Query("UPDATE tbl_job SET name = :name, duration = :duration, price = :price WHERE id = :id")
-    void updateJob(int id, String name, int duration, float price);
-
-    @Delete
-    void deleteJob(Job job);
-
-    @Query("DELETE FROM tbl_job")
-    void deleteJobs();
 
     // Stylist
     @Insert(onConflict = REPLACE)

@@ -21,7 +21,7 @@ public class SearchViewAdapter extends FragmentPagerAdapter {
             case 0:
                 return SelectStylistFragment.getInstance();
             case 1:
-                return SelectJobFragment.newInstance();
+                return SelectJobFragment.getInstance();
             case 2:
                 return SelectTimeSlotFragment.getInstance();
             case 3:

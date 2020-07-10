@@ -1,30 +1,65 @@
 package lk.xtracheese.swiftsalon.fragments;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import lk.xtracheese.swiftsalon.R;
+import lk.xtracheese.swiftsalon.adapter.JobAdapter;
+import lk.xtracheese.swiftsalon.common.Common;
+import lk.xtracheese.swiftsalon.common.SpacesitemDecoration;
+import lk.xtracheese.swiftsalon.model.Stylist;
+import lk.xtracheese.swiftsalon.model.StylistJob;
+import lk.xtracheese.swiftsalon.model.TimeSlot;
+import lk.xtracheese.swiftsalon.viewmodel.SelectJobViewModel;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SelectJobFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class SelectJobFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String TAG = "SelectJobFragment";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+
+    JobAdapter jobAdapter;
+    RecyclerView recyclerView;
+    SelectJobViewModel viewModel;
+
+    LocalBroadcastManager localBroadcastManager;
+    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            Log.d(TAG, "onReceive: line 50");
+            ArrayList<Stylist> stylists = intent.getParcelableArrayListExtra(Common.KEY_HAIR_STYLIST_SELECTED);
+
+                subscribeObservers();
+                getJobApi();
+
+        }
+    };
+
+    static SelectJobFragment instance;
+
+    public static SelectJobFragment getInstance() {
+        if (instance == null)
+            instance = new SelectJobFragment();
+        return instance;
+    }
 
     public SelectJobFragment() {
         // Required empty public constructor
@@ -34,27 +69,71 @@ public class SelectJobFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment ConfirmAppointmentFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SelectJobFragment newInstance() {
-        SelectJobFragment fragment = new SelectJobFragment();
-
-        return fragment;
-    }
+//    public static SelectJobFragment newInstance() {
+//        SelectJobFragment fragment = new SelectJobFragment();
+//        return fragment;
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
+        localBroadcastManager.registerReceiver(broadcastReceiver, new IntentFilter(Common.KEY_HAIR_STYLIST_SELECTED));
+
+    }
+
+    @Override
+    public void onDestroy() {
+        localBroadcastManager.unregisterReceiver(broadcastReceiver);
+        super.onDestroy();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_confirm_appointment, container, false);
+        View itemView = inflater.inflate(R.layout.fragment_select_job, container, false);
+        recyclerView = itemView.findViewById(R.id.recycler_job);
+        viewModel = new ViewModelProvider(this).get(SelectJobViewModel.class);
+        initRecyclerView();
+        return itemView;
+    }
+
+    private void getJobApi(){viewModel.StylistJobApi();}
+
+    private void subscribeObservers(){
+        viewModel.getStylistJobs().observe(getViewLifecycleOwner(), listResource -> {
+            if (listResource != null) {
+                if(listResource.data != null){
+
+                    switch (listResource.status){
+                        case LOADING:{
+                            break;
+                        }
+
+                        case ERROR:{
+                            Toast.makeText(getContext(), listResource.message, Toast.LENGTH_SHORT).show();
+                            jobAdapter.submitList(listResource.data);
+                        }
+                        case SUCCESS:{
+                            jobAdapter.submitList(listResource.data);
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    void initRecyclerView(){
+        jobAdapter = new JobAdapter(getActivity());
+        recyclerView.setAdapter(jobAdapter);
+        recyclerView.setHasFixedSize(true);;
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+        recyclerView.addItemDecoration(new SpacesitemDecoration(4));
+
     }
 }

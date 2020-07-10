@@ -23,6 +23,9 @@ import lk.xtracheese.swiftsalon.R;
 
 public class SalonAdapter extends ListAdapter<Salon, SalonAdapter.MyViewHolder> {
 
+    private static final String TAG = "SalonAdapter";
+
+
     Context context;
     List<Salon> salonList;
     List<CardView> cardViewList;

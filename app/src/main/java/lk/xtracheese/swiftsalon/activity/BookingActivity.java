@@ -54,9 +54,9 @@ public class BookingActivity extends AppCompatActivity {
             int step = intent.getIntExtra(Common.KEY_STEP, 0);
             if (step == 1)
                 // changes
-                Common.currentSalon = intent.getParcelableExtra(Common.KEY_SALON_STORE);
-            else if (step == 2)
                 Common.currentStylist = intent.getParcelableExtra(Common.KEY_HAIR_STYLIST_SELECTED);
+            else if (step == 2)
+                Common.currentJob = intent.getParcelableExtra(Common.KEY_JOB_SELECTED);
             else if (step == 3)
                 Common.currentTimeSlot = intent.getParcelableExtra(Common.KEY_TIME_SLOT_SELECTED);
             btnNxtStep.setEnabled(true);
@@ -65,31 +65,7 @@ public class BookingActivity extends AppCompatActivity {
     };
 
 
-//    private void loadHairStylistBySalon(String salID) {
-//        alertDialog.show();
-//
-//        /*Create handle for the RetrofitInstance interface*/
-//        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-//        Call<List<Stylist>> call = service.getHairstylist();
-//        call.enqueue(new Callback<List<Stylist>>() {
-//            @Override
-//            public void onResponse(Call<List<Stylist>> call, retrofit2.Response<List<Stylist>> response) {
-//                //send broadcast to booking step2frangment to load recycler
-//                Intent intent = new Intent(Common.KEY_HAIR_STYLIST_LOAD_DONE);
-//                intent.putParcelableArrayListExtra(Common.KEY_HAIR_STYLIST_LOAD_DONE, (ArrayList<? extends Parcelable>) response.body());
-//                localBroadcastManager.sendBroadcast(intent);
-//
-//                alertDialog.dismiss();
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<Stylist>> call, Throwable t) {
-//                Toast.makeText(getApplicationContext(), "Something went wrong ...Please try later!", Toast.LENGTH_SHORT).show();
-//                Log.d("debug", t.getMessage());
-//            }
-//        });
-//    }
+
 
     @Override
     protected void onDestroy() {
@@ -157,12 +133,12 @@ public class BookingActivity extends AppCompatActivity {
 
                 if (Common.step < 3 || Common.step == 0) {
                     Common.step++;
-                    if (Common.step == 1) { //after choosing the salon
+                    if (Common.step == 1) { //after choosing the hair stylist
 //                        if (Common.currentSalon != null)
 //                            loadHairStylistBySalon(Common.currentSalon.getSalID());
-                    } else if (Common.step == 2) { //pick a time slot
-                        if (Common.currentStylist != null)
-                            loadTimeSlotOfHairStylist(Common.currentStylist.getId());
+                    } else if (Common.step == 2) { //choose job
+//                        if (Common.currentStylist != null)
+//                            loadTimeSlotOfHairStylist(Common.currentStylist.getId());
                     } else if (Common.step == 3) { //confirm
                         if (Common.currentTimeSlot != null)
                             confirmBooking();

@@ -14,8 +14,9 @@ import lk.xtracheese.swiftsalon.model.LookBook;
 import lk.xtracheese.swiftsalon.model.Salon;
 import lk.xtracheese.swiftsalon.model.Stylist;
 import lk.xtracheese.swiftsalon.model.Job;
+import lk.xtracheese.swiftsalon.model.StylistJob;
 
-@Database(entities = {Appointment.class, AppointmentDetail.class, Salon.class, Stylist.class, Job.class, LookBook.class, Banner.class}, version = 3)
+@Database(entities = {Appointment.class, AppointmentDetail.class, Salon.class, Stylist.class, StylistJob.class, LookBook.class, Banner.class,}, version = 4)
 @TypeConverters({Converter.class})
 public abstract class SwiftSalonDatabase extends RoomDatabase {
 
