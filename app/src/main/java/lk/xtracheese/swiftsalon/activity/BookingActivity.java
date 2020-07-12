@@ -52,13 +52,13 @@ public class BookingActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
 
             int step = intent.getIntExtra(Common.KEY_STEP, 0);
-            if (step == 1)
-                // changes
-                Common.currentStylist = intent.getParcelableExtra(Common.KEY_HAIR_STYLIST_SELECTED);
-            else if (step == 2)
-                Common.currentJob = intent.getParcelableExtra(Common.KEY_JOB_SELECTED);
-            else if (step == 3)
-                Common.currentTimeSlot = intent.getParcelableExtra(Common.KEY_TIME_SLOT_SELECTED);
+//            if (step == 1)
+//                // changes
+//                Common.currentStylist = intent.getParcelableExtra(Common.KEY_HAIR_STYLIST_SELECTED);
+//            else if (step == 2)
+//                Common.currentJob = intent.getParcelableExtra(Common.KEY_JOB_SELECTED);
+//            else if (step == 3)
+//                Common.currentTimeSlot = intent.getParcelableExtra(Common.KEY_TIME_SLOT_SELECTED);
             btnNxtStep.setEnabled(true);
             setButtonColor();
         }

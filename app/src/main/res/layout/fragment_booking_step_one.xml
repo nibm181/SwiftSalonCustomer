@@ -20,7 +20,7 @@
             />
 
     </com.google.android.material.textfield.TextInputLayout>
-    
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_salon"
         android:layout_marginTop="4dp"

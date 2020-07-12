@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -20,19 +22,34 @@ import lk.xtracheese.swiftsalon.Interface.RecyclerItemSelectedListener;
 import lk.xtracheese.swiftsalon.model.TimeSlot;
 import lk.xtracheese.swiftsalon.R;
 
-public class TimeSlotAdapter extends RecyclerView.Adapter<TimeSlotAdapter.MyViewholder> {
+public class TimeSlotAdapter extends ListAdapter<TimeSlot,  TimeSlotAdapter.MyViewholder> {
+
+    private static final String TAG = "TimeSlotAdapter";
 
     Context context;
     List<TimeSlot> timeSlotList;
     List<CardView> cardViewList;
 
     LocalBroadcastManager localBroadcastManager;
-    public TimeSlotAdapter(Context context, List<TimeSlot> timeSlotList) {
+
+    public TimeSlotAdapter(Context context) {
+        super(DIFF_CALLBACK);
         this.context = context;
-        this.timeSlotList = timeSlotList;
         cardViewList = new ArrayList<>();
         localBroadcastManager = LocalBroadcastManager.getInstance(context);
     }
+
+    private static DiffUtil.ItemCallback<TimeSlot> DIFF_CALLBACK = new DiffUtil.ItemCallback<TimeSlot>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull TimeSlot oldItem, @NonNull TimeSlot newItem) {
+            return oldItem.getSlotTiming() == newItem.getSlotTiming();
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull TimeSlot oldItem, @NonNull TimeSlot newItem) {
+            return oldItem.getStatus().equals(newItem.getStatus());
+        }
+    };
 
     @NonNull
     @Override

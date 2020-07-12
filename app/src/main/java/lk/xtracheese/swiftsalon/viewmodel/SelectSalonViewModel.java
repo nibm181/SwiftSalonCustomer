@@ -31,16 +31,16 @@ public class SelectSalonViewModel extends AndroidViewModel {
         return salons;
     }
 
-    public void salonsApi() {
+    public void salonsApi(String searchText) {
         if(!isFetching) {
-            executeFetch();
+            executeFetch(searchText);
         }
     }
 
-    private void executeFetch() {
+    private void executeFetch(String searchText) {
         isFetching = true;
 
-        final LiveData<Resource<List<Salon>>> repositorySource = repository.getSalonsApi();
+        final LiveData<Resource<List<Salon>>> repositorySource = repository.getSalonsApi(searchText);
 
         salons.addSource(repositorySource, new Observer<Resource<List<Salon>>>() {
             @Override

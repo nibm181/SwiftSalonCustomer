@@ -8,15 +8,18 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -30,6 +33,8 @@ import lk.xtracheese.swiftsalon.common.Common;
 import lk.xtracheese.swiftsalon.common.SpacesitemDecoration;
 import lk.xtracheese.swiftsalon.model.TimeSlot;
 import lk.xtracheese.swiftsalon.R;
+import lk.xtracheese.swiftsalon.viewmodel.SelectJobViewModel;
+import lk.xtracheese.swiftsalon.viewmodel.SelectTimeSlotViewModel;
 
 public class SelectTimeSlotFragment extends Fragment {
 
@@ -37,30 +42,27 @@ public class SelectTimeSlotFragment extends Fragment {
     RecyclerView recyclerTimeSlots;
     HorizontalCalendarView horizontalCalendarView;
     SimpleDateFormat simpleDateFormat;
+    SelectTimeSlotViewModel viewModel;
+    TimeSlotAdapter timeSlotAdapter;
 
-    Unbinder unbinder;
     LocalBroadcastManager localBroadcastManager;
 
     BroadcastReceiver displayTimeSlot = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Calendar date = Calendar.getInstance();
-            date.add(Calendar.DATE, 0); // add current date
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.DATE, 0); // add current date
+            String date = simpleDateFormat.format(calendar);
 
-            ArrayList<TimeSlot> timeSlotsArrayList = intent.getParcelableArrayListExtra(Common.KEY_TIME_SLOT_LOAD_DONE);
+            subscribeObservers();
+            getTimeSlotsApi(Common.currentStylist.getId(), date, Common.currentSalon.getOpenTime(), Common.currentSalon.getCloseTime() );
 
-            //initialize adapter
-             TimeSlotAdapter timeSlotAdapter = new TimeSlotAdapter(getContext(), timeSlotsArrayList);
-            recyclerTimeSlots.setAdapter(timeSlotAdapter);
 
-            loadAvailableTimeSlots(Common.currentStylist.getId(),
-                    simpleDateFormat.format(date.getTime()));
+
         }
     };
 
-    private void loadAvailableTimeSlots(int hairStylistID, String date) {
 
-    }
 
     static SelectTimeSlotFragment instance;
     public static SelectTimeSlotFragment getInstance(){
@@ -75,7 +77,7 @@ public class SelectTimeSlotFragment extends Fragment {
         localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
         localBroadcastManager.registerReceiver(displayTimeSlot, new IntentFilter(Common.KEY_TIME_SLOT_LOAD_DONE));
 
-        simpleDateFormat = new SimpleDateFormat("dd_MM_yyyy");
+        simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     }
 
@@ -93,14 +95,14 @@ public class SelectTimeSlotFragment extends Fragment {
         View itemView = inflater.inflate(R.layout.fragment_booking_step_three,container, false);
         recyclerTimeSlots = itemView.findViewById(R.id.recycler_time_slot);
 
-        unbinder = ButterKnife.bind(this, itemView);
+        viewModel = new ViewModelProvider(this).get(SelectTimeSlotViewModel.class);
 
-        initView(itemView);
+        initRecyclerView(itemView);
         return itemView;
 
     }
 
-    private void initView(View itemView) {
+    private void initRecyclerView(View itemView) {
         recyclerTimeSlots.setHasFixedSize(true);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
         recyclerTimeSlots.setLayoutManager(gridLayoutManager);
@@ -126,6 +128,35 @@ public class SelectTimeSlotFragment extends Fragment {
                     Common.currentDate = date;
 
                     //after getting the api set a function to load time slots for different dates
+                }
+            }
+        });
+    }
+
+    private void getTimeSlotsApi(int stylistId, String date, String openTime, String closeTime ){
+        viewModel.getTimeSlots();
+    }
+
+    private void subscribeObservers(){
+        viewModel.getTimeSlots().observe(getViewLifecycleOwner(), listResource -> {
+            if (listResource != null) {
+                if(listResource.data != null){
+
+                    switch (listResource.status){
+                        case LOADING:{
+                            break;
+                        }
+
+                        case ERROR:{
+                            Toast.makeText(getContext(), listResource.message, Toast.LENGTH_SHORT).show();
+                        }
+                        case SUCCESS:{
+                            if(listResource.data.getStatus() == 1){
+                                timeSlotAdapter.submitList(listResource.data.getContent());
+                            }
+
+                        }
+                    }
                 }
             }
         });

@@ -88,25 +88,18 @@ public interface SwiftSalonDao {
     @Insert(onConflict = REPLACE)
     void insertSalons(Salon... salons);
 
-    @Query("SELECT * FROM tbl_salon")
-    LiveData<List<Salon>> getSalons();
+//    @Query("SELECT * FROM tbl_salon")
+//    LiveData<List<Salon>> getSalons();
 
-    @Query("SELECT * FROM tbl_salon WHERE id = :id")
-    LiveData<Salon> getSalon(int id);
+    @Query("SELECT tbl_salon.* FROM tbl_salon LEFT JOIN tbl_job on tbl_salon.id = tbl_job.salon_id WHERE tbl_salon.name LIKE :searchTxt OR tbl_job.name LIKE :searchTxt")
+    LiveData<List<Salon>> getSalons(String searchTxt);
 
-    @Query("SELECT * FROM tbl_salon WHERE id = :id")
-    Salon getRawSalon(int id);
 
 
     // Stylist
     @Insert(onConflict = REPLACE)
     void insertStylists(Stylist... stylists);
 
-    @Insert(onConflict = REPLACE)
-    void insertStylist(Stylist stylist);
-
-    @Query("UPDATE tbl_stylist SET name = :name, gender = :gender, image = :image, status = :status WHERE id = :id")
-    void updateStylist(int id, String name, String gender, String image, boolean status);
 
     @Query("SELECT * FROM tbl_stylist WHERE salon_id = :salonId")
     LiveData<List<Stylist>> getStylists(int salonId);

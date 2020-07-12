@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import lk.xtracheese.swiftsalon.fragments.HomeFragment;
+import lk.xtracheese.swiftsalon.fragments.ProfileFragment;
 import lk.xtracheese.swiftsalon.fragments.SelectSalonFragment;
 import lk.xtracheese.swiftsalon.R;
 
@@ -43,7 +44,11 @@ public class HomeActivity extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                                 new HomeFragment()).commit();
                         break;
+                    case R.id.action_profile:
 
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                                new ProfileFragment()).commit();
+                        break;
                 }
 
                 return true;

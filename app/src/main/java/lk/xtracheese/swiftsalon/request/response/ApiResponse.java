@@ -49,6 +49,7 @@ public class ApiResponse<T> {
             if (body == null || response.code() == 204) { // 204 is empty response
                 return new ApiEmptyResponse<>();
             } else {
+                Log.d(TAG, "create: body: " + body.toString());
                 return new ApiSuccessResponse<>(body);
             }
         } else {

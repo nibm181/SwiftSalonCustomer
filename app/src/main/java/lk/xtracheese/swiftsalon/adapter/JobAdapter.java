@@ -59,7 +59,10 @@ public class JobAdapter extends ListAdapter <StylistJob, JobAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.txtJobName.setText(getItem(position).getName());
-        holder.txtJobDuration.setText(getItem(position).getDuration());
+        holder.txtJobDuration.setText(new StringBuilder(getItem(position).getPrice())
+                .append(".00 Rs"));
+        holder.txtJobPrice.setText(new StringBuilder(getItem(position).getDuration())
+                .append(" minutes"));
 
         if(!cardViewList.contains(holder.cardJob))
             cardViewList.add(holder.cardJob);

@@ -39,13 +39,11 @@ public class SelectJobFragment extends Fragment {
     RecyclerView recyclerView;
     SelectJobViewModel viewModel;
 
+
     LocalBroadcastManager localBroadcastManager;
     BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-
-            Log.d(TAG, "onReceive: line 50");
-            ArrayList<Stylist> stylists = intent.getParcelableArrayListExtra(Common.KEY_HAIR_STYLIST_SELECTED);
 
                 subscribeObservers();
                 getJobApi();
@@ -82,7 +80,7 @@ public class SelectJobFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
-        localBroadcastManager.registerReceiver(broadcastReceiver, new IntentFilter(Common.KEY_HAIR_STYLIST_SELECTED));
+        localBroadcastManager.registerReceiver(broadcastReceiver, new IntentFilter(Common.KEY_ENABLE_BUTTON_NEXT));
 
     }
 

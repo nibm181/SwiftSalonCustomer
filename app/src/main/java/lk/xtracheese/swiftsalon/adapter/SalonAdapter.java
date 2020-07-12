@@ -64,7 +64,8 @@ public class SalonAdapter extends ListAdapter<Salon, SalonAdapter.MyViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull SalonAdapter.MyViewHolder holder, int position) {
         holder.txtSalonName.setText(getItem(position).getSalonName());
-        holder.txtSalonAddresss.setText(getItem(position).getSalonAddress1());
+        holder.txtSalonAddress1.setText(getItem(position).getSalonAddress1());
+        holder.txtSalonAddress2.setText(getItem(position).getSalonAddress2());
         if(!cardViewList.contains(holder.cardSalon))
             cardViewList.add(holder.cardSalon);
 
@@ -76,7 +77,7 @@ public class SalonAdapter extends ListAdapter<Salon, SalonAdapter.MyViewHolder> 
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView txtSalonName, txtSalonAddresss;
+        TextView txtSalonName, txtSalonAddress1, txtSalonAddress2;
         CardView cardSalon;
         RecyclerItemSelectedListener recyclerItemSelectedListener;
         OnItemClickListener onItemClickListener;
@@ -89,7 +90,8 @@ public class SalonAdapter extends ListAdapter<Salon, SalonAdapter.MyViewHolder> 
             super (itemView);
             this.onItemClickListener = onItemClickListener;
 
-            txtSalonAddresss = itemView.findViewById(R.id.txt_salon_addr);
+            txtSalonAddress1 = itemView.findViewById(R.id.txt_salon_addr1);
+            txtSalonAddress2 = itemView.findViewById(R.id.txt_salon_addr2);
             txtSalonName = itemView.findViewById(R.id.txt_salon_name);
             cardSalon = itemView.findViewById(R.id.card_salon);
 

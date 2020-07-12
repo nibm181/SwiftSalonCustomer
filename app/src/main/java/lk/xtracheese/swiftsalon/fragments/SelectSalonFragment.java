@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,7 @@ import retrofit2.Callback;
 
 public class SelectSalonFragment extends Fragment implements OnItemClickListener {
 
+    private static final String TAG = "SelectSalonFragment";
     static SelectSalonFragment instance;
 
     SalonAdapter salonAdapter;
@@ -45,6 +47,7 @@ public class SelectSalonFragment extends Fragment implements OnItemClickListener
     AlertDialog alertDialog;
     SelectSalonViewModel viewModel;
 
+    String searchText = "";
 
     public static SelectSalonFragment getInstance(){
         if(instance == null)
@@ -72,7 +75,7 @@ public class SelectSalonFragment extends Fragment implements OnItemClickListener
         initRecyclerView();
         viewModel = new ViewModelProvider(this).get(SelectSalonViewModel.class);
         subscribeObservers();
-        getSalonsApi();
+        getSalonsApi(searchText);
 
         txtSearchSalon.addTextChangedListener(new TextWatcher() {
             @Override
@@ -83,24 +86,14 @@ public class SelectSalonFragment extends Fragment implements OnItemClickListener
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 /*Create handle for the RetrofitInstance interface*/
-                GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-                Call<List<Salon>> call = service.getSearchSalon(s.toString());
-                call.enqueue(new Callback<List<Salon>>() {
-                    @Override
-                    public void onResponse(Call<List<Salon>> call, retrofit2.Response<List<Salon>> response) {
-                        salonAdapter.submitList(response.body());
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<Salon>> call, Throwable t) {
-                        Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                getSalonsApi(s.toString());
+                Log.d(TAG, "onTextChanged: "+s.toString());
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
+//                getSalonsApi(s.toString());
+//                Log.d(TAG, "afterTextChanged: "+s.toString());
             }
         });
 
@@ -109,8 +102,9 @@ public class SelectSalonFragment extends Fragment implements OnItemClickListener
 
     }
 
-    private void getSalonsApi() {
-        viewModel.salonsApi();
+    private void getSalonsApi(String searchText) {
+        this.searchText = searchText;
+        viewModel.salonsApi(searchText);
     }
 
     private void subscribeObservers() {
@@ -120,16 +114,21 @@ public class SelectSalonFragment extends Fragment implements OnItemClickListener
 
                     switch (listResource.status) {
                         case LOADING: {
+                            Log.d(TAG, "subscribeObservers: LOADING");
                             break;
                         }
 
                         case ERROR: {
                             Toast.makeText(getContext(), listResource.message, Toast.LENGTH_SHORT).show();
                             salonAdapter.submitList(listResource.data);
+                            break;
                         }
 
                         case SUCCESS: {
+//                            Log.d(TAG, "subscribeObservers: DATA: " + listResource.data.toString());
+                            Log.d(TAG, "subscribeObservers: call");
                             salonAdapter.submitList(listResource.data);
+                            break;
                         }
                     }
 

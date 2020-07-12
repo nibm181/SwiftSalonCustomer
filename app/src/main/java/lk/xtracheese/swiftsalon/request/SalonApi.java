@@ -2,12 +2,15 @@ package lk.xtracheese.swiftsalon.request;
 
 import androidx.lifecycle.LiveData;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import lk.xtracheese.swiftsalon.model.Job;
 import lk.xtracheese.swiftsalon.model.Salon;
 import lk.xtracheese.swiftsalon.model.Stylist;
 import lk.xtracheese.swiftsalon.model.StylistJob;
+import lk.xtracheese.swiftsalon.model.TimeSlot;
 import lk.xtracheese.swiftsalon.request.response.ApiResponse;
 import lk.xtracheese.swiftsalon.request.response.GenericResponse;
 import okhttp3.ResponseBody;
@@ -25,7 +28,7 @@ import retrofit2.http.Query;
 public interface SalonApi {
 
     @GET("Salon")
-    LiveData<ApiResponse<GenericResponse<Salon>>> getSalon(@Path("id") int id);
+    LiveData<ApiResponse<GenericResponse<List<Salon>>>> getSalons(@Query("search_txt") String searchText);
 
     @GET("Salon")
     LiveData<ApiResponse<GenericResponse<List<Salon>>>> getSalons();
@@ -53,4 +56,7 @@ public interface SalonApi {
 
     @PUT("Stylist")
     LiveData<ApiResponse<GenericResponse<Stylist>>> updateStylist(@Body Stylist stylist);
+
+    @GET("Time_slot")
+    LiveData<ApiResponse<GenericResponse<List<TimeSlot>>>> getTimeSlots(@Query("stylist_id, date, open_time, close_time") int stylistId, String date, String openTime, String closeTime);
 }

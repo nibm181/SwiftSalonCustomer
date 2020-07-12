@@ -13,12 +13,15 @@ import com.google.gson.annotations.SerializedName;
 @Entity(tableName = "tbl_salon")
 public class Salon implements Parcelable {
 
+    @ColumnInfo(name = "name")
     @SerializedName("name")
     private String salonName;
 
+    @ColumnInfo(name = "addr1")
     @SerializedName("addr1")
     private String salonAddress1;
 
+    @ColumnInfo(name = "addr2")
     @SerializedName("addr2")
     private String salonAddress2;
 
@@ -28,8 +31,20 @@ public class Salon implements Parcelable {
     @SerializedName("id")
     private String salID;
 
+    @ColumnInfo(name = "open)time")
     @SerializedName("open_time")
     private String openTime;
+
+    @ColumnInfo(name = "close_time")
+    @SerializedName("close_time")
+    private String closeTime;
+
+    @SerializedName("image")
+    private String image;
+
+    @ColumnInfo(name = "mobile_no")
+    @SerializedName("mobile_no")
+    private String mobileNo;
 
     public void setSalonName(String salonName) {
         this.salonName = salonName;
@@ -63,14 +78,7 @@ public class Salon implements Parcelable {
         this.mobileNo = mobileNo;
     }
 
-    @SerializedName("close_time")
-    private String closeTime;
 
-    @SerializedName("image")
-    private String image;
-
-    @SerializedName("mobile_no")
-    private String mobileNo;
 
     public Salon() {
     }
@@ -145,5 +153,19 @@ public class Salon implements Parcelable {
         dest.writeString(closeTime);
         dest.writeString(image);
         dest.writeString(mobileNo);
+    }
+
+    @Override
+    public String toString() {
+        return "Salon{" +
+                "salonName='" + salonName + '\'' +
+                ", salonAddress1='" + salonAddress1 + '\'' +
+                ", salonAddress2='" + salonAddress2 + '\'' +
+                ", salID='" + salID + '\'' +
+                ", openTime='" + openTime + '\'' +
+                ", closeTime='" + closeTime + '\'' +
+                ", image='" + image + '\'' +
+                ", mobileNo='" + mobileNo + '\'' +
+                '}';
     }
 }

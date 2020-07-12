@@ -17,6 +17,9 @@ public class StylistJob {
     @ColumnInfo(name = "job_id")
     @SerializedName("job_id")
     int jobId;
+    @ColumnInfo(name = "salon_id")
+    @SerializedName("salon_id")
+    String salonId;
     String name;
     String duration;
     String price;
@@ -51,6 +54,14 @@ public class StylistJob {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSalonId() {
+        return salonId;
+    }
+
+    public void setSalonId(String salonId) {
+        this.salonId = salonId;
     }
 
     public String getDuration() {

@@ -54,66 +54,36 @@ public class SalonRepository {
         }.getAsLiveData();
     }
 
-    public LiveData<Resource<Salon>> getSalonApi(int id) {
-        return new NetworkBoundResource<Salon, GenericResponse<Salon>>(AppExecutor.getInstance()) {
+    public LiveData<Resource<List<Salon>>> getSalonsApi(String searchTxt) {
 
-            @Override
-            protected void saveCallResult(@NonNull GenericResponse<Salon> item) {
-                if(item.getContent() != null) {
-                    swiftSalonDao.insertSalon(item.getContent());
+            return new NetworkBoundResource<List<Salon>, GenericResponse<List<Salon>>>(AppExecutor.getInstance()) {
+
+                @Override
+                protected void saveCallResult(@NonNull GenericResponse<List<Salon>> item) {
+                    if(item.getContent() != null) {
+                        Salon[] salon = new Salon[item.getContent().size()];
+                        swiftSalonDao.insertSalons(item.getContent().toArray(salon));
+                    }
                 }
-            }
 
-            @Override
-            protected boolean shouldFetch(@Nullable Salon data) {
-                if(data == null) {
+                @Override
+                protected boolean shouldFetch(@Nullable List<Salon> data) {
                     return true;
                 }
-                return false;
-            }
 
-            @NonNull
-            @Override
-            protected LiveData<Salon> loadFromDb() {
-                return swiftSalonDao.getSalon(id);
-            }
-
-            @NonNull
-            @Override
-            protected LiveData<ApiResponse<GenericResponse<Salon>>> createCall() {
-                return ServiceGenerator.getSalonApi().getSalon(id);
-            }
-        }.getAsLiveData();
-    }
-
-    public LiveData<Resource<List<Salon>>> getSalonsApi() {
-        return new NetworkBoundResource<List<Salon>, GenericResponse<List<Salon>>>(AppExecutor.getInstance()) {
-
-            @Override
-            protected void saveCallResult(@NonNull GenericResponse<List<Salon>> item) {
-                if(item.getContent() != null) {
-                    Salon[] salon = new Salon[item.getContent().size()];
-                    swiftSalonDao.insertSalons(item.getContent().toArray(salon));
+                @NonNull
+                @Override
+                protected LiveData<List<Salon>> loadFromDb() {
+                    return swiftSalonDao.getSalons("%"+searchTxt+"%");
                 }
-            }
 
-            @Override
-            protected boolean shouldFetch(@Nullable List<Salon> data) {
-                return true;
-            }
+                @NonNull
+                @Override
+                protected LiveData<ApiResponse<GenericResponse<List<Salon>>>> createCall() {
+                    return ServiceGenerator.getSalonApi().getSalons(searchTxt);
+                }
+            }.getAsLiveData();
 
-            @NonNull
-            @Override
-            protected LiveData<List<Salon>> loadFromDb() {
-                return swiftSalonDao.getSalons();
-            }
-
-            @NonNull
-            @Override
-            protected LiveData<ApiResponse<GenericResponse<List<Salon>>>> createCall() {
-                return ServiceGenerator.getSalonApi().getSalons();
-            }
-        }.getAsLiveData();
     }
 
     public LiveData<Resource<GenericResponse<Salon>>> updateSalonApi(Salon salon) {
