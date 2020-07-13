@@ -2,17 +2,62 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:background="@color/dark"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/booking_confirm_salon_name"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:text="Salon"
+            android:minHeight="40dp"
+            android:textAlignment="center"
+            android:background="@drawable/appointment_confirm_txt_bottom"
+            android:maxLines="2"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/booking_confirm_hs_name"
+            android:text="Hair Stylist"
+            android:minHeight="40dp"
+
+            android:textAlignment="center"
+            android:background="@drawable/appointment_confirm_txt_bottom"
+            android:maxLines="2"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+
     <TextView
-        android:id="@+id/booking_confirm_salon_name"
-        android:layout_marginTop="20dp"
-        android:text="Salon"
+        android:id="@+id/booking_confirm_date"
+        android:text="Date"
         android:textColor="@color/dark"
-        android:textSize="28dp"
-        android:background="@drawable/appointment_confirm_txt_top_bg"
+        android:textSize="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:drawableStart="@drawable/ic_event_note_black_24dp"
+        android:drawablePadding="10dp"
+        android:layout_marginBottom="10dp"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
@@ -20,34 +65,40 @@
         android:id="@+id/booking_confirm_salon_addr"
         android:text="Address"
         android:textColor="@color/dark"
-        android:textSize="28dp"
-        android:background="@drawable/appointment_confirm_txt_middle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_marginLeft="10dp"
 
-    <TextView
-        android:id="@+id/booking_confirm_hs_name"
-        android:text="Hair Stylist"
-        android:textColor="@color/dark"
-        android:textSize="28dp"
-        android:background="@drawable/appointment_confirm_txt_middle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:id="@+id/booking_confirm_date"
-        android:text="Date"
-        android:textColor="@color/dark"
-        android:textSize="28dp"
-        android:background="@drawable/appointment_confirm_txt_middle"
+        android:textSize="20dp"
+        android:drawableStart="@drawable/ic_baseline_location_black_on_24"
+        android:drawablePadding="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <TextView
         android:id="@+id/booking_confirm_contact"
         android:text="Contact"
+        android:layout_marginRight="10dp"
         android:textColor="@color/dark"
-        android:textSize="28dp"
-        android:background="@drawable/appointment_confirm_txt_bottom"
+        android:textSize="20dp"
+        android:drawablePadding="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:drawableLeft="@drawable/ic_baseline_local_phone_black_24"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+
+    <TextView
+        android:id="@+id/booking_confirm_amount"
+        android:text="Amount"
+        android:textAlignment="textEnd"
+        android:minHeight="40dp"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/appointment_confirm_txt_middle"
+        android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

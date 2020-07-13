@@ -33,9 +33,10 @@ public class SelectTimeSlotViewModel extends AndroidViewModel {
 
     public LiveData<Resource<GenericResponse<List<TimeSlot>>>>  getTimeSlots(){return timeSlots;}
 
-    public void timeSlotsApi(int stylistId, String date, String openTime, String closeTime ) {
+    public void timeSlotsApi(int stylistId, String date, String openTime, String closeTime, int duration ) {
 
-        final LiveData<Resource<GenericResponse<List<TimeSlot>>>> repositorySource = timeSlotRepository.getTimeSlots(stylistId, date, openTime, closeTime);
+        final LiveData<Resource<GenericResponse<List<TimeSlot>>>> repositorySource = timeSlotRepository.getTimeSlots(stylistId, date, openTime, closeTime, duration);
+
         timeSlots.addSource(repositorySource, new Observer<Resource<GenericResponse<List<TimeSlot>>>>() {
             @Override
             public void onChanged(Resource<GenericResponse<List<TimeSlot>>> genericResponseResource) {

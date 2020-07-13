@@ -10,7 +10,8 @@
 
     <devs.mulham.horizontalcalendar.HorizontalCalendarView
         android:id="@+id/calenderView"
-        android:background="@color/pink"
+        android:background="@color/dark"
+        app:textColorNormal="@color/light_grey"
         app:textColorSelected="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

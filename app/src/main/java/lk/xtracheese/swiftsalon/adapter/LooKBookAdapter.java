@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
@@ -51,7 +52,9 @@ public class LooKBookAdapter extends ListAdapter<LookBook, LooKBookAdapter.MyVie
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Picasso.get().load(getItem(position).getImage())
                 .into(holder.imageView);
+
     }
+
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

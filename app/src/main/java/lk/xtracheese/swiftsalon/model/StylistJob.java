@@ -21,7 +21,7 @@ public class StylistJob {
     @SerializedName("salon_id")
     String salonId;
     String name;
-    String duration;
+    int duration;
     String price;
 
     public int getId() {
@@ -64,11 +64,11 @@ public class StylistJob {
         this.salonId = salonId;
     }
 
-    public String getDuration() {
+    public int getDuration() {
         return duration;
     }
 
-    public void setDuration(String duration) {
+    public void setDuration(int duration) {
         this.duration = duration;
     }
 
@@ -78,5 +78,18 @@ public class StylistJob {
 
     public void setPrice(String price) {
         this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "StylistJob{" +
+                "id=" + id +
+                ", stylistId=" + stylistId +
+                ", jobId=" + jobId +
+                ", salonId='" + salonId + '\'' +
+                ", name='" + name + '\'' +
+                ", duration='" + duration + '\'' +
+                ", price='" + price + '\'' +
+                '}';
     }
 }

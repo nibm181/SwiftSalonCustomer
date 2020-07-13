@@ -32,6 +32,7 @@ public class HairStylistAdapter extends ListAdapter<Stylist, HairStylistAdapter.
     Context context;
     List<Stylist> stylistList;
     List<CardView> cardViewList;
+    int oldItem;
 
     LocalBroadcastManager localBroadcastManager;
 
@@ -74,23 +75,25 @@ public class HairStylistAdapter extends ListAdapter<Stylist, HairStylistAdapter.
             @Override
             public void onItemSelectedListener(View view, int pos) {
                 //set background color for all other hair stylist that are not selected
-                for (CardView cardView : cardViewList) {
-                    cardView.setCardBackgroundColor(context.getResources()
-                            .getColor(android.R.color.white));
+                if(holder.getAdapterPosition() != oldItem){
+                    cardViewList.get(oldItem).setSelected(false);
+                    holder.cardHairStylist.setSelected(true);
+                }else {
+                    holder.cardHairStylist.setSelected(true);
                 }
 
-                //set background color for selected hair stylist
-                holder.cardHairStylist.setCardBackgroundColor(
-                        context.getResources().getColor(R.color.pink)
-                );
+                oldItem = holder.getAdapterPosition();
+
                 holder.cardHairStylist.setCardElevation(6);
 
                 Common.currentStylist = getItem(pos);
                 //send local broadcast to enable button next
                 Intent intent = new Intent(Common.KEY_ENABLE_BUTTON_NEXT);
-                intent.putExtra(Common.KEY_HAIR_STYLIST_SELECTED, getItem(pos));
                 intent.putExtra(Common.KEY_STEP, 1);
                 localBroadcastManager.sendBroadcast(intent);
+
+                Intent intent1 = new Intent(Common.KEY_HAIR_STYLIST_SELECTED);
+                localBroadcastManager.sendBroadcast(intent1);
             }
         });
 

@@ -32,13 +32,13 @@ public class TimeSlotRepository {
     }
 
 
-    public LiveData<Resource<GenericResponse<List<TimeSlot>>>> getTimeSlots(int stylistId, String date, String openTime, String closeTime){
+    public LiveData<Resource<GenericResponse<List<TimeSlot>>>> getTimeSlots(int stylistId, String date, String openTime, String closeTime, int duration){
         return new NetworkOnlyBoundResource<List<TimeSlot>, GenericResponse<List<TimeSlot>>>(AppExecutor.getInstance()){
 
             @NonNull
             @Override
             protected LiveData<ApiResponse<GenericResponse<List<TimeSlot>>>> createCall() {
-                return ServiceGenerator.getSalonApi().getTimeSlots(stylistId, date, openTime, closeTime);
+                return ServiceGenerator.getSalonApi().getTimeSlots(stylistId, date, openTime, closeTime, duration);
             }
 
             @Override

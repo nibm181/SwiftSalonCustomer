@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,8 @@ import lk.xtracheese.swiftsalon.viewmodel.SelectTimeSlotViewModel;
 
 public class SelectTimeSlotFragment extends Fragment {
 
-
+    private static final String TAG = "SelectTimeSlotFragment";
+    
     RecyclerView recyclerTimeSlots;
     HorizontalCalendarView horizontalCalendarView;
     SimpleDateFormat simpleDateFormat;
@@ -52,12 +54,13 @@ public class SelectTimeSlotFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.DATE, 0); // add current date
-            String date = simpleDateFormat.format(calendar);
+
+            String date = simpleDateFormat.format(calendar.getTime());
+
+            Log.d(TAG, "onReceive: DATE"+ date);
 
             subscribeObservers();
-            getTimeSlotsApi(Common.currentStylist.getId(), date, Common.currentSalon.getOpenTime(), Common.currentSalon.getCloseTime() );
-
-
+            getTimeSlotsApi(Common.currentStylist.getId(), date, Common.currentSalon.getOpenTime(), Common.currentSalon.getCloseTime(), Common.currentJob.getDuration() );
 
         }
     };
@@ -75,9 +78,9 @@ public class SelectTimeSlotFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
-        localBroadcastManager.registerReceiver(displayTimeSlot, new IntentFilter(Common.KEY_TIME_SLOT_LOAD_DONE));
+        localBroadcastManager.registerReceiver(displayTimeSlot, new IntentFilter(Common.KEY_JOB_SELECTED));
 
-        simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     }
 
@@ -92,25 +95,21 @@ public class SelectTimeSlotFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
+
         View itemView = inflater.inflate(R.layout.fragment_booking_step_three,container, false);
         recyclerTimeSlots = itemView.findViewById(R.id.recycler_time_slot);
 
         viewModel = new ViewModelProvider(this).get(SelectTimeSlotViewModel.class);
 
-        initRecyclerView(itemView);
+        initRecyclerView();
+        initCalender(itemView);
         return itemView;
 
     }
 
-    private void initRecyclerView(View itemView) {
-        recyclerTimeSlots.setHasFixedSize(true);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
-        recyclerTimeSlots.setLayoutManager(gridLayoutManager);
-        recyclerTimeSlots.addItemDecoration(new SpacesitemDecoration(2));
-
-        //calender
+    private void initCalender(View itemView) {
         Calendar startDate = Calendar.getInstance();
-        startDate.add(Calendar.DATE, 0);
+        startDate.add(Calendar.DATE, 1);
         Calendar endDate = Calendar.getInstance();
         endDate.add(Calendar.DATE, 15); //2 days left
 
@@ -133,13 +132,26 @@ public class SelectTimeSlotFragment extends Fragment {
         });
     }
 
-    private void getTimeSlotsApi(int stylistId, String date, String openTime, String closeTime ){
-        viewModel.getTimeSlots();
+    private void initRecyclerView() {
+        timeSlotAdapter = new TimeSlotAdapter(getActivity());
+        recyclerTimeSlots.setAdapter(timeSlotAdapter);
+        recyclerTimeSlots.setHasFixedSize(true);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
+        recyclerTimeSlots.setLayoutManager(gridLayoutManager);
+        recyclerTimeSlots.addItemDecoration(new SpacesitemDecoration(2));
+
+        //calender
+
+}
+
+    private void getTimeSlotsApi(int stylistId, String date, String openTime, String closeTime, int duration ){
+        viewModel.timeSlotsApi(stylistId, date, openTime, closeTime, duration);
     }
 
     private void subscribeObservers(){
         viewModel.getTimeSlots().observe(getViewLifecycleOwner(), listResource -> {
             if (listResource != null) {
+                Log.d(TAG, "subscribeObservers: RESOURCE: " + listResource.message);
                 if(listResource.data != null){
 
                     switch (listResource.status){

@@ -87,13 +87,11 @@ public class SelectSalonFragment extends Fragment implements OnItemClickListener
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 /*Create handle for the RetrofitInstance interface*/
                 getSalonsApi(s.toString());
-                Log.d(TAG, "onTextChanged: "+s.toString());
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-//                getSalonsApi(s.toString());
-//                Log.d(TAG, "afterTextChanged: "+s.toString());
+
             }
         });
 
@@ -125,8 +123,6 @@ public class SelectSalonFragment extends Fragment implements OnItemClickListener
                         }
 
                         case SUCCESS: {
-//                            Log.d(TAG, "subscribeObservers: DATA: " + listResource.data.toString());
-                            Log.d(TAG, "subscribeObservers: call");
                             salonAdapter.submitList(listResource.data);
                             break;
                         }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/card_salon"
+    android:id="@+id/card_appointment"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:outlineSpotShadowColor="@color/dark_purple"
@@ -14,7 +14,7 @@
         android:padding="8dp">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/img_hair_stylist"
+            android:id="@+id/img_salon"
             android:src="@drawable/ic_account_circle_black_24dp"
             android:layout_marginRight="10dp"
             android:layout_width="90dp"
@@ -26,35 +26,35 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/txt_salon_name"
+                android:id="@+id/txt_appointment_salon_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:text="Salon #1"
+                android:text="Xen Salon"
                 android:textColor="@color/dark"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/txt_salon_addr1"
+                android:id="@+id/txt_appointment_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:gravity="left"
                 android:maxLines="1"
-                android:text="Address of Salon #1"
+                android:text="10:00-11:00 on 15-06-2020"
                 android:textColor="@color/dark"
                 android:textSize="20dp"
                 android:textStyle="normal" />
 
             <TextView
-                android:id="@+id/txt_salon_addr2"
+                android:id="@+id/txt_appointment_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:gravity="left"
                 android:maxLines="1"
-                android:text="Address of Salon #1"
+                android:text="Pending"
                 android:textColor="@color/dark"
                 android:textSize="20dp"
                 android:textStyle="normal" />

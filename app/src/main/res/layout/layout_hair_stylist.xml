@@ -3,38 +3,48 @@
     xmlns:andoid="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     andoid:id="@+id/card_hair_stylist"
-    app:cardCornerRadius="4dp"
+    app:cardCornerRadius="10dp"
     andoid:layout_width="match_parent"
     andoid:layout_height="wrap_content">
 
     <LinearLayout
         andoid:layout_width="match_parent"
         andoid:layout_height="wrap_content"
-        andoid:padding="16dp"
-        andoid:orientation="vertical">
+        andoid:background="@drawable/card_selected_font_color"
+        andoid:padding="8dp"
+        andoid:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatImageView
             andoid:id="@+id/img_hair_stylist"
+            andoid:src="@drawable/ic_account_circle_black_24dp"
+            andoid:layout_marginRight="20dp"
             andoid:layout_width="90dp"
-            andoid:layout_height="90dp"
-            andoid:layout_gravity="center_horizontal"/>
-        
-        <TextView
-            andoid:id="@+id/txt_hair_stylist_name"
-            andoid:text="David"
-            andoid:textSize="20sp"
-            andoid:textStyle="bold"
-            andoid:gravity="center_horizontal"
+            andoid:layout_height="90dp" />
+
+        <LinearLayout
+            andoid:orientation="vertical"
             andoid:layout_width="match_parent"
-            andoid:layout_height="wrap_content"/>
-        
-        <RatingBar
-            andoid:id="@+id/rtb_hair_stylist"
-            andoid:layout_gravity="center_horizontal"
-            andoid:max="5"
-            style="@style/Widget.AppCompat.RatingBar.Small"
-            andoid:layout_width="wrap_content"
-            andoid:layout_height="wrap_content"/>
+            andoid:layout_height="wrap_content">
+
+            <TextView
+                andoid:id="@+id/txt_hair_stylist_name"
+                andoid:text="David"
+                andoid:textColor="@color/dark"
+                andoid:textSize="20sp"
+                andoid:textStyle="bold"
+                andoid:layout_marginBottom="10dp"
+                andoid:layout_width="match_parent"
+                andoid:layout_height="wrap_content"/>
+
+            <RatingBar
+                andoid:id="@+id/rtb_hair_stylist"
+                andoid:max="5"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                andoid:layout_width="wrap_content"
+                andoid:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
 
 
     </LinearLayout>

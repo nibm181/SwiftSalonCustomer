@@ -4,6 +4,8 @@
         android:topLeftRadius="17dp"
         android:topRightRadius="17dp"/>
     <stroke
-        android:color="@color/dark"/>
+        android:color="@color/dark"
+
+     />
     <solid android:color="#F5F5FF"/>
 </shape>

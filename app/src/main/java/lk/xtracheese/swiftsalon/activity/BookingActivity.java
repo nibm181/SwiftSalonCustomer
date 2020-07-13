@@ -35,6 +35,8 @@ import retrofit2.Callback;
 
 public class BookingActivity extends AppCompatActivity {
 
+    private static final String TAG = "BookingActivity";
+    
     LocalBroadcastManager localBroadcastManager;
     AlertDialog alertDialog;
 
@@ -92,6 +94,8 @@ public class BookingActivity extends AppCompatActivity {
         setupStepView();
         setButtonColor();
 
+        hidePreviousButton(false);
+
         //view
         viewPager.setAdapter(new SearchViewAdapter(getSupportFragmentManager()));
         viewPager.setOffscreenPageLimit(4); //for limiting the pages, in this case i have 4 fragments
@@ -134,6 +138,7 @@ public class BookingActivity extends AppCompatActivity {
                 if (Common.step < 3 || Common.step == 0) {
                     Common.step++;
                     if (Common.step == 1) { //after choosing the hair stylist
+                        hidePreviousButton(true);
 //                        if (Common.currentSalon != null)
 //                            loadHairStylistBySalon(Common.currentSalon.getSalID());
                     } else if (Common.step == 2) { //choose job
@@ -150,14 +155,19 @@ public class BookingActivity extends AppCompatActivity {
         btnPrevStep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG, "onClick: STEP"+ Common.step);
                 if (Common.step == 3) {
                     Common.step--;
                     btnNxtStep.setText("Next");
                     viewPager.setCurrentItem(Common.step);
                 } else if (Common.step > 0) {
                     Common.step--;
+                    if(Common.step == 0){
+                        hidePreviousButton(false);
+                    }
                     viewPager.setCurrentItem(Common.step);
                 }
+
 
             }
         });
@@ -172,32 +182,14 @@ public class BookingActivity extends AppCompatActivity {
 
     }
 
-    private void loadTimeSlotOfHairStylist(int HairStylistID) {
-        alertDialog.show();
+    private void hidePreviousButton(boolean isVisible){
+        if(isVisible){
+            btnPrevStep.setVisibility(View.VISIBLE);
+        }else {
+            btnPrevStep.setVisibility(View.INVISIBLE);
+        }
 
-        /*Create handle for the RetrofitInstance interface*/
-        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-        Call<List<TimeSlot>> call = service.getTimeSlots();
-        call.enqueue(new Callback<List<TimeSlot>>() {
-            @Override
-            public void onResponse(Call<List<TimeSlot>> call, retrofit2.Response<List<TimeSlot>> response) {
-                //send broadcast to booking step3frangment to load recycler
-                Intent intent = new Intent(Common.KEY_TIME_SLOT_LOAD_DONE);
-                intent.putParcelableArrayListExtra(Common.KEY_TIME_SLOT_LOAD_DONE, (ArrayList<? extends Parcelable>) response.body());
-                localBroadcastManager.sendBroadcast(intent);
-
-                alertDialog.dismiss();
-
-            }
-
-            @Override
-            public void onFailure(Call<List<TimeSlot>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Something went wrong ...Please try later!", Toast.LENGTH_SHORT).show();
-                Log.d("debug", t.getMessage());
-            }
-        });
     }
-
 
     private void setButtonColor() {
         if (btnPrevStep.isEnabled()) {

@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -50,6 +51,7 @@ public class HomeFragment extends Fragment {
     Slider bannerSlider;
     AlertDialog alertDialog;
     LooKBookAdapter lookBookAdapter;
+    ImageView imageView;
 
     HomeViewModel viewModel;
 
@@ -70,6 +72,11 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         bannerSlider = view.findViewById(R.id.banner_slider);
         recylerLookBook = view.findViewById(R.id.recycler_promotion_book);
+        imageView = view.findViewById(R.id.home_user_pic);
+
+        String userImageURL = "http://10.0.2.2/SwiftSalon/user_images/user.jpeg";
+        PicassoImageLoadingService picassoImageLoadingService = new PicassoImageLoadingService();
+        picassoImageLoadingService.loadImage(userImageURL, imageView);
 
         initRecyclerView();
         viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
@@ -102,6 +109,7 @@ public class HomeFragment extends Fragment {
                                 //set adapter on slider
                                 bannerSlider.setAdapter(new BannerSlideAdapter(listResource.data));
                             }
+                            break;
                         }
 
                         case ERROR:{
@@ -110,6 +118,7 @@ public class HomeFragment extends Fragment {
                                 //set adapter on slider
                                 bannerSlider.setAdapter(new BannerSlideAdapter(listResource.data));
                             }
+                            break;
                         }
                     }
                 }
@@ -126,11 +135,15 @@ public class HomeFragment extends Fragment {
                         }
                         case SUCCESS:{
                             lookBookAdapter.submitList(listResource.data);
+                            break;
                         }
 
                         case ERROR:{
                             Toast.makeText(getContext(), listResource.message, Toast.LENGTH_SHORT).show();
-                            lookBookAdapter.submitList(listResource.data);
+                            if(!listResource.data.isEmpty()){
+                                lookBookAdapter.submitList(listResource.data);
+                            }
+                            break;
                         }
                     }
                 }
@@ -146,107 +159,7 @@ public class HomeFragment extends Fragment {
         recylerLookBook.setLayoutManager(new GridLayoutManager(getActivity(), 1));
     }
 
-
-//    void getPromotions() {
-//
-//        RequestQueue requestQueue = Volley.newRequestQueue(this.getContext());
-//        url = "http://10.0.2.2/SwiftSalon/PromotionBanner.php";
-//
-//        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
-//                Request.Method.GET, url, null,
-//                new Response.Listener<JSONArray>() {
-//                    @Override
-//                    public void onResponse(JSONArray response) {
-//                        int length = response.length();
-//                        resImgAddress = new String[length];
-//                        try {
-//
-//                            for (int i = 0; i < response.length(); i++) {
-//
-//                                JSONObject salonPromotion = response.getJSONObject(i);
-//
-//                                // Get the current student (json object) data
-//                                resImgAddress[i] = salonPromotion.getString("image");
-//                            }
-//
-//                            //convert array to list
-//                            for(String imgURL:resImgAddress){
-//                                banners.add(new Banner(imgURL));
-//                            }
-//                            //set adapter on slider
-//                            bannerSlider.setAdapter(new BannerSlideAdapter(banners));
-//
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-//                        Log.d("debug", error.getMessage());
-//                    }
-//                }
-//
-//
-//        );
-//
-//        requestQueue.add(jsonArrayRequest);
-//
-//    }
-//
-//    void getLookBook(){
-//        RequestQueue requestQueue = Volley.newRequestQueue(this.getContext());
-//        url = "http://10.0.2.2/SwiftSalon/LookBook.php";
-//
-//        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
-//                Request.Method.GET, url, null,
-//                new Response.Listener<JSONArray>() {
-//                    @Override
-//                    public void onResponse(JSONArray response) {
-//                        int length = response.length();
-//                        resImgAddress = new String[length];
-//                        try {
-//
-//                            for (int i = 0; i < response.length(); i++) {
-//
-//                                JSONObject salonPromotion = response.getJSONObject(i);
-//
-//                                // Get the current student (json object) data
-//                                resImgAddress[i] = salonPromotion.getString("image");
-//                            }
-//
-//                            //convert array to list
-//                            for(String imgURL:resImgAddress){
-//                                lookBooks.add(new LookBook(imgURL));
-//                            }
-//                            //set adapter on recyclerview
-//                            recylerLookBook.setHasFixedSize(true);
-//                            recylerLookBook.setLayoutManager(new LinearLayoutManager(getActivity()));
-//                            recylerLookBook.setAdapter(new LooKBookAdapter(getActivity(), lookBooks));
-//
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//
-//
-//        );
-//
-//        requestQueue.add(jsonArrayRequest);
-//
-//    }
-
+    
 
 
 }

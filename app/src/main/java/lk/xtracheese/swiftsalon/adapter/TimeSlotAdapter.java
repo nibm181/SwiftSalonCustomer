@@ -29,6 +29,7 @@ public class TimeSlotAdapter extends ListAdapter<TimeSlot,  TimeSlotAdapter.MyVi
     Context context;
     List<TimeSlot> timeSlotList;
     List<CardView> cardViewList;
+    int oldItem;
 
     LocalBroadcastManager localBroadcastManager;
 
@@ -62,8 +63,8 @@ public class TimeSlotAdapter extends ListAdapter<TimeSlot,  TimeSlotAdapter.MyVi
 
     @Override
     public void onBindViewHolder(@NonNull MyViewholder holder, int position) {
-        holder.txtTimeSlot.setText(timeSlotList.get(position).getSlotTiming());
-        holder.getTxtTimeSlotDesc.setText(timeSlotList.get(position).getStatus());
+        holder.txtTimeSlot.setText(getItem(position).getSlotTiming());
+        holder.getTxtTimeSlotDesc.setText(getItem(position).getStatus());
         holder.cardTimeSlot.setCardBackgroundColor(context.getResources().getColor(android.R.color.white));
 
         if(holder.getTxtTimeSlotDesc.getText().toString().contains("unavailable")){
@@ -77,24 +78,32 @@ public class TimeSlotAdapter extends ListAdapter<TimeSlot,  TimeSlotAdapter.MyVi
         holder.setRecyclerItemSelectedListener(new RecyclerItemSelectedListener() {
             @Override
             public void onItemSelectedListener(View view, int pos) {
-                //set background color for selected time slot
-                holder.cardTimeSlot.setCardBackgroundColor(
-                        context.getResources().getColor(R.color.dark_purple)
-                );
 
+                if(holder.getAdapterPosition() != oldItem){
+                    cardViewList.get(oldItem).setSelected(false);
+                    holder.cardTimeSlot.setSelected(true);
+                }else {
+                    holder.cardTimeSlot.setSelected(true);
+                }
+
+                oldItem = holder.getAdapterPosition();
+
+                holder.cardTimeSlot.setCardElevation(6);
+
+                Common.currentTimeSlot = getItem(pos);
                 //send local broadcast to enable button next
                 Intent intent = new Intent(Common.KEY_ENABLE_BUTTON_NEXT);
-                intent.putExtra(Common.KEY_TIME_SLOT_SELECTED,timeSlotList.get(pos));
                 intent.putExtra(Common.KEY_STEP, 3);
                 localBroadcastManager.sendBroadcast(intent);
+
+                Intent intent1= new Intent(Common.KEY_TIME_SLOT_SELECTED);
+                localBroadcastManager.sendBroadcast(intent);
+
             }
         });
     }
 
-    @Override
-    public int getItemCount() {
-        return timeSlotList.size();
-    }
+
 
     public class MyViewholder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView txtTimeSlot, getTxtTimeSlotDesc;

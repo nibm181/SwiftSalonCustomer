@@ -31,7 +31,7 @@ public class Salon implements Parcelable {
     @SerializedName("id")
     private String salID;
 
-    @ColumnInfo(name = "open)time")
+    @ColumnInfo(name = "open_time")
     @SerializedName("open_time")
     private String openTime;
 

@@ -80,7 +80,7 @@ public class SelectJobFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
-        localBroadcastManager.registerReceiver(broadcastReceiver, new IntentFilter(Common.KEY_ENABLE_BUTTON_NEXT));
+        localBroadcastManager.registerReceiver(broadcastReceiver, new IntentFilter(Common.KEY_HAIR_STYLIST_SELECTED));
 
     }
 

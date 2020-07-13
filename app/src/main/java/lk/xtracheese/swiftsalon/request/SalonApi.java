@@ -58,5 +58,5 @@ public interface SalonApi {
     LiveData<ApiResponse<GenericResponse<Stylist>>> updateStylist(@Body Stylist stylist);
 
     @GET("Time_slot")
-    LiveData<ApiResponse<GenericResponse<List<TimeSlot>>>> getTimeSlots(@Query("stylist_id, date, open_time, close_time") int stylistId, String date, String openTime, String closeTime);
+    LiveData<ApiResponse<GenericResponse<List<TimeSlot>>>> getTimeSlots(@Query("stylist_id") int stylistId, @Query("date") String date, @Query("start_time")  String openTime, @Query("end_time")  String closeTime, @Query("duration") int duration);
 }

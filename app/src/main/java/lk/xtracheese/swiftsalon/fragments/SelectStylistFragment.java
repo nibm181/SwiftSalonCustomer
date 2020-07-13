@@ -45,6 +45,7 @@ public class SelectStylistFragment extends Fragment  {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
     }
 
     @Override
@@ -101,7 +102,7 @@ public class SelectStylistFragment extends Fragment  {
         stylistAdapter = new HairStylistAdapter(getActivity() );
         recyclerHairStylist.setAdapter(stylistAdapter);
         recyclerHairStylist.setHasFixedSize(true);
-        recyclerHairStylist.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        recyclerHairStylist.setLayoutManager(new GridLayoutManager(getActivity(), 1));
         recyclerHairStylist.addItemDecoration(new SpacesitemDecoration(4));
     }
 

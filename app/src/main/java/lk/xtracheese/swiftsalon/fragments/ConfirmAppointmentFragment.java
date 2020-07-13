@@ -22,7 +22,7 @@ import lk.xtracheese.swiftsalon.R;
 
 public class ConfirmAppointmentFragment extends Fragment {
 
-    TextView txtSalon, txtHairStylistName, txtDate,txtContact, txtAddr;
+    TextView txtSalon, txtHairStylistName, txtDate,txtContact, txtAddr, txtStylist, txtAmount;
 
     SimpleDateFormat simpleDateFormat;
     LocalBroadcastManager localBroadcastManager;
@@ -36,12 +36,17 @@ public class ConfirmAppointmentFragment extends Fragment {
 
     private void setData() {
         txtSalon.setText(Common.currentSalon.getSalonName());
-        txtAddr.setText(Common.currentSalon.getSalonAddress1());
-        txtHairStylistName.setText(new StringBuilder("Stylist: ").
-                append(Common.currentStylist.getName()));
+        txtAddr.setText(new StringBuilder(Common.currentSalon.getSalonAddress1())
+                    .append(", "+Common.currentSalon.getSalonAddress2()));
+        txtContact.setText(Common.currentSalon.getMobileNo());
+        txtStylist.setText(Common.currentStylist.getName());
+        txtHairStylistName.setText(new StringBuilder("Stylist: ")
+                 .append(Common.currentStylist.getName()));
         txtDate.setText(new StringBuilder((Common.currentTimeSlot.getSlotTiming()))
                 .append(" on ")
                 .append(simpleDateFormat.format(Common.currentDate.getTime())));
+        txtAmount.setText(new StringBuilder(Common.currentJob.getPrice())
+                .append(".00 Rs  "));
     }
 
     static ConfirmAppointmentFragment instance;
@@ -77,9 +82,11 @@ public class ConfirmAppointmentFragment extends Fragment {
         View itemView = inflater.inflate(R.layout.fragment_booking_step_four,container, false);
         txtSalon = itemView.findViewById(R.id.booking_confirm_salon_name);
         txtDate = itemView.findViewById(R.id.booking_confirm_date);
+        txtStylist = itemView.findViewById(R.id.booking_confirm_hs_name);
         txtHairStylistName = itemView.findViewById(R.id.booking_confirm_hs_name);
         txtContact = itemView.findViewById(R.id.booking_confirm_contact);
         txtAddr = itemView.findViewById(R.id.booking_confirm_salon_addr);
+        txtAmount = itemView.findViewById(R.id.booking_confirm_amount);
 
         return itemView;
 

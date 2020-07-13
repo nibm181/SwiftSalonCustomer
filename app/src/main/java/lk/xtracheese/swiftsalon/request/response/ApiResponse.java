@@ -38,7 +38,7 @@ public class ApiResponse<T> {
 
         if (response.isSuccessful()) {
             T body = response.body();
-
+            Log.d(TAG, "create: BODY" + response.body().toString() );
             if (body instanceof GenericResponse) {
                 if (!CheckToken.isTokenValid((GenericResponse) body)) {
                     String errorMsg = "Token expired.";
@@ -60,6 +60,7 @@ public class ApiResponse<T> {
                 e.printStackTrace();
                 errorMsg = response.message();
             }
+            Log.d(TAG, "create: ERROR MSG: " + errorMsg);
             if(errorMsg.length() > 100) {
                 errorMsg = "Something went wrong. Try again later.";
             }
