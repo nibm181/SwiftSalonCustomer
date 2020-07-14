@@ -22,7 +22,7 @@
 
         <ImageView
             android:src="@drawable/ic_account_circle_black_24dp"
-            android:id="@+id/prof_user_pic"
+            android:id="@+id/view_appointment_user_pic"
             android:layout_width="60dp"
             android:layout_height="60dp"/>
 
@@ -36,7 +36,7 @@
             <TextView
                 android:id="@+id/txt_user_name"
                 android:text="Eddy Lee"
-                android:textColor="@color/dark_dark_purple"
+                android:textColor="@color/pearl_white"
                 android:textSize="22sp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>

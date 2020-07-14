@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -24,8 +26,7 @@ public class LoginActivity extends AppCompatActivity {
 
     TextInputEditText txtLoginMob;
     TextInputEditText txtLoginPass;
-    Button btnLogin;
-
+    RelativeLayout btnLogin;
     String userMobNo;
     String userPassword;
     String url;
@@ -37,45 +38,18 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        txtLoginMob = findViewById(R.id.edit_txt_mob_no);
-        txtLoginPass = findViewById(R.id.edit_txt_password);
         btnLogin = findViewById(R.id.btn_login);
+//        txtLoginMob = findViewById(R.id.txt_uname);
+//        txtLoginPass = findViewById(R.id.txt_pwd);
+//        btnLogin = findViewById(R.id.btn_login);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userMobNo = txtLoginMob.getText().toString();
-                userPassword = txtLoginPass.getText().toString();
-
-                RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
-                url = "http://192.168.56.1/SwiftSalon/CustomerLogin.php?userMobNo="+userMobNo+"&userPassword="+userPassword;
-
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                        (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                try {
-                                    resMessage = response.getString("message");
-                                    resIsSuccess = response.getBoolean("success");
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                // TODO: Handle error
-
-                            }
-                        });
-                requestQueue.add(jsonObjectRequest);
-                Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                 startActivity(intent);
-
-
             }
         });
+
     }
 }

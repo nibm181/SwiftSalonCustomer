@@ -1,5 +1,6 @@
 package lk.xtracheese.swiftsalon.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import lk.xtracheese.swiftsalon.R;
+import lk.xtracheese.swiftsalon.activity.ViewAppointmentsActivity;
 import lk.xtracheese.swiftsalon.service.PicassoImageLoadingService;
 
 
@@ -43,11 +45,37 @@ public class ProfileFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         imageView = view.findViewById(R.id.prof_user_pic);
+        txtEditProfile = view.findViewById(R.id.txt_prof_edit_acc);
+        txtViewAppointments = view.findViewById(R.id.txt_prof_view_appointments);
+        txtLogout = view.findViewById(R.id.txt_prof_logout);
 
         String userImageURL = "http://10.0.2.2/SwiftSalon/user_images/user.jpeg";
         PicassoImageLoadingService picassoImageLoadingService = new PicassoImageLoadingService();
         picassoImageLoadingService.loadImage(userImageURL, imageView);
-        // Inflate the layout for this fragment
+
+        txtViewAppointments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), ViewAppointmentsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        txtEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), ViewAppointmentsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        txtLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         return view;
     }
 }
