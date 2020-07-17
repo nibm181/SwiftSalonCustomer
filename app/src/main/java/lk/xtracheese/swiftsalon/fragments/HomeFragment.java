@@ -3,40 +3,21 @@ package lk.xtracheese.swiftsalon.fragments;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import dmax.dialog.SpotsDialog;
+import lk.xtracheese.swiftsalon.R;
 import lk.xtracheese.swiftsalon.adapter.BannerSlideAdapter;
 import lk.xtracheese.swiftsalon.adapter.LooKBookAdapter;
-import lk.xtracheese.swiftsalon.model.Banner;
-import lk.xtracheese.swiftsalon.model.LookBook;
-import lk.xtracheese.swiftsalon.R;
 import lk.xtracheese.swiftsalon.service.PicassoImageLoadingService;
 import lk.xtracheese.swiftsalon.viewmodel.HomeViewModel;
 import ss.com.bannerslider.Slider;
@@ -85,36 +66,36 @@ public class HomeFragment extends Fragment {
         Slider.init(new PicassoImageLoadingService());
 
         subscribeObservers();
-        getSalonsApi();
+        getHomeApi();
 
         alertDialog.dismiss();
 
         return view;
     }
 
-    private void getSalonsApi() {
+    private void getHomeApi() {
         viewModel.bannerApi();
     }
 
     private void subscribeObservers() {
         viewModel.getBanners().observe(getViewLifecycleOwner(), listResource -> {
-            if(listResource != null){
-                if(listResource.data != null){
+            if (listResource != null) {
+                if (listResource.data != null) {
                     switch (listResource.status) {
-                        case LOADING:{
+                        case LOADING: {
                             break;
                         }
-                        case SUCCESS:{
-                            if(!listResource.data.isEmpty()) {
+                        case SUCCESS: {
+                            if (!listResource.data.isEmpty()) {
                                 //set adapter on slider
                                 bannerSlider.setAdapter(new BannerSlideAdapter(listResource.data));
                             }
                             break;
                         }
 
-                        case ERROR:{
+                        case ERROR: {
                             Toast.makeText(getContext(), listResource.message, Toast.LENGTH_SHORT).show();
-                            if(!listResource.data.isEmpty()) {
+                            if (!listResource.data.isEmpty()) {
                                 //set adapter on slider
                                 bannerSlider.setAdapter(new BannerSlideAdapter(listResource.data));
                             }
@@ -127,20 +108,20 @@ public class HomeFragment extends Fragment {
 
 
         viewModel.getLookBooks().observe(getViewLifecycleOwner(), listResource -> {
-            if(listResource != null){
-                if(listResource.data != null){
+            if (listResource != null) {
+                if (listResource.data != null) {
                     switch (listResource.status) {
-                        case LOADING:{
+                        case LOADING: {
                             break;
                         }
-                        case SUCCESS:{
+                        case SUCCESS: {
                             lookBookAdapter.submitList(listResource.data);
                             break;
                         }
 
-                        case ERROR:{
+                        case ERROR: {
                             Toast.makeText(getContext(), listResource.message, Toast.LENGTH_SHORT).show();
-                            if(!listResource.data.isEmpty()){
+                            if (!listResource.data.isEmpty()) {
                                 lookBookAdapter.submitList(listResource.data);
                             }
                             break;
@@ -158,8 +139,6 @@ public class HomeFragment extends Fragment {
         recylerLookBook.setHasFixedSize(true);
         recylerLookBook.setLayoutManager(new GridLayoutManager(getActivity(), 1));
     }
-
-    
 
 
 }

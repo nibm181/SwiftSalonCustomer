@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.LongDef;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -32,8 +33,8 @@ public class JobAdapter extends ListAdapter <StylistJob, JobAdapter.MyViewHolder
 
     JobAdapter jobAdapter;
     Context context;
+    List<StylistJob> stylistJobs;
     List<CardView> cardViewList;
-    int oldItem;
 
     LocalBroadcastManager localBroadcastManager;
 
@@ -67,10 +68,11 @@ public class JobAdapter extends ListAdapter <StylistJob, JobAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.txtJobName.setText(getItem(position).getName());
-        holder.txtJobDuration.setText(new StringBuilder(getItem(position).getPrice())
-                .append(".00 Rs"));
-        holder.txtJobPrice.setText(new StringBuilder(String.valueOf(getItem(position).getDuration()))
-                .append(" minutes"));
+        holder.txtJobDuration.setText(new StringBuilder(String.valueOf(getItem(position).getDuration()))
+                .append(" minutes "));
+
+        holder.txtJobPrice.setText(new StringBuilder(getItem(position).getPrice().toString())
+                .append(" .00 Rs"));
 
         if(!cardViewList.contains(holder.cardJob))
             cardViewList.add(holder.cardJob);
@@ -81,29 +83,40 @@ public class JobAdapter extends ListAdapter <StylistJob, JobAdapter.MyViewHolder
             public void onItemSelectedListener(View view, int pos) {
 
 
+                if(stylistJobs != null){
+                    if(holder.cardJob.isSelected()){
+                        holder.cardJob.setSelected(false);
+                        stylistJobs.remove(getItem(pos));
 
-                if(holder.getAdapterPosition() != oldItem){
-                    cardViewList.get(oldItem).setSelected(false);
-                    holder.cardJob.setSelected(true);
-                }else {
-                    holder.cardJob.setSelected(true);
+
+                    } else{
+//                    cardViewList.get(oldItem).setSelected(false);
+                        holder.cardJob.setSelected(true);
+                        stylistJobs.add(getItem(pos));
+
+                    }
                 }
 
-                oldItem = holder.getAdapterPosition();
-
-                holder.cardJob.setCardElevation(6);
 
 
-                Common.currentJob = getItem(pos);
 
-                
+                if(stylistJobs == null){
+                    holder.cardJob.setSelected(true);
+                    holder.cardJob.setCardElevation(6);
+                    stylistJobs = new ArrayList<>();
+                    stylistJobs.add(getItem(pos));
+                }
+
+
+                 Common.currentJob = stylistJobs;
+
                 //send local broadcast to enable button next
                 Intent intent = new Intent(Common.KEY_ENABLE_BUTTON_NEXT);
                 intent.putExtra(Common.KEY_STEP, 2);
                 localBroadcastManager.sendBroadcast(intent);
 
-                Intent intent1 = new Intent(Common.KEY_JOB_SELECTED);
-                localBroadcastManager.sendBroadcast(intent1);
+//                Intent intent1 = new Intent(Common.KEY_JOB_SELECTED);
+//                localBroadcastManager.sendBroadcast(intent1);
             }
         });
     }

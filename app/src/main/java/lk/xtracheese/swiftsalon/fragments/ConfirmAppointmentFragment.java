@@ -27,6 +27,9 @@ public class ConfirmAppointmentFragment extends Fragment {
     SimpleDateFormat simpleDateFormat;
     LocalBroadcastManager localBroadcastManager;
 
+    int totDuration;
+    float totPrice;
+
     BroadcastReceiver confrimBookingReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -35,6 +38,7 @@ public class ConfirmAppointmentFragment extends Fragment {
     };
 
     private void setData() {
+        jobCalculate();
         txtSalon.setText(Common.currentSalon.getSalonName());
         txtAddr.setText(new StringBuilder(Common.currentSalon.getSalonAddress1())
                     .append(", "+Common.currentSalon.getSalonAddress2()));
@@ -45,7 +49,7 @@ public class ConfirmAppointmentFragment extends Fragment {
         txtDate.setText(new StringBuilder((Common.currentTimeSlot.getSlotTiming()))
                 .append(" on ")
                 .append(simpleDateFormat.format(Common.currentDate.getTime())));
-        txtAmount.setText(new StringBuilder(Common.currentJob.getPrice())
+        txtAmount.setText(new StringBuilder(String.valueOf(totPrice))
                 .append(".00 Rs  "));
     }
 
@@ -90,5 +94,14 @@ public class ConfirmAppointmentFragment extends Fragment {
 
         return itemView;
 
+    }
+
+    private void jobCalculate(){
+        if(Common.currentJob != null){
+            int jobSize = Common.currentJob.size();
+            for(int i=0; i<jobSize ;i++){
+                totPrice = totPrice + Common.currentJob.get(i).getPrice();
+            }
+        }
     }
 }

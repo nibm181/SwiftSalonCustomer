@@ -18,13 +18,13 @@ public class Session {
         isSignedIn = false;
     }
 
-    public int getSalonId() {
-        userId = preferences.getInt("salonId", 0);
+    public int getUserId() {
+        userId = preferences.getInt("userId", 0);
         return userId;
     }
 
-    public void setSalonId(int salonId) {
-        preferences.edit().putInt("salonId", salonId).apply();
+    public void setUserId(int userId) {
+        preferences.edit().putInt("userId", userId).apply();
     }
 
     public boolean isSignedIn() {

@@ -1,6 +1,7 @@
 package lk.xtracheese.swiftsalon.common;
 
 import java.util.Calendar;
+import java.util.List;
 
 import lk.xtracheese.swiftsalon.model.Stylist;
 import lk.xtracheese.swiftsalon.model.Salon;
@@ -20,7 +21,8 @@ public class Common {
     public static final String KEY_JOB_SELECTED = "JOB_SELECTED";
     public static Salon currentSalon;
     public static int step = 0;
-    public static StylistJob currentJob;
+    public static List<StylistJob> currentJob;
+    public static List<StylistJob> storeCurrentJob;
     public static Stylist currentStylist;
     public static TimeSlot currentTimeSlot;
     public static Calendar currentDate = Calendar.getInstance();

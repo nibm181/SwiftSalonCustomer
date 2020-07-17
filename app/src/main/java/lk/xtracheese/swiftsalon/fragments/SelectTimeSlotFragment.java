@@ -24,8 +24,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
+
 import devs.mulham.horizontalcalendar.HorizontalCalendar;
 import devs.mulham.horizontalcalendar.HorizontalCalendarView;
 import devs.mulham.horizontalcalendar.utils.HorizontalCalendarListener;
@@ -47,20 +46,19 @@ public class SelectTimeSlotFragment extends Fragment {
     SelectTimeSlotViewModel viewModel;
     TimeSlotAdapter timeSlotAdapter;
 
+
     LocalBroadcastManager localBroadcastManager;
 
     BroadcastReceiver displayTimeSlot = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.DATE, 0); // add current date
-
+            calendar.add(Calendar.DATE, 1); // add next date
             String date = simpleDateFormat.format(calendar.getTime());
-
-            Log.d(TAG, "onReceive: DATE"+ date);
+            Common.currentDate = calendar;
 
             subscribeObservers();
-            getTimeSlotsApi(Common.currentStylist.getId(), date, Common.currentSalon.getOpenTime(), Common.currentSalon.getCloseTime(), Common.currentJob.getDuration() );
+            getTimeSlotsApi(Common.currentStylist.getId(), date, Common.currentSalon.getOpenTime(), Common.currentSalon.getCloseTime(), jobCalculate());
 
         }
     };
@@ -125,8 +123,10 @@ public class SelectTimeSlotFragment extends Fragment {
             public void onDateSelected(Calendar date, int position) {
                 if(Common.currentDate.getTimeInMillis() != date.getTimeInMillis()){
                     Common.currentDate = date;
+                    String sDate = simpleDateFormat.format(date.getTime());
+                    subscribeObservers();
+                    getTimeSlotsApi(Common.currentStylist.getId(), sDate, Common.currentSalon.getOpenTime(), Common.currentSalon.getCloseTime(), jobCalculate() );
 
-                    //after getting the api set a function to load time slots for different dates
                 }
             }
         });
@@ -142,7 +142,22 @@ public class SelectTimeSlotFragment extends Fragment {
 
         //calender
 
-}
+    }
+
+    private int jobCalculate(){
+
+        int totDuration = 0;
+
+        if(Common.currentJob != null){
+            int jobSize = Common.currentJob.size();
+            Log.d(TAG, "jobCalculate: JOB SIZE " +jobSize);
+            for(int i=0; i<jobSize ;i++){
+                totDuration = totDuration + Common.currentJob.get(i).getDuration();
+            }
+            Log.d(TAG, "jobCalculate: Duration " +totDuration);
+        }
+        return totDuration;
+    }
 
     private void getTimeSlotsApi(int stylistId, String date, String openTime, String closeTime, int duration ){
         viewModel.timeSlotsApi(stylistId, date, openTime, closeTime, duration);

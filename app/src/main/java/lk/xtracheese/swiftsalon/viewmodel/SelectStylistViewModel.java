@@ -43,7 +43,7 @@ public class SelectStylistViewModel extends AndroidViewModel {
 
     private void executeFetch() {
         isFetching =true;
-        int salonId = Integer.parseInt(Common.currentSalon.getSalID());
+        int salonId = Common.currentSalon.getSalID();
         final LiveData<Resource<List<Stylist>>> repositorySource = repository.getStylistsApi(salonId);
 
         stylists.addSource(repositorySource, new Observer<Resource<List<Stylist>>>() {

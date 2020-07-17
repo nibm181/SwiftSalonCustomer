@@ -18,6 +18,7 @@ import lk.xtracheese.swiftsalon.model.Stylist;
 import lk.xtracheese.swiftsalon.model.Job;
 import lk.xtracheese.swiftsalon.model.StylistJob;
 import lk.xtracheese.swiftsalon.model.TimeSlot;
+import lk.xtracheese.swiftsalon.model.User;
 
 import static androidx.room.OnConflictStrategy.IGNORE;
 import static androidx.room.OnConflictStrategy.REPLACE;
@@ -25,12 +26,12 @@ import static androidx.room.OnConflictStrategy.REPLACE;
 @Dao
 public interface SwiftSalonDao {
 
-    // Appointment
-    @Insert(onConflict = IGNORE)
-    long[] insertAppointments(Appointment... appointments);
 
     @Insert(onConflict = REPLACE)
     void insertAppointment(Appointment appointment);
+
+    @Insert(onConflict = REPLACE)
+    void insertAppointmentDetails(AppointmentDetail... appointmentDetails);
 
     @Update
     void updateAppointment(Appointment appointment);
@@ -50,12 +51,6 @@ public interface SwiftSalonDao {
     @Query("SELECT * FROM tbl_appointment WHERE salon_id = :salonId AND status = 'on schedule'")
     LiveData<List<Appointment>> getOngoingAppointments(int salonId);
 
-    // Appointment Detail
-    @Insert(onConflict = REPLACE)
-    void insertAppointmentDetails(AppointmentDetail... details);
-
-    @Query("SELECT * FROM tbl_appointment_detail WHERE appointment_id = :appointmentId")
-    LiveData<List<AppointmentDetail>> getAppointmentDetails(int appointmentId);
 
     //LookBook
 
@@ -100,7 +95,11 @@ public interface SwiftSalonDao {
     @Insert(onConflict = REPLACE)
     void insertStylists(Stylist... stylists);
 
-
     @Query("SELECT * FROM tbl_stylist WHERE salon_id = :salonId")
     LiveData<List<Stylist>> getStylists(int salonId);
+
+    //User
+    @Insert(onConflict = REPLACE)
+    void insertUser(User user);
+
 }

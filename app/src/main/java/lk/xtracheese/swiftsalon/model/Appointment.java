@@ -6,9 +6,12 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
+
+import java.util.Arrays;
 
 @Entity(tableName = "tbl_appointment")
 public class Appointment implements Parcelable {
@@ -42,38 +45,30 @@ public class Appointment implements Parcelable {
     @SerializedName("status")
     private String status;
 
-    @ColumnInfo(name = "customer_first_name")
-    @SerializedName("customer_first_name")
-    private String customerFirstName;
-
-    @ColumnInfo(name = "customer_last_name")
-    @SerializedName("customer_last_name")
-    private String customerLastName;
-
-    @ColumnInfo(name = "customer_image")
-    @SerializedName("customer_image")
-    private String customerImage;
-
     @ColumnInfo(name = "modified_on")
     @SerializedName("modified_on")
-    private int modifiedOn; //timestamp
+    private String modifiedOn; //timestamp
+
+    @Ignore
+    @SerializedName("job_ids")
+    private int[] jobIds;
 
     public Appointment() {
     }
 
-    public Appointment(int id, int salonId, int customerId, int stylistId, String date, String time, String status,
-                       String customerFirstName, String customerLastName, String customerImage, int modifiedOn) {
-        this.id = id;
-        this.salonId = salonId;
-        this.customerId = customerId;
-        this.stylistId = stylistId;
-        this.date = date;
-        this.time = time;
-        this.status = status;
-        this.customerFirstName = customerFirstName;
-        this.customerLastName = customerLastName;
-        this.customerImage = customerImage;
-        this.modifiedOn = modifiedOn;
+    @Override
+    public String toString() {
+        return "Appointment{" +
+                "id=" + id +
+                ", salonId=" + salonId +
+                ", customerId=" + customerId +
+                ", stylistId=" + stylistId +
+                ", date='" + date + '\'' +
+                ", time='" + time + '\'' +
+                ", status='" + status + '\'' +
+                ", modifiedOn='" + modifiedOn + '\'' +
+                ", jobIds=" + Arrays.toString(jobIds) +
+                '}';
     }
 
     protected Appointment(Parcel in) {
@@ -84,10 +79,8 @@ public class Appointment implements Parcelable {
         date = in.readString();
         time = in.readString();
         status = in.readString();
-        customerFirstName = in.readString();
-        customerLastName = in.readString();
-        customerImage = in.readString();
-        modifiedOn = in.readInt();
+        modifiedOn = in.readString();
+        jobIds = in.createIntArray();
     }
 
     public static final Creator<Appointment> CREATOR = new Creator<Appointment>() {
@@ -158,54 +151,22 @@ public class Appointment implements Parcelable {
         this.status = status;
     }
 
-    public String getCustomerFirstName() {
-        return customerFirstName;
-    }
-
-    public void setCustomerFirstName(String customerFirstName) {
-        this.customerFirstName = customerFirstName;
-    }
-
-    public String getCustomerLastName() {
-        return customerLastName;
-    }
-
-    public void setCustomerLastName(String customerLastName) {
-        this.customerLastName = customerLastName;
-    }
-
-    public String getCustomerImage() {
-        return customerImage;
-    }
-
-    public void setCustomerImage(String customerImage) {
-        this.customerImage = customerImage;
-    }
-
-    public int getModifiedOn() {
+    public String getModifiedOn() {
         return modifiedOn;
     }
 
-    public void setModifiedOn(int modifiedOn) {
+    public void setModifiedOn(String modifiedOn) {
         this.modifiedOn = modifiedOn;
     }
 
-    @Override
-    public String toString() {
-        return "Appointment{" +
-                "id=" + id +
-                ", salonId=" + salonId +
-                ", customerId=" + customerId +
-                ", stylistId=" + stylistId +
-                ", date='" + date + '\'' +
-                ", time='" + time + '\'' +
-                ", status='" + status + '\'' +
-                ", customerFirstName='" + customerFirstName + '\'' +
-                ", customerLastName='" + customerLastName + '\'' +
-                ", customerImage='" + customerImage + '\'' +
-                ", modifiedOn=" + modifiedOn +
-                '}';
+    public int[] getJobIds() {
+        return jobIds;
     }
+
+    public void setJobIds(int[] jobIds) {
+        this.jobIds = jobIds;
+    }
+
 
     @Override
     public int describeContents() {
@@ -221,9 +182,7 @@ public class Appointment implements Parcelable {
         dest.writeString(date);
         dest.writeString(time);
         dest.writeString(status);
-        dest.writeString(customerFirstName);
-        dest.writeString(customerLastName);
-        dest.writeString(customerImage);
-        dest.writeInt(modifiedOn);
+        dest.writeString(modifiedOn);
+        dest.writeIntArray(jobIds);
     }
 }

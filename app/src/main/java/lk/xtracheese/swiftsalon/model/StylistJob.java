@@ -22,7 +22,7 @@ public class StylistJob {
     String salonId;
     String name;
     int duration;
-    String price;
+    Float price;
 
     public int getId() {
         return id;
@@ -72,11 +72,11 @@ public class StylistJob {
         this.duration = duration;
     }
 
-    public String getPrice() {
+    public Float getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(Float price) {
         this.price = price;
     }
 

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark"
+    android:orientation="vertical"
+    tools:context=".activity.CreateAccountActivity">
+
+    <TextView
+        android:id="@+id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create Account"
+        android:textAlignment="center"
+        android:textColor="@color/pearl_white"
+        android:textSize="50sp"
+        android:layout_marginStart="25dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="60dp"/>
+
+
+    <EditText
+        android:id="@+id/ca_first_name"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="40dp"
+        android:hint="Your name"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
+        android:padding="15dp"
+        android:inputType="textPersonName"
+        android:background="@drawable/input_shape"
+        android:textSize="15sp" />
+
+    <EditText
+        android:id="@+id/ca_last_name"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Last Name"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
+        android:padding="15dp"
+        android:inputType="textEmailAddress"
+        android:background="@drawable/input_shape"
+        android:textSize="15sp" />
+
+    <EditText
+        android:id="@+id/ca_mobile_no"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Your mobile No."
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
+        android:padding="15dp"
+        android:inputType="textEmailAddress"
+        android:background="@drawable/input_shape"
+        android:textSize="15sp" />
+
+    <EditText
+        android:id="@+id/ca_password"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="@string/password"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
+        android:padding="15dp"
+        android:inputType="textPassword"
+        android:background="@drawable/input_shape"
+        android:textSize="15sp" />
+
+    <EditText
+        android:id="@+id/ca_repassword"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Re-type Password"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:padding="15dp"
+        android:inputType="textPassword"
+        android:background="@drawable/input_shape"
+        android:textSize="15sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <Button
+            android:id="@+id/btn_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/dark_dark_purple"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="30dp"
+            android:layout_centerInParent="true"
+            android:textColor="@color/pearl_white"
+            android:text="Create Account"/>
+
+
+
+    </RelativeLayout>
+
+</LinearLayout>

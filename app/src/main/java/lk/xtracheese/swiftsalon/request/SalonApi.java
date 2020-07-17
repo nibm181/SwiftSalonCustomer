@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import lk.xtracheese.swiftsalon.model.Job;
@@ -59,4 +60,6 @@ public interface SalonApi {
 
     @GET("Time_slot")
     LiveData<ApiResponse<GenericResponse<List<TimeSlot>>>> getTimeSlots(@Query("stylist_id") int stylistId, @Query("date") String date, @Query("start_time")  String openTime, @Query("end_time")  String closeTime, @Query("duration") int duration);
+
+
 }

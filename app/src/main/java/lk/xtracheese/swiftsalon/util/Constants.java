@@ -2,7 +2,7 @@ package lk.xtracheese.swiftsalon.util;
 
 public class Constants {
 
-    public static final String BASE_URL = "http://10.0.2.2/api/SwiftSalon/api/";
+    public static final String BASE_URL = "http://10.0.2.2/api/swiftsalon-api/api/";
     public static final int NETWORK_TIMEOUT = 3000;
 
     public static final int CONNECTION_TIMEOUT = 10; //10 seconds

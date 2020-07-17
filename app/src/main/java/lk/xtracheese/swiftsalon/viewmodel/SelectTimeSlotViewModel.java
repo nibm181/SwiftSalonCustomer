@@ -7,12 +7,9 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 
-import java.time.LocalDate;
 import java.util.List;
 
-import lk.xtracheese.swiftsalon.model.StylistJob;
 import lk.xtracheese.swiftsalon.model.TimeSlot;
 import lk.xtracheese.swiftsalon.repository.TimeSlotRepository;
 import lk.xtracheese.swiftsalon.request.response.GenericResponse;
@@ -35,7 +32,7 @@ public class SelectTimeSlotViewModel extends AndroidViewModel {
 
     public void timeSlotsApi(int stylistId, String date, String openTime, String closeTime, int duration ) {
 
-        final LiveData<Resource<GenericResponse<List<TimeSlot>>>> repositorySource = timeSlotRepository.getTimeSlots(stylistId, date, openTime, closeTime, duration);
+        final LiveData<Resource<GenericResponse<List<TimeSlot>>>> repositorySource = timeSlotRepository.getTimeSlotsApi(stylistId, date, openTime, closeTime, duration);
 
         timeSlots.addSource(repositorySource, new Observer<Resource<GenericResponse<List<TimeSlot>>>>() {
             @Override

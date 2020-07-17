@@ -29,7 +29,7 @@ public class Salon implements Parcelable {
     @NonNull
     @ColumnInfo(name = "id")
     @SerializedName("id")
-    private String salID;
+    private int salID;
 
     @ColumnInfo(name = "open_time")
     @SerializedName("open_time")
@@ -58,7 +58,7 @@ public class Salon implements Parcelable {
         this.salonAddress2 = salonAddress2;
     }
 
-    public void setSalID(String salID) {
+    public void setSalID(int salID) {
         this.salID = salID;
     }
 
@@ -87,7 +87,7 @@ public class Salon implements Parcelable {
         salonName = in.readString();
         salonAddress1 = in.readString();
         salonAddress2 = in.readString();
-        salID = in.readString();
+        salID = in.readInt();
         openTime = in.readString();
         closeTime = in.readString();
         image = in.readString();
@@ -118,7 +118,7 @@ public class Salon implements Parcelable {
         return salonAddress2;
     }
 
-    public String getSalID() {
+    public int getSalID() {
         return salID;
     }
 
@@ -148,7 +148,7 @@ public class Salon implements Parcelable {
         dest.writeString(salonName);
         dest.writeString(salonAddress1);
         dest.writeString(salonAddress2);
-        dest.writeString(salID);
+        dest.writeInt(salID);
         dest.writeString(openTime);
         dest.writeString(closeTime);
         dest.writeString(image);

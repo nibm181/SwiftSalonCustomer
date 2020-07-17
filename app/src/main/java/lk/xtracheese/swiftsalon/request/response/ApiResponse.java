@@ -64,6 +64,7 @@ public class ApiResponse<T> {
             if(errorMsg.length() > 100) {
                 errorMsg = "Something went wrong. Try again later.";
             }
+            Log.d(TAG, "create: ERROR: " + response.errorBody().toString());
             return new ApiErrorResponse<>(errorMsg);
         }
     }

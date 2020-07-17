@@ -2,6 +2,7 @@ package lk.xtracheese.swiftsalon.request;
 
 import java.util.concurrent.TimeUnit;
 
+import lk.xtracheese.swiftsalon.model.Appointment;
 import lk.xtracheese.swiftsalon.util.Constants;
 import lk.xtracheese.swiftsalon.util.LiveDataCallAdapterFactory;
 import okhttp3.OkHttpClient;
@@ -42,6 +43,8 @@ public class ServiceGenerator {
 
     private static HomeApi homeApi = retrofit.create(HomeApi.class);
 
+    public static UserApi userApi = retrofit.create(UserApi.class);
+
     public static AppointmentApi getAppointmentApi() {
         return appointmentApi;
     }
@@ -51,5 +54,9 @@ public class ServiceGenerator {
     }
 
     public  static HomeApi getHomeApi(){return homeApi;}
+
+    public static UserApi getUserApi(){return userApi;}
+
+
 
 }

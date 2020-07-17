@@ -6,9 +6,14 @@
     <string name="login">Login</string>
     <string name="forgotpass">Forogot Passsword</string>
     <string name="password">Password</string>
+    <string name="register">Create Account</string>
     <string name="salonName">Salon Name</string>
     <string name="salonSearchBar">Salon Name or Stylist or Job</string>
     <string name="hairStylist">Hair Stylist</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_first">FullscreenActivity</string>
+    <string name="title">SwiftSalon</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>
