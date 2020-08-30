@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -22,19 +23,22 @@ import java.util.List;
 import lk.xtracheese.swiftsalon.Interface.OnItemClickListener;
 import lk.xtracheese.swiftsalon.Interface.RecyclerItemSelectedListener;
 import lk.xtracheese.swiftsalon.R;
+import lk.xtracheese.swiftsalon.activity.BookingActivity;
+import lk.xtracheese.swiftsalon.activity.ViewSalonActivity;
 import lk.xtracheese.swiftsalon.common.Common;
 import lk.xtracheese.swiftsalon.model.Stylist;
+import lk.xtracheese.swiftsalon.service.PicassoImageLoadingService;
 
 public class HairStylistAdapter extends ListAdapter<Stylist, HairStylistAdapter.MyViewHolder> {
 
     private static final String TAG = "HairStylistAdapter";
 
     Context context;
-    List<Stylist> stylistList;
     List<CardView> cardViewList;
     int oldItem;
 
     LocalBroadcastManager localBroadcastManager;
+    PicassoImageLoadingService picassoImageLoadingService;
 
     public HairStylistAdapter(Context context ) {
         super(DIFF_CALLBACK);
@@ -65,8 +69,11 @@ public class HairStylistAdapter extends ListAdapter<Stylist, HairStylistAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        picassoImageLoadingService = new PicassoImageLoadingService();
+
         holder.txtHairStylistName.setText(getItem(position).getName());
         holder.ratingBar.setRating((float) getItem(position).getRating());
+        picassoImageLoadingService.loadImage(getItem(position).getImg(), holder.imgStylist);
 
         if (!cardViewList.contains(holder.cardHairStylist))
             cardViewList.add(holder.cardHairStylist);
@@ -88,12 +95,13 @@ public class HairStylistAdapter extends ListAdapter<Stylist, HairStylistAdapter.
 
                 Common.currentStylist = getItem(pos);
                 //send local broadcast to enable button next
-                Intent intent = new Intent(Common.KEY_ENABLE_BUTTON_NEXT);
-                intent.putExtra(Common.KEY_STEP, 1);
-                localBroadcastManager.sendBroadcast(intent);
+//                Intent intent = new Intent(Common.KEY_ENABLE_BUTTON_NEXT);
+//                intent.putExtra(Common.KEY_STEP, 1);
+//                localBroadcastManager.sendBroadcast(intent);
 
-                Intent intent1 = new Intent(Common.KEY_HAIR_STYLIST_SELECTED);
-                localBroadcastManager.sendBroadcast(intent1);
+                Intent intent = new Intent(view.getContext(), BookingActivity.class);
+                view.getContext().startActivity(intent);
+                
             }
         });
 
@@ -106,7 +114,7 @@ public class HairStylistAdapter extends ListAdapter<Stylist, HairStylistAdapter.
         TextView txtHairStylistName;
         RatingBar ratingBar;
         CardView cardHairStylist;
-//        OnItemClickListener onItemClickListener;
+        ImageView imgStylist;
 
         RecyclerItemSelectedListener recyclerItemSelectedListener;
 
@@ -116,6 +124,7 @@ public class HairStylistAdapter extends ListAdapter<Stylist, HairStylistAdapter.
 
         public MyViewHolder(@NonNull View itemView  ) {
             super(itemView);
+            imgStylist = itemView.findViewById(R.id.img_hair_stylist);
             txtHairStylistName = itemView.findViewById(R.id.txt_hair_stylist_name);
             ratingBar = itemView.findViewById(R.id.rtb_hair_stylist);
             cardHairStylist = itemView.findViewById(R.id.card_hair_stylist);

@@ -1,7 +1,6 @@
 package lk.xtracheese.swiftsalon.viewmodel;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -11,32 +10,30 @@ import androidx.lifecycle.Observer;
 
 import java.util.List;
 
-import lk.xtracheese.swiftsalon.model.Banner;
+import lk.xtracheese.swiftsalon.model.Promotion;
 import lk.xtracheese.swiftsalon.model.LookBook;
-import lk.xtracheese.swiftsalon.model.Salon;
-import lk.xtracheese.swiftsalon.repository.BannerRepository;
+import lk.xtracheese.swiftsalon.repository.PromotionRepository;
 import lk.xtracheese.swiftsalon.repository.LookBookRepository;
-import lk.xtracheese.swiftsalon.repository.SalonRepository;
 import lk.xtracheese.swiftsalon.util.Resource;
 
 public class HomeViewModel extends AndroidViewModel {
 
     private static final String TAG = "HomeViewModel";
     private MediatorLiveData<Resource<List<LookBook>>> lookbooks = new MediatorLiveData<>();
-    private MediatorLiveData<Resource<List<Banner>>> banners = new MediatorLiveData<>();
+    private MediatorLiveData<Resource<List<Promotion>>> banners = new MediatorLiveData<>();
 
     private LookBookRepository lookBookRepository;
-    private BannerRepository bannerRepository;
+    private PromotionRepository promotionRepository;
 
     private boolean isFetching;
 
     public HomeViewModel(@NonNull Application application) {
         super(application);
         lookBookRepository = LookBookRepository.getInstance(application);
-        bannerRepository = BannerRepository.getInstance(application);
+        promotionRepository = PromotionRepository.getInstance(application);
     }
 
-    public LiveData<Resource<List<Banner>>> getBanners(){return banners;}
+    public LiveData<Resource<List<Promotion>>> getBanners(){return banners;}
 
     public LiveData<Resource<List<LookBook>>> getLookBooks(){return lookbooks;}
 
@@ -49,12 +46,12 @@ public class HomeViewModel extends AndroidViewModel {
     private void executeFetch(){
         //isFetching =true;
 
-        final LiveData<Resource<List<Banner>>> bannerRepositorySource = bannerRepository.getBannersApi();
+        final LiveData<Resource<List<Promotion>>> bannerRepositorySource = promotionRepository.getBannersApi();
 
-        banners.addSource(bannerRepositorySource, new Observer<Resource<List<Banner>>>() {
+        banners.addSource(bannerRepositorySource, new Observer<Resource<List<Promotion>>>() {
 
             @Override
-            public void onChanged(Resource<List<Banner>> listResource) {
+            public void onChanged(Resource<List<Promotion>> listResource) {
                 if(listResource != null){
                     banners.setValue(listResource);
                     if(listResource.status == Resource.Status.SUCCESS){

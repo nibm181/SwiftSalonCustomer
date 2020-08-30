@@ -38,21 +38,7 @@ public class SalonRepository {
         swiftSalonDao = SwiftSalonDatabase.getInstance(context).getDao();
     }
 
-    public LiveData<Resource<GenericResponse<Salon>>> getLoginApi(String email, String password) {
-        return new NetworkOnlyBoundResource<Salon, GenericResponse<Salon>>(AppExecutor.getInstance()) {
-            @NonNull
-            @Override
-            protected LiveData<ApiResponse<GenericResponse<Salon>>> createCall() {
-                return ServiceGenerator.getSalonApi().login(email, password);
-            }
 
-            @Override
-            protected void saveCallResult(@NonNull GenericResponse<Salon> item) {
-                swiftSalonDao.insertSalon(item.getContent());
-            }
-
-        }.getAsLiveData();
-    }
 
     public LiveData<Resource<List<Salon>>> getSalonsApi(String searchTxt) {
 

@@ -31,7 +31,6 @@ public class JobAdapter extends ListAdapter <StylistJob, JobAdapter.MyViewHolder
 
     private static final String TAG = "JobAdapter";
 
-    JobAdapter jobAdapter;
     Context context;
     List<StylistJob> stylistJobs;
     List<CardView> cardViewList;
@@ -71,7 +70,7 @@ public class JobAdapter extends ListAdapter <StylistJob, JobAdapter.MyViewHolder
         holder.txtJobDuration.setText(new StringBuilder(String.valueOf(getItem(position).getDuration()))
                 .append(" minutes "));
 
-        holder.txtJobPrice.setText(new StringBuilder(getItem(position).getPrice().toString())
+        holder.txtJobPrice.setText(new StringBuilder(String.valueOf(getItem(position).getPrice().intValue()))
                 .append(" .00 Rs"));
 
         if(!cardViewList.contains(holder.cardJob))
@@ -112,7 +111,7 @@ public class JobAdapter extends ListAdapter <StylistJob, JobAdapter.MyViewHolder
 
                 //send local broadcast to enable button next
                 Intent intent = new Intent(Common.KEY_ENABLE_BUTTON_NEXT);
-                intent.putExtra(Common.KEY_STEP, 2);
+                intent.putExtra(Common.KEY_STEP, 1);
                 localBroadcastManager.sendBroadcast(intent);
 
 //                Intent intent1 = new Intent(Common.KEY_JOB_SELECTED);

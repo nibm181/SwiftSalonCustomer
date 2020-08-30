@@ -6,6 +6,7 @@ import lk.xtracheese.swiftsalon.model.Appointment;
 import lk.xtracheese.swiftsalon.model.User;
 import lk.xtracheese.swiftsalon.request.response.ApiResponse;
 import lk.xtracheese.swiftsalon.request.response.GenericResponse;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -13,6 +14,9 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface UserApi {
+
+    @POST("Customer")
+    LiveData<ApiResponse<GenericResponse<User>>> addCustomer(@Body User user);
 
     @FormUrlEncoded
     @POST("Cus_login")

@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="40dp"
-        android:hint="Your name"
+        android:hint="First name"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="10dp"
@@ -52,12 +52,12 @@
         android:id="@+id/ca_mobile_no"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:hint="Your mobile No."
+        android:hint="Mobile No."
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="10dp"
         android:padding="15dp"
-        android:inputType="textEmailAddress"
+        android:inputType="phone"
         android:background="@drawable/input_shape"
         android:textSize="15sp" />
 
@@ -101,7 +101,7 @@
             android:layout_marginBottom="30dp"
             android:layout_centerInParent="true"
             android:textColor="@color/pearl_white"
-            android:text="Create Account"/>
+            android:text=" Create Account "/>
 
 
 

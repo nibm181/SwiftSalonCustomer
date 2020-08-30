@@ -2,7 +2,6 @@ package lk.xtracheese.swiftsalon.persistence;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
@@ -11,16 +10,13 @@ import java.util.List;
 
 import lk.xtracheese.swiftsalon.model.Appointment;
 import lk.xtracheese.swiftsalon.model.AppointmentDetail;
-import lk.xtracheese.swiftsalon.model.Banner;
+import lk.xtracheese.swiftsalon.model.Promotion;
 import lk.xtracheese.swiftsalon.model.LookBook;
 import lk.xtracheese.swiftsalon.model.Salon;
 import lk.xtracheese.swiftsalon.model.Stylist;
-import lk.xtracheese.swiftsalon.model.Job;
 import lk.xtracheese.swiftsalon.model.StylistJob;
-import lk.xtracheese.swiftsalon.model.TimeSlot;
 import lk.xtracheese.swiftsalon.model.User;
 
-import static androidx.room.OnConflictStrategy.IGNORE;
 import static androidx.room.OnConflictStrategy.REPLACE;
 
 @Dao
@@ -31,7 +27,13 @@ public interface SwiftSalonDao {
     void insertAppointment(Appointment appointment);
 
     @Insert(onConflict = REPLACE)
-    void insertAppointmentDetails(AppointmentDetail... appointmentDetails);
+    void insertAppointments(Appointment... appointments);
+
+    @Insert(onConflict = REPLACE)
+    void insertAppointmentDetail(AppointmentDetail... appointmentDetails);
+
+    @Query("SELECT * FROM tbl_appointment_detail WHERE appointment_id = :id")
+    LiveData<List<AppointmentDetail>> getAppointmentDetail(int id);
 
     @Update
     void updateAppointment(Appointment appointment);
@@ -42,8 +44,8 @@ public interface SwiftSalonDao {
     @Query("SELECT * FROM tbl_appointment WHERE id = :id")
     LiveData<Appointment> getAppointment(int id);
 
-    @Query("SELECT * FROM tbl_appointment WHERE salon_id = :salonId")
-    LiveData<List<Appointment>> getAppointments(int salonId);
+    @Query("SELECT * FROM tbl_appointment ORDER BY date DESC")
+    LiveData<List<Appointment>> getAppointments();
 
     @Query("SELECT * FROM tbl_appointment WHERE salon_id = :salonId AND status = 'pending'")
     LiveData<List<Appointment>> getNewAppointments(int salonId);
@@ -63,10 +65,13 @@ public interface SwiftSalonDao {
     //Promotion
 
     @Insert(onConflict = REPLACE)
-    void insertBanners(Banner... banners);
+    void insertPromotions(Promotion... promotions);
 
-    @Query("SELECT * from tbl_promotion")
-    LiveData<List<Banner>> getBanners();
+    @Query("SELECT * from tbl_promotion WHERE end_date >= :today")
+    LiveData<List<Promotion>> getPromotions(long today);
+
+    @Query("DELETE FROM tbl_promotion")
+    void deletePromotions();
 
     //Stylistjobs
     @Insert(onConflict = REPLACE)

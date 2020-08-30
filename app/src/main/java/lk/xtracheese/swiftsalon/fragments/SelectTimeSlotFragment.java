@@ -53,8 +53,10 @@ public class SelectTimeSlotFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             Calendar calendar = Calendar.getInstance();
+            Log.d(TAG, "onReceive:BEFORE DATE "+ simpleDateFormat.format(calendar.getTime()));
             calendar.add(Calendar.DATE, 1); // add next date
             String date = simpleDateFormat.format(calendar.getTime());
+            Log.d(TAG, "onReceive:AFTER DATE "+ date);
             Common.currentDate = calendar;
 
             subscribeObservers();
@@ -125,6 +127,7 @@ public class SelectTimeSlotFragment extends Fragment {
                     Common.currentDate = date;
                     String sDate = simpleDateFormat.format(date.getTime());
                     subscribeObservers();
+                    Log.d(TAG, "onDateSelected: DATE 1 "+sDate);
                     getTimeSlotsApi(Common.currentStylist.getId(), sDate, Common.currentSalon.getOpenTime(), Common.currentSalon.getCloseTime(), jobCalculate() );
 
                 }

@@ -12,14 +12,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import lk.xtracheese.swiftsalon.R;
+import lk.xtracheese.swiftsalon.activity.FirstActivity;
 import lk.xtracheese.swiftsalon.activity.ViewAppointmentsActivity;
 import lk.xtracheese.swiftsalon.service.PicassoImageLoadingService;
+import lk.xtracheese.swiftsalon.util.Session;
 
 
 public class ProfileFragment extends Fragment {
 
   ImageView imageView;
   TextView txtEditProfile, txtViewAppointments, txtLogout;
+  Session session;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -36,6 +39,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        session = new Session(getContext());
 
     }
 
@@ -49,7 +53,7 @@ public class ProfileFragment extends Fragment {
         txtViewAppointments = view.findViewById(R.id.txt_prof_view_appointments);
         txtLogout = view.findViewById(R.id.txt_prof_logout);
 
-        String userImageURL = "http://10.0.2.2/SwiftSalon/user_images/user.jpeg";
+        String userImageURL = "http://10.0.2.2/swiftsalon_api/uploads/user_images/user.jpeg";
         PicassoImageLoadingService picassoImageLoadingService = new PicassoImageLoadingService();
         picassoImageLoadingService.loadImage(userImageURL, imageView);
 
@@ -72,7 +76,9 @@ public class ProfileFragment extends Fragment {
         txtLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                session.clearSession();
+                Intent intent = new Intent(getContext(), FirstActivity.class);
+                startActivity(intent);
             }
         });
 

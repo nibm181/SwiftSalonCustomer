@@ -3,6 +3,9 @@ package lk.xtracheese.swiftsalon.common;
 import java.util.Calendar;
 import java.util.List;
 
+import lk.xtracheese.swiftsalon.model.Appointment;
+import lk.xtracheese.swiftsalon.model.AppointmentDetail;
+import lk.xtracheese.swiftsalon.model.Promotion;
 import lk.xtracheese.swiftsalon.model.Stylist;
 import lk.xtracheese.swiftsalon.model.Salon;
 import lk.xtracheese.swiftsalon.model.StylistJob;
@@ -19,10 +22,11 @@ public class Common {
     public static final String KEY_TIME_SLOT_SELECTED = "KEY_TIME_SLOT_SELECTED";
     public static final String KEY_CONFIRM_BOOKING = "CONFIRM_BOOKING";
     public static final String KEY_JOB_SELECTED = "JOB_SELECTED";
-    public static Salon currentSalon;
     public static int step = 0;
+    public static List<Promotion> currentPromotion;
+    public static Salon currentSalon;
+    public static Appointment currentAppointment;
     public static List<StylistJob> currentJob;
-    public static List<StylistJob> storeCurrentJob;
     public static Stylist currentStylist;
     public static TimeSlot currentTimeSlot;
     public static Calendar currentDate = Calendar.getInstance();

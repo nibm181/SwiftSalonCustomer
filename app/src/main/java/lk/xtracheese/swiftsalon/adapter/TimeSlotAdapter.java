@@ -93,11 +93,11 @@ public class TimeSlotAdapter extends ListAdapter<TimeSlot,  TimeSlotAdapter.MyVi
                 Common.currentTimeSlot = getItem(pos);
                 //send local broadcast to enable button next
                 Intent intent = new Intent(Common.KEY_ENABLE_BUTTON_NEXT);
-                intent.putExtra(Common.KEY_STEP, 3);
+                intent.putExtra(Common.KEY_STEP, 2);
                 localBroadcastManager.sendBroadcast(intent);
 
-                Intent intent1= new Intent(Common.KEY_TIME_SLOT_SELECTED);
-                localBroadcastManager.sendBroadcast(intent);
+//                Intent intent1= new Intent(Common.KEY_TIME_SLOT_SELECTED);
+//                localBroadcastManager.sendBroadcast(intent);
 
             }
         });

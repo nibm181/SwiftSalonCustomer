@@ -2,9 +2,9 @@ package lk.xtracheese.swiftsalon.Interface;
 
 import java.util.List;
 
-import lk.xtracheese.swiftsalon.model.Banner;
+import lk.xtracheese.swiftsalon.model.Promotion;
 
 public interface IBannerLoadListener {
-    void onBannerLoadSuccess(List<Banner>banners);
+    void onBannerLoadSuccess(List<Promotion> promotions);
     void onBannerLoadFailed(String message);
 }

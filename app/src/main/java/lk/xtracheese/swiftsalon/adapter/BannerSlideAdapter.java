@@ -4,28 +4,29 @@ import android.util.Log;
 
 import java.util.List;
 
-import lk.xtracheese.swiftsalon.model.Banner;
+import lk.xtracheese.swiftsalon.model.Promotion;
 import ss.com.bannerslider.adapters.SliderAdapter;
 import ss.com.bannerslider.viewholder.ImageSlideViewHolder;
 
 public class BannerSlideAdapter extends SliderAdapter {
 
-    List<Banner> bannerList;
+    private static final String TAG = "BannerSlideAdapter";
+    List<Promotion> promotionList;
 
-    public BannerSlideAdapter(List<Banner> bannerList) {
-        this.bannerList = bannerList;
-        Log.d("hello", "hello");
+    public BannerSlideAdapter(List<Promotion> promotionList) {
+        this.promotionList = promotionList;
     }
 
     @Override
     public int getItemCount() {
-        return bannerList.size();
+        return promotionList.size();
     }
 
     @Override
     public void onBindImageSlide(int position, ImageSlideViewHolder imageSlideViewHolder) {
-        if(bannerList != null) {
-            imageSlideViewHolder.bindImageSlide(bannerList.get(position).getImage());
+        if(promotionList != null) {
+            Log.d(TAG, "onBindImageSlide: "+ promotionList.get(position).getImage());
+            imageSlideViewHolder.bindImageSlide(promotionList.get(position).getImage());
         }
     }
 

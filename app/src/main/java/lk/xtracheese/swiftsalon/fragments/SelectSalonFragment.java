@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import dmax.dialog.SpotsDialog;
+import lk.xtracheese.swiftsalon.activity.ViewSalonActivity;
 import lk.xtracheese.swiftsalon.adapter.SalonAdapter;
 import lk.xtracheese.swiftsalon.activity.BookingActivity;
 import lk.xtracheese.swiftsalon.common.Common;
@@ -146,6 +147,15 @@ public class SelectSalonFragment extends Fragment implements OnItemClickListener
         salonAdapter = new SalonAdapter(getActivity(), this);
         recyclerView.setAdapter(salonAdapter);
         recyclerView.setHasFixedSize(true);
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1);
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return 0;
+            }
+        });
+
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
         recyclerView.addItemDecoration(new SpacesitemDecoration(4));
     }
@@ -155,7 +165,7 @@ public class SelectSalonFragment extends Fragment implements OnItemClickListener
         Salon salon = salonAdapter.getSelectedSalon(position);
         Common.currentSalon = salon;
 
-        Intent intent = new Intent(getContext(), BookingActivity.class);
+        Intent intent = new Intent(getContext(), ViewSalonActivity.class);
         startActivity(intent);
 
     }

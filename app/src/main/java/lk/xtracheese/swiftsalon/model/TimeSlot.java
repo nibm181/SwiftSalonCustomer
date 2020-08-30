@@ -56,4 +56,12 @@ public class TimeSlot implements Parcelable {
       dest.writeString(slotTiming);
       dest.writeString(status);
    }
+
+   @Override
+   public String toString() {
+      return "TimeSlot{" +
+              "slotTiming='" + slotTiming + '\'' +
+              ", status='" + status + '\'' +
+              '}';
+   }
 }

@@ -121,4 +121,17 @@ public class Stylist implements Parcelable {
         dest.writeInt(salID);
         dest.writeLong(rating);
     }
+
+    @Override
+    public String toString() {
+        return "Stylist{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", gender='" + gender + '\'' +
+                ", img='" + img + '\'' +
+                ", status=" + status +
+                ", salID=" + salID +
+                ", rating=" + rating +
+                '}';
+    }
 }

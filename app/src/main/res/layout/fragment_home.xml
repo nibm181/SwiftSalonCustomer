@@ -22,6 +22,7 @@
         <ImageView
             android:id="@+id/home_user_pic"
             android:src="@drawable/ic_account_circle_black_24dp"
+            android:background="@drawable/profile_pic_background"
             android:layout_width="60dp"
             android:layout_height="60dp" />
 
@@ -62,7 +63,6 @@
             android:id="@+id/banner_slider"
             android:layout_width="match_parent"
             android:layout_height="400px"
-            app:slider_interval="4000"
             app:slider_loopSlides="true"
             />
 

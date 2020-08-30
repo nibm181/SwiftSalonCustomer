@@ -49,4 +49,20 @@ public class UserRepository {
             }
         }.getAsLiveData();
     }
+
+    public LiveData<Resource<GenericResponse<User>>> registerUserApi(User user){
+        return new NetworkOnlyBoundResource<User, GenericResponse<User>> (AppExecutor.getInstance()){
+
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<GenericResponse<User>>> createCall() {
+                return ServiceGenerator.getUserApi().addCustomer(user);
+            }
+
+            @Override
+            protected void saveCallResult(@NonNull GenericResponse<User> item) {
+                swiftSalonDao.insertUser(item.getContent());
+            }
+        }.getAsLiveData();
+    }
 }

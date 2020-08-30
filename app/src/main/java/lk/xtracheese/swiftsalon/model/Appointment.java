@@ -18,7 +18,7 @@ public class Appointment implements Parcelable {
 
     @PrimaryKey
     @NonNull
-    @SerializedName("id")
+    @SerializedName("appointment_id")
     private int id;
 
     @ColumnInfo(name = "salon_id")
@@ -45,6 +45,26 @@ public class Appointment implements Parcelable {
     @SerializedName("status")
     private String status;
 
+    @ColumnInfo(name = "salon_name")
+    @SerializedName("salon_name")
+    private String salonName;
+
+    @ColumnInfo(name = "stylist_name")
+    @SerializedName("stylist_name")
+    private String stylistName;
+
+    @ColumnInfo(name = "addr1")
+    @SerializedName("addr1")
+    private String addr1;
+
+    @ColumnInfo(name = "addr2")
+    @SerializedName("addr2")
+    private String addr2;
+
+    @ColumnInfo(name = "mobile_no")
+    @SerializedName("mobile_no")
+    private String mobileNo;
+
     @ColumnInfo(name = "modified_on")
     @SerializedName("modified_on")
     private String modifiedOn; //timestamp
@@ -56,21 +76,6 @@ public class Appointment implements Parcelable {
     public Appointment() {
     }
 
-    @Override
-    public String toString() {
-        return "Appointment{" +
-                "id=" + id +
-                ", salonId=" + salonId +
-                ", customerId=" + customerId +
-                ", stylistId=" + stylistId +
-                ", date='" + date + '\'' +
-                ", time='" + time + '\'' +
-                ", status='" + status + '\'' +
-                ", modifiedOn='" + modifiedOn + '\'' +
-                ", jobIds=" + Arrays.toString(jobIds) +
-                '}';
-    }
-
     protected Appointment(Parcel in) {
         id = in.readInt();
         salonId = in.readInt();
@@ -79,6 +84,11 @@ public class Appointment implements Parcelable {
         date = in.readString();
         time = in.readString();
         status = in.readString();
+        salonName = in.readString();
+        stylistName = in.readString();
+        addr1 = in.readString();
+        addr2 = in.readString();
+        mobileNo = in.readString();
         modifiedOn = in.readString();
         jobIds = in.createIntArray();
     }
@@ -151,6 +161,46 @@ public class Appointment implements Parcelable {
         this.status = status;
     }
 
+    public String getSalonName() {
+        return salonName;
+    }
+
+    public void setSalonName(String salonName) {
+        this.salonName = salonName;
+    }
+
+    public String getStylistName() {
+        return stylistName;
+    }
+
+    public void setStylistName(String stylistName) {
+        this.stylistName = stylistName;
+    }
+
+    public String getAddr1() {
+        return addr1;
+    }
+
+    public void setAddr1(String addr1) {
+        this.addr1 = addr1;
+    }
+
+    public String getAddr2() {
+        return addr2;
+    }
+
+    public void setAddr2(String addr2) {
+        this.addr2 = addr2;
+    }
+
+    public String getMobileNo() {
+        return mobileNo;
+    }
+
+    public void setMobileNo(String mobileNo) {
+        this.mobileNo = mobileNo;
+    }
+
     public String getModifiedOn() {
         return modifiedOn;
     }
@@ -182,7 +232,32 @@ public class Appointment implements Parcelable {
         dest.writeString(date);
         dest.writeString(time);
         dest.writeString(status);
+        dest.writeString(salonName);
+        dest.writeString(stylistName);
+        dest.writeString(addr1);
+        dest.writeString(addr2);
+        dest.writeString(mobileNo);
         dest.writeString(modifiedOn);
         dest.writeIntArray(jobIds);
+    }
+
+    @Override
+    public String toString() {
+        return "Appointment{" +
+                "id=" + id +
+                ", salonId=" + salonId +
+                ", customerId=" + customerId +
+                ", stylistId=" + stylistId +
+                ", date='" + date + '\'' +
+                ", time='" + time + '\'' +
+                ", status='" + status + '\'' +
+                ", salonName='" + salonName + '\'' +
+                ", stylistName='" + stylistName + '\'' +
+                ", addr1='" + addr1 + '\'' +
+                ", addr2='" + addr2 + '\'' +
+                ", mobileNo='" + mobileNo + '\'' +
+                ", modifiedOn='" + modifiedOn + '\'' +
+                ", jobIds=" + Arrays.toString(jobIds) +
+                '}';
     }
 }

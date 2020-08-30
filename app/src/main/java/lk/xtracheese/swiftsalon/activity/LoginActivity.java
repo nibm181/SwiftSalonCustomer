@@ -202,7 +202,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
 
                     } else {
-                        dialogService.errorDialog("Incorrect email or password").show();
+                        dialogService.errorDialog("Incorrect mobile no. or password").show();
                     }
                     break;
                 }
@@ -239,6 +239,14 @@ public class LoginActivity extends AppCompatActivity {
                 getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnected());
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
     }
 
 }

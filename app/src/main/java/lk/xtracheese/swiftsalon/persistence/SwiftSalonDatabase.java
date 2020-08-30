@@ -9,7 +9,7 @@ import androidx.room.TypeConverters;
 
 import lk.xtracheese.swiftsalon.model.Appointment;
 import lk.xtracheese.swiftsalon.model.AppointmentDetail;
-import lk.xtracheese.swiftsalon.model.Banner;
+import lk.xtracheese.swiftsalon.model.Promotion;
 import lk.xtracheese.swiftsalon.model.LookBook;
 import lk.xtracheese.swiftsalon.model.Salon;
 import lk.xtracheese.swiftsalon.model.Stylist;
@@ -17,7 +17,7 @@ import lk.xtracheese.swiftsalon.model.Job;
 import lk.xtracheese.swiftsalon.model.StylistJob;
 import lk.xtracheese.swiftsalon.model.User;
 
-@Database(entities = {Appointment.class, AppointmentDetail.class, Salon.class, Stylist.class, StylistJob.class, LookBook.class, Banner.class, Job.class, User.class}, version = 13)
+@Database(entities = {Appointment.class, AppointmentDetail.class, Salon.class, Stylist.class, StylistJob.class, LookBook.class, Promotion.class, Job.class, User.class}, version = 15)
 @TypeConverters({Converter.class})
 public abstract class SwiftSalonDatabase extends RoomDatabase {
 

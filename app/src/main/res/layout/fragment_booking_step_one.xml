@@ -25,7 +25,9 @@
         android:id="@+id/recycler_salon"
         android:layout_marginTop="4dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
+        android:layout_height="match_parent"
+        android:paddingBottom="60dp"
+        android:clipToPadding="false"
+        />
 
 </LinearLayout>

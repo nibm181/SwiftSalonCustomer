@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,7 @@ import lk.xtracheese.swiftsalon.Interface.OnItemClickListener;
 import lk.xtracheese.swiftsalon.Interface.RecyclerItemSelectedListener;
 import lk.xtracheese.swiftsalon.model.Salon;
 import lk.xtracheese.swiftsalon.R;
+import lk.xtracheese.swiftsalon.service.PicassoImageLoadingService;
 
 public class SalonAdapter extends ListAdapter<Salon, SalonAdapter.MyViewHolder> {
 
@@ -27,8 +29,9 @@ public class SalonAdapter extends ListAdapter<Salon, SalonAdapter.MyViewHolder> 
 
 
     Context context;
-    List<Salon> salonList;
     List<CardView> cardViewList;
+
+    PicassoImageLoadingService picassoImageLoadingService;
     LocalBroadcastManager localBroadcastManager;
     OnItemClickListener onItemClickListener;
 
@@ -63,9 +66,12 @@ public class SalonAdapter extends ListAdapter<Salon, SalonAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull SalonAdapter.MyViewHolder holder, int position) {
+        picassoImageLoadingService = new PicassoImageLoadingService();
+
         holder.txtSalonName.setText(getItem(position).getSalonName());
         holder.txtSalonAddress1.setText(getItem(position).getSalonAddress1());
         holder.txtSalonAddress2.setText(getItem(position).getSalonAddress2());
+        picassoImageLoadingService.loadImage(getItem(position).getImage(), holder.imgSalon);
         if(!cardViewList.contains(holder.cardSalon))
             cardViewList.add(holder.cardSalon);
 
@@ -79,17 +85,16 @@ public class SalonAdapter extends ListAdapter<Salon, SalonAdapter.MyViewHolder> 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView txtSalonName, txtSalonAddress1, txtSalonAddress2;
         CardView cardSalon;
+        ImageView imgSalon;
         RecyclerItemSelectedListener recyclerItemSelectedListener;
         OnItemClickListener onItemClickListener;
 
-//        public void setRecyclerItemSelectedListener(RecyclerItemSelectedListener recyclerItemSelectedListener) {
-//            this.recyclerItemSelectedListener = recyclerItemSelectedListener;
-//        }
 
         public MyViewHolder(@NonNull View itemView, OnItemClickListener onItemClickListener){
             super (itemView);
             this.onItemClickListener = onItemClickListener;
 
+            imgSalon = itemView.findViewById(R.id.img_salon);
             txtSalonAddress1 = itemView.findViewById(R.id.txt_salon_addr1);
             txtSalonAddress2 = itemView.findViewById(R.id.txt_salon_addr2);
             txtSalonName = itemView.findViewById(R.id.txt_salon_name);

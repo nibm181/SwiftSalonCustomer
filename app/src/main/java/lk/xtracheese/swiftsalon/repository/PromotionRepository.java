@@ -1,16 +1,16 @@
 package lk.xtracheese.swiftsalon.repository;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
-import lk.xtracheese.swiftsalon.model.Banner;
-import lk.xtracheese.swiftsalon.model.Salon;
+import lk.xtracheese.swiftsalon.model.Promotion;
 import lk.xtracheese.swiftsalon.persistence.SwiftSalonDao;
 import lk.xtracheese.swiftsalon.persistence.SwiftSalonDatabase;
 import lk.xtracheese.swiftsalon.request.ServiceGenerator;
@@ -20,48 +20,51 @@ import lk.xtracheese.swiftsalon.util.AppExecutor;
 import lk.xtracheese.swiftsalon.util.NetworkBoundResource;
 import lk.xtracheese.swiftsalon.util.Resource;
 
-public class BannerRepository {
+public class PromotionRepository {
 
     private static final String TAG = "BannerRepository";
-    private static BannerRepository instance;
+    private static PromotionRepository instance;
     private SwiftSalonDao swiftSalonDao;
 
-    public static BannerRepository getInstance(Context context){
+    public static PromotionRepository getInstance(Context context){
         if(instance == null){
-            instance = new BannerRepository(context);
+            instance = new PromotionRepository(context);
         }
         return instance;
     }
 
-    public BannerRepository(Context context){
+    public PromotionRepository(Context context){
         swiftSalonDao = SwiftSalonDatabase.getInstance(context).getDao();
     }
 
-    public LiveData<Resource<List<Banner>>> getBannersApi(){
-        return  new NetworkBoundResource<List<Banner>, GenericResponse<List<Banner>>>(AppExecutor.getInstance()) {
+    public LiveData<Resource<List<Promotion>>> getBannersApi(){
+        return  new NetworkBoundResource<List<Promotion>, GenericResponse<List<Promotion>>>(AppExecutor.getInstance()) {
 
             @Override
-            protected void saveCallResult(@NonNull GenericResponse<List<Banner>> item) {
+            protected void saveCallResult(@NonNull GenericResponse<List<Promotion>> item) {
+                swiftSalonDao.deletePromotions();
                 if(item.getContent() != null) {
-                    Banner[] banners = new Banner[item.getContent().size()];
-                    swiftSalonDao.insertBanners(item.getContent().toArray(banners));
+                    Promotion[] promotions = new Promotion[item.getContent().size()];
+                    swiftSalonDao.insertPromotions(item.getContent().toArray(promotions));
                 }
             }
 
             @Override
-            protected boolean shouldFetch(@Nullable List<Banner> data) {
+            protected boolean shouldFetch(@Nullable List<Promotion> data) {
                 return true;
             }
 
             @NonNull
             @Override
-            protected LiveData<List<Banner>> loadFromDb() {
-                return swiftSalonDao.getBanners();
+            protected LiveData<List<Promotion>> loadFromDb() {
+                Calendar calendar = Calendar.getInstance();
+                calendar.add(Calendar.DATE, 1);
+                return swiftSalonDao.getPromotions(calendar.getTimeInMillis());
             }
 
             @NonNull
             @Override
-            protected LiveData<ApiResponse<GenericResponse<List<Banner>>>> createCall() {
+            protected LiveData<ApiResponse<GenericResponse<List<Promotion>>>> createCall() {
                 return ServiceGenerator.getHomeApi().getBanners();
             }
         }.getAsLiveData();

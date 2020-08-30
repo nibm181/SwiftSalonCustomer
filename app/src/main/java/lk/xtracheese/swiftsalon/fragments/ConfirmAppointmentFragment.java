@@ -14,23 +14,32 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
 
+import lk.xtracheese.swiftsalon.adapter.JobAdapter;
+import lk.xtracheese.swiftsalon.adapter.JobPriceAdapter;
 import lk.xtracheese.swiftsalon.common.Common;
 import lk.xtracheese.swiftsalon.R;
+import lk.xtracheese.swiftsalon.common.SpacesitemDecoration;
+import lk.xtracheese.swiftsalon.model.Promotion;
+import lk.xtracheese.swiftsalon.model.StylistJob;
 
 public class ConfirmAppointmentFragment extends Fragment {
 
-    TextView txtSalon, txtHairStylistName, txtDate,txtContact, txtAddr, txtStylist, txtAmount;
+    private static final String TAG = "ConfirmAppointmentFragm";
 
+    TextView txtSalon, txtHairStylistName, txtDate,txtContact, txtAddr, txtStylist, txtAmount;
+    RecyclerView recyclerView;
+    JobPriceAdapter jobPriceAdapter;
     SimpleDateFormat simpleDateFormat;
     LocalBroadcastManager localBroadcastManager;
 
-    int totDuration;
     float totPrice;
 
-    BroadcastReceiver confrimBookingReceiver = new BroadcastReceiver() {
+    BroadcastReceiver confirmBookingReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             setData();
@@ -51,6 +60,8 @@ public class ConfirmAppointmentFragment extends Fragment {
                 .append(simpleDateFormat.format(Common.currentDate.getTime())));
         txtAmount.setText(new StringBuilder(String.valueOf(totPrice))
                 .append(".00 Rs  "));
+
+        initRecyclerView();
     }
 
     static ConfirmAppointmentFragment instance;
@@ -68,13 +79,13 @@ public class ConfirmAppointmentFragment extends Fragment {
         simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
         localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
-        localBroadcastManager.registerReceiver(confrimBookingReceiver, new IntentFilter(Common.KEY_CONFIRM_BOOKING));
+        localBroadcastManager.registerReceiver(confirmBookingReceiver, new IntentFilter(Common.KEY_CONFIRM_BOOKING));
 
     }
 
     @Override
     public void onDestroy() {
-        localBroadcastManager.unregisterReceiver(confrimBookingReceiver);
+        localBroadcastManager.unregisterReceiver(confirmBookingReceiver);
         super.onDestroy();
     }
 
@@ -91,17 +102,35 @@ public class ConfirmAppointmentFragment extends Fragment {
         txtContact = itemView.findViewById(R.id.booking_confirm_contact);
         txtAddr = itemView.findViewById(R.id.booking_confirm_salon_addr);
         txtAmount = itemView.findViewById(R.id.booking_confirm_amount);
+        recyclerView = itemView.findViewById(R.id.recycler_jobs);
 
         return itemView;
 
     }
 
     private void jobCalculate(){
-        if(Common.currentJob != null){
-            int jobSize = Common.currentJob.size();
-            for(int i=0; i<jobSize ;i++){
-                totPrice = totPrice + Common.currentJob.get(i).getPrice();
+            totPrice = 0;
+            for(StylistJob stylistJob : Common.currentJob){
+                totPrice = totPrice + stylistJob.getPrice();
+                if(Common.currentPromotion != null){
+                    for(Promotion promotion : Common.currentPromotion){
+                        if(promotion.getJobId() == stylistJob.getJobId()){
+                            totPrice = totPrice - promotion.getOffAmount();
+                        }
+                    }
+                }
+
             }
-        }
+
+    }
+
+    void initRecyclerView(){
+        jobPriceAdapter = new JobPriceAdapter(getActivity());
+        jobPriceAdapter.submitList(Common.currentJob);
+        recyclerView.setAdapter(jobPriceAdapter);
+        recyclerView.setHasFixedSize(true);;
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+        recyclerView.addItemDecoration(new SpacesitemDecoration(4));
+
     }
 }

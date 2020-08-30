@@ -44,4 +44,10 @@ public class DialogService {
         sweetAlertDialog.setTitleText("Appointment Requested Successfully");
         return sweetAlertDialog;
     }
+
+    public SweetAlertDialog successAccountDialog(){
+        sweetAlertDialog = new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE);
+        sweetAlertDialog.setTitleText("Account Created Successfully!");
+        return sweetAlertDialog;
+    }
 }

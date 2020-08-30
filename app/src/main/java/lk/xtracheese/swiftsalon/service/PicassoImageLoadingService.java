@@ -18,6 +18,7 @@ public class PicassoImageLoadingService implements ImageLoadingService {
         Picasso.get().load(url)
                 .placeholder(R.drawable.ic_account_circle_black_24dp)
                 .error(R.drawable.ic_account_circle_black_24dp)
+                .fit()
                 .into(imageView);
     }
 

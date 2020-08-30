@@ -3,16 +3,18 @@ package lk.xtracheese.swiftsalon.persistence;
 import androidx.room.TypeConverter;
 
 import java.sql.Time;
+import java.util.Date;
 
 public class Converter {
 
+
     @TypeConverter
-    public static String fromTime(Time time) {
-        return time == null ? null : time.toString();
+    public static Date fromTimestamp(Long value) {
+        return value == null ? null : new Date(value);
     }
 
     @TypeConverter
-    public static Time fromString(String time) {
-        return time == null ? null : Time.valueOf(time);
+    public static Long dateToTimestamp(Date date) {
+        return date == null ? null : date.getTime();
     }
 }

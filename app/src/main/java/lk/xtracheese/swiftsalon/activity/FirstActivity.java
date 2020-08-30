@@ -108,6 +108,7 @@ public class FirstActivity extends AppCompatActivity {
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
+        session = new Session(this);
 
         if(session.isSignedIn()){
             Intent intent = new Intent(FirstActivity.this, HomeActivity.class);

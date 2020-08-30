@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+    <LinearLayout
+        android:id="@+id/layout_user_information"
+        android:orientation="horizontal"
+        android:weightSum="4"
+        android:padding="8dp"
+        android:elevation="10dp"
+        android:background="@drawable/top_user_information_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:src="@drawable/ic_account_circle_black_24dp"
+            android:id="@+id/prof_user_pic"
+            android:layout_width="60dp"
+            android:layout_height="60dp"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/txt_user_name"
+                android:text="Eddy Lee"
+                android:textColor="@color/pearl_white"
+                android:textSize="22sp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/txt_salon_name"
+        android:text="Xen Salon"
+        android:textColor="@color/dark"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:drawablePadding="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/txt_salon_addr"
+        android:text="Address"
+        android:textColor="@color/dark"
+        android:layout_marginLeft="10dp"
+
+        android:textSize="20dp"
+        android:drawableStart="@drawable/ic_baseline_location_black_on_24"
+        android:drawablePadding="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/txt_salon_mob"
+        android:text="Contact"
+        android:layout_marginRight="10dp"
+        android:textColor="@color/dark"
+        android:textSize="20dp"
+        android:drawablePadding="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:drawableLeft="@drawable/ic_baseline_local_phone_black_24"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_salon_stylist"
+        android:layout_marginTop="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+
+
+
+
+
+</LinearLayout>

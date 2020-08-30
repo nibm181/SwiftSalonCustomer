@@ -24,11 +24,14 @@ import lk.xtracheese.swiftsalon.common.Common;
 import lk.xtracheese.swiftsalon.common.NonSwipeViewPager;
 import lk.xtracheese.swiftsalon.model.Appointment;
 import lk.xtracheese.swiftsalon.service.DialogService;
+import lk.xtracheese.swiftsalon.util.Session;
 import lk.xtracheese.swiftsalon.viewmodel.AppointmentViewModel;
 
 public class BookingActivity extends AppCompatActivity {
 
     private static final String TAG = "BookingActivity";
+
+    Session session;
 
     LocalBroadcastManager localBroadcastManager;
     DialogService alertDialog;
@@ -50,7 +53,7 @@ public class BookingActivity extends AppCompatActivity {
                 btnNxtStep.setEnabled(true);
 
             else if (step == 2) {
-                if (Common.currentJob != null && !Common.currentJob.isEmpty()) {
+                if (Common.currentTimeSlot != null) {
                     btnNxtStep.setEnabled(true);
                 } else {
                     btnNxtStep.setEnabled(false);
@@ -66,6 +69,7 @@ public class BookingActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         localBroadcastManager.unregisterReceiver(buttonNextReceiver);
+        Common.step = 0;
         super.onDestroy();
 
     }
@@ -82,6 +86,7 @@ public class BookingActivity extends AppCompatActivity {
         btnPrevStep = findViewById(R.id.btn_prev_step);
         btnNxtStep = findViewById(R.id.btn_nxt_step);
 
+        session = new Session(BookingActivity.this);
         viewModel = new AppointmentViewModel(getApplication());
 
         localBroadcastManager = LocalBroadcastManager.getInstance(this);
@@ -91,7 +96,7 @@ public class BookingActivity extends AppCompatActivity {
         setupStepView();
         setButtonColor();
 
-        hidePreviousButton(false);
+        showPreviousButton(false);
 
         //view
         viewPager.setAdapter(new SearchViewAdapter(getSupportFragmentManager()));
@@ -110,9 +115,14 @@ public class BookingActivity extends AppCompatActivity {
 
                 if (position == 0) {
                     btnPrevStep.setEnabled(false);
-                } else if (position == 3) {
+                    showPreviousButton(false);
+                } else if (position == 2) {
                     btnNxtStep.setEnabled(true);
-                } else {
+                } else if(position == 3) {
+                    showPreviousButton(false);
+                    btnNxtStep.setText("Exit");
+                }else {
+                    showPreviousButton(true);
                     btnPrevStep.setEnabled(true);
                     btnNxtStep.setEnabled(false);
                 }
@@ -132,26 +142,33 @@ public class BookingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (Common.step < 4 || Common.step == 0) {
+                if (Common.step <= 4 || Common.step == 0) {
                     Common.step++;
-                    if (Common.step == 1) { //after choosing the hair stylist
-                        hidePreviousButton(true);
-                        viewPager.setCurrentItem(Common.step);
-//                        if (Common.currentSalon != null)
-//                            loadHairStylistBySalon(Common.currentSalon.getSalID());
-                    } else if (Common.step == 2) { //choose job
-                        if (Common.currentJob != null && !Common.currentJob.isEmpty()) {
+                    if (Common.step == 1) {
+                        if (Common.currentStylist != null) {
                             Intent intent = new Intent(Common.KEY_JOB_SELECTED);
                             localBroadcastManager.sendBroadcast(intent);
                         }
                         viewPager.setCurrentItem(Common.step);
 
-                    } else if (Common.step == 3) { //confirm
-                        if (Common.currentTimeSlot != null)
+                    } else if (Common.step == 2) {
+                        if (Common.currentJob != null && !Common.currentJob.isEmpty()) {
+                            Intent intent = new Intent(Common.KEY_TIME_SLOT_SELECTED);
+                            localBroadcastManager.sendBroadcast(intent);
                             confirmBookingSetData();
+                        }
                         viewPager.setCurrentItem(Common.step);
-                    } else if (Common.step == 4) {
+
+                    } else if (Common.step == 3) { //confirm
                         saveData();
+                        viewPager.setCurrentItem(Common.step);
+                        Log.d(TAG, "onClick: step 3");
+                    } else if (Common.step == 4) {
+                        Log.d(TAG, "onClick: step 4");
+                        Common.step = 0;
+                        final Intent intent = new Intent(BookingActivity.this, HomeActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
                     }
 
                 }
@@ -161,15 +178,17 @@ public class BookingActivity extends AppCompatActivity {
         btnPrevStep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Common.step == 3) {
+                if (Common.step == 2) {
                     Common.step--;
                     btnNxtStep.setText("Next");
                     viewPager.setCurrentItem(Common.step);
                 } else if (Common.step > 0) {
                     Common.step--;
-                    if (Common.step == 0) {
-                        hidePreviousButton(false);
-                    }
+//                    if (Common.step == 0) {
+//                        showPreviousButton(false);
+//                    }else {
+//                        showPreviousButton(true);
+//                    }
                     viewPager.setCurrentItem(Common.step);
                 }
 
@@ -183,11 +202,11 @@ public class BookingActivity extends AppCompatActivity {
         Intent intent = new Intent(Common.KEY_CONFIRM_BOOKING);
         localBroadcastManager.sendBroadcast(intent);
         //change button text
-        btnNxtStep.setText("Confrim");
+        btnNxtStep.setText("Confirm");
     }
 
 
-    private void hidePreviousButton(boolean isVisible) {
+    private void showPreviousButton(boolean isVisible) {
         if (isVisible) {
             btnPrevStep.setVisibility(View.VISIBLE);
         } else {
@@ -216,15 +235,15 @@ public class BookingActivity extends AppCompatActivity {
     private void setupStepView() {
 
         List<String> stepList = new ArrayList<>();
-        stepList.add("Hair Stylist");
         stepList.add("Jobs");
         stepList.add("Time");
         stepList.add("Confirm");
+        stepList.add("Report");
         stepView.setSteps(stepList);
     }
 
 
-    private void getAppointmentApi(Appointment appointment) {
+    private void setAppointmentApi(Appointment appointment) {
         viewModel.appointmentApi(appointment);
     }
 
@@ -243,7 +262,6 @@ public class BookingActivity extends AppCompatActivity {
                         if (resource.data.getContent() != null) {
                             alertDialog.dismissLoading();
                             alertDialog.successAppointmentDialog().show();
-                            finish();
                         }
                     }
                     break;
@@ -255,11 +273,11 @@ public class BookingActivity extends AppCompatActivity {
     private void saveData() {
         Appointment appointment = new Appointment();
 
-        appointment.setCustomerId(1);
-        appointment.setDate(Common.currentTimeSlot.getSlotTiming());
+        appointment.setCustomerId(session.getUserId());
         appointment.setSalonId(Common.currentSalon.getSalID());
         appointment.setStylistId(Common.currentStylist.getId());
         appointment.setDate(Common.currentDate.getTime().toString());
+        Log.d(TAG, "saveData: SEND DATE "+ Common.currentDate.getTime().toString());
         appointment.setTime(Common.currentTimeSlot.getSlotTiming());
 
         int[] jobIds = new int[Common.currentJob.size()];
@@ -268,7 +286,7 @@ public class BookingActivity extends AppCompatActivity {
         }
         appointment.setJobIds(jobIds);
 
-        getAppointmentApi(appointment);
+        setAppointmentApi(appointment);
     }
 
 }

@@ -17,6 +17,7 @@
             android:id="@+id/img_salon"
             android:src="@drawable/ic_account_circle_black_24dp"
             android:layout_marginRight="10dp"
+            android:background="@drawable/profile_pic_background"
             android:layout_width="90dp"
             android:layout_height="90dp" />
 

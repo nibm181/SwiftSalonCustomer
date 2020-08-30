@@ -14,11 +14,13 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import dmax.dialog.SpotsDialog;
 import lk.xtracheese.swiftsalon.R;
+import lk.xtracheese.swiftsalon.activity.BookingActivity;
 import lk.xtracheese.swiftsalon.adapter.BannerSlideAdapter;
 import lk.xtracheese.swiftsalon.adapter.LooKBookAdapter;
+import lk.xtracheese.swiftsalon.common.Common;
 import lk.xtracheese.swiftsalon.service.PicassoImageLoadingService;
+import lk.xtracheese.swiftsalon.util.Session;
 import lk.xtracheese.swiftsalon.viewmodel.HomeViewModel;
 import ss.com.bannerslider.Slider;
 
@@ -28,7 +30,10 @@ import ss.com.bannerslider.Slider;
 public class HomeFragment extends Fragment {
 
     private static final String TAG = "HomeFragment";
-    RecyclerView recylerLookBook;
+
+    Session session;
+
+    RecyclerView recyclerLookBook;
     Slider bannerSlider;
     AlertDialog alertDialog;
     LooKBookAdapter lookBookAdapter;
@@ -46,16 +51,14 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        alertDialog = new SpotsDialog.Builder().setContext(getContext()).build();
-        alertDialog.show();
-
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        session = new Session(getContext());
         bannerSlider = view.findViewById(R.id.banner_slider);
-        recylerLookBook = view.findViewById(R.id.recycler_promotion_book);
+        recyclerLookBook = view.findViewById(R.id.recycler_promotion_book);
         imageView = view.findViewById(R.id.home_user_pic);
 
-        String userImageURL = "http://10.0.2.2/SwiftSalon/user_images/user.jpeg";
+        String userImageURL = "http://10.0.2.2/swiftsalon-api/uploads/user_images/user.png";
         PicassoImageLoadingService picassoImageLoadingService = new PicassoImageLoadingService();
         picassoImageLoadingService.loadImage(userImageURL, imageView);
 
@@ -67,8 +70,6 @@ public class HomeFragment extends Fragment {
 
         subscribeObservers();
         getHomeApi();
-
-        alertDialog.dismiss();
 
         return view;
     }
@@ -89,6 +90,9 @@ public class HomeFragment extends Fragment {
                             if (!listResource.data.isEmpty()) {
                                 //set adapter on slider
                                 bannerSlider.setAdapter(new BannerSlideAdapter(listResource.data));
+                                Common.currentPromotion = listResource.data;
+                            } else {
+                                bannerSlider.setVisibility(View.GONE);
                             }
                             break;
                         }
@@ -98,6 +102,9 @@ public class HomeFragment extends Fragment {
                             if (!listResource.data.isEmpty()) {
                                 //set adapter on slider
                                 bannerSlider.setAdapter(new BannerSlideAdapter(listResource.data));
+                                Common.currentPromotion = listResource.data;
+                            } else {
+                                bannerSlider.setVisibility(View.GONE);
                             }
                             break;
                         }
@@ -135,9 +142,9 @@ public class HomeFragment extends Fragment {
 
     private void initRecyclerView() {
         lookBookAdapter = new LooKBookAdapter(getActivity());
-        recylerLookBook.setAdapter(lookBookAdapter);
-        recylerLookBook.setHasFixedSize(true);
-        recylerLookBook.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+        recyclerLookBook.setAdapter(lookBookAdapter);
+        recyclerLookBook.setHasFixedSize(true);
+        recyclerLookBook.setLayoutManager(new GridLayoutManager(getActivity(), 1));
     }
 
 

@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import lk.xtracheese.swiftsalon.fragments.AppointmentResultFragment;
 import lk.xtracheese.swiftsalon.fragments.SelectJobFragment;
 import lk.xtracheese.swiftsalon.fragments.SelectStylistFragment;
 import lk.xtracheese.swiftsalon.fragments.SelectTimeSlotFragment;
@@ -19,13 +20,13 @@ public class SearchViewAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int i) {
         switch (i) {
             case 0:
-                return SelectStylistFragment.getInstance();
-            case 1:
                 return SelectJobFragment.getInstance();
-            case 2:
+            case 1:
                 return SelectTimeSlotFragment.getInstance();
-            case 3:
+            case 2:
                 return ConfirmAppointmentFragment.getInstance();
+            case 3:
+                return AppointmentResultFragment.getInstance();
         }
         return null;
     }

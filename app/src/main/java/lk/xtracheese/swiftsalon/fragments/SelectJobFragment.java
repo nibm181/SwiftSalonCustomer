@@ -45,8 +45,8 @@ public class SelectJobFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-                subscribeObservers();
-                getJobApi();
+//                subscribeObservers();
+//                getJobApi();
 
         }
     };
@@ -98,6 +98,8 @@ public class SelectJobFragment extends Fragment {
         recyclerView = itemView.findViewById(R.id.recycler_job);
         viewModel = new ViewModelProvider(this).get(SelectJobViewModel.class);
         initRecyclerView();
+        subscribeObservers();
+        getJobApi();
         return itemView;
     }
 

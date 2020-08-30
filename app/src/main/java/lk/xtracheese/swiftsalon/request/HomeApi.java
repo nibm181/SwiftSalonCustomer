@@ -4,9 +4,8 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-import lk.xtracheese.swiftsalon.model.Banner;
+import lk.xtracheese.swiftsalon.model.Promotion;
 import lk.xtracheese.swiftsalon.model.LookBook;
-import lk.xtracheese.swiftsalon.model.Salon;
 import lk.xtracheese.swiftsalon.request.response.ApiResponse;
 import lk.xtracheese.swiftsalon.request.response.GenericResponse;
 import retrofit2.http.GET;
@@ -16,5 +15,5 @@ public interface HomeApi {
     LiveData<ApiResponse<GenericResponse<List<LookBook>>>> getLookBooks();
 
     @GET("Promotion")
-    LiveData<ApiResponse<GenericResponse<List<Banner>>>> getBanners();
+    LiveData<ApiResponse<GenericResponse<List<Promotion>>>> getBanners();
 }

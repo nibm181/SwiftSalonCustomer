@@ -15,37 +15,29 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:icon">
+        <activity android:name=".activity.ViewSalonActivity"></activity>
         <activity
             android:name=".activity.FirstActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_first"
-            android:theme="@style/FullscreenTheme"></activity>
+            android:theme="@style/FullscreenTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
         <activity android:name=".activity.CreateAccountActivity" />
         <activity android:name=".activity.ViewAppointmentDetailActivity" />
         <activity android:name=".activity.ViewAppointmentsActivity" />
         <activity android:name=".activity.ProfileActivity" />
-        <activity android:name=".activity.BookingActivity" />
-        <activity android:name=".activity.HomeActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".activity.BookingActivity"></activity>
+        <activity android:name=".activity.HomeActivity"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".activity.LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".activity.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".activity.LoginActivity"></activity>
+        <activity android:name=".activity.MainActivity"></activity>
     </application>
 
 </manifest>

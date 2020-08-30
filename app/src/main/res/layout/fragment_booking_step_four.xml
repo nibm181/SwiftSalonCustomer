@@ -87,6 +87,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_jobs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="center_vertical"
+        android:orientation="horizontal"/>
+
 
 
     <TextView
