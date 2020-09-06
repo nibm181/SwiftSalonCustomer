@@ -31,8 +31,8 @@ public class ViewAppointmentDetailViewModel extends AndroidViewModel {
     }
 
     public LiveData<Resource<List<AppointmentDetail>>> getAppointmentDetail(){return appointmentDetail;}
-    public LiveData<Resource<GenericResponse<Appointment>>> getAppointment(){return appointment;}
 
+    public LiveData<Resource<GenericResponse<Appointment>>> getAppointment(){return appointment;}
 
     public void appointmentDetailApi(int appointmentId){
         if(!isFetching){
@@ -64,7 +64,7 @@ public class ViewAppointmentDetailViewModel extends AndroidViewModel {
         });
     }
 
-    public LiveData<Resource<Appointment>> updateAppointment(){return appointment;}
+    public LiveData<Resource<GenericResponse<Appointment>>> updateAppointment(){return appointment;}
 
     public void appointmentUpdateApi(Appointment objAppointment){
         if(!isFetching){
@@ -75,7 +75,7 @@ public class ViewAppointmentDetailViewModel extends AndroidViewModel {
     private void executeUpdateFetch(Appointment objAppointment) {
         isFetching = true;
 
-        final LiveData<Resource<GenericResponse<Appointment>>> repositorySource = appointmentRepository.setAppointmentApi(objAppointment);
+        final LiveData<Resource<GenericResponse<Appointment>>> repositorySource = appointmentRepository.updateAppointment(objAppointment);
 
         appointment.addSource(repositorySource, new Observer<Resource<GenericResponse<Appointment>>>() {
             @Override

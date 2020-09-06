@@ -1,6 +1,9 @@
 package lk.xtracheese.swiftsalon.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -35,6 +38,13 @@ public class ViewAppointmentsActivity extends AppCompatActivity implements OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_appointments);
 
+        alertDialog = new DialogService(this);
+
+        if(!isOnline()){
+            alertDialog.notConnected();
+        }
+
+        alertDialog = new DialogService(this);
         recyclerView = findViewById(R.id.recycler_view_appointments);
         viewAppointmentViewModel = new ViewModelProvider(this).get(ViewAppointmentViewModel.class);
 
@@ -54,15 +64,16 @@ public class ViewAppointmentsActivity extends AppCompatActivity implements OnIte
                 if (listResource.data != null) {
                     switch (listResource.status) {
                         case LOADING: {
+                            alertDialog.loadingDialog().show();
                             break;
                         }
                         case SUCCESS: {
-                            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
-                            Log.d(TAG, "subscribeObservers: DATA: " + listResource.data.toString());
+                            alertDialog.dismissLoading();
                             appointmentAdapter.submitList(listResource.data);
                             break;
                         }
                         case ERROR: {
+                            alertDialog.dismissLoading();
                             Toast.makeText(this, listResource.message, Toast.LENGTH_SHORT).show();
                             appointmentAdapter.submitList(listResource.data);
                             break;
@@ -83,8 +94,15 @@ public class ViewAppointmentsActivity extends AppCompatActivity implements OnIte
     public void onItemClick(int position) {
         Appointment appointment = appointmentAdapter.getSelectedAppointment(position);
         Intent intent = new Intent(ViewAppointmentsActivity.this, ViewAppointmentDetailActivity.class);
-        Common.currentAppointment = appointment;
+        intent.putExtra("appointment", appointment);
         startActivity(intent);
 
+    }
+
+    public boolean isOnline(){
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return  (networkInfo != null && networkInfo.isConnected());
     }
 }

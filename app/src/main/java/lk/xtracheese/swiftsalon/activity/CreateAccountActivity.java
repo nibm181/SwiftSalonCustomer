@@ -10,12 +10,18 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModel;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import lk.xtracheese.swiftsalon.R;
 import lk.xtracheese.swiftsalon.common.Common;
 import lk.xtracheese.swiftsalon.model.User;
 import lk.xtracheese.swiftsalon.service.DialogService;
 import lk.xtracheese.swiftsalon.util.Session;
 import lk.xtracheese.swiftsalon.viewmodel.CreateAccountViewModel;
+
+import static lk.xtracheese.swiftsalon.util.Constants.MOBILE_NUMBER_REGEX;
+import static lk.xtracheese.swiftsalon.util.Constants.NAME_REGEX;
 
 public class CreateAccountActivity extends AppCompatActivity {
 
@@ -109,28 +115,50 @@ public class CreateAccountActivity extends AppCompatActivity {
     }
 
      void validate(){
-         firstName = txtFirstName.getText().toString();
-         lastName = txtLastName.getText().toString();
+         firstName = txtFirstName.getText().toString().trim();
+         lastName = txtLastName.getText().toString().trim();
          mobileNo = txtMobileNo.getText().toString();
-         password = txtPassword.getText().toString();
-         rePassword = txtRePassword.getText().toString();
+         password = txtPassword.getText().toString().trim();
+         rePassword = txtRePassword.getText().toString().trim();
 
-        if(firstName.isEmpty()){
+        if(firstName.isEmpty()) {
             alertDialog.errorDialog("Please enter first name").show();
+        }else if(!firstName.matches(NAME_REGEX)){
+            alertDialog.errorDialog("Please enter valid first name").show();
         }else if(lastName.isEmpty()){
             alertDialog.errorDialog("Please enter last name").show();
+        }else if(!lastName.matches(NAME_REGEX)){
+            alertDialog.errorDialog("Please enter valid last name").show();
         }else if(mobileNo.isEmpty()){
              alertDialog.errorDialog("Please enter mobile number").show();
-         }else if(password.isEmpty()){
-             alertDialog.errorDialog("Please enter password").show();
-         }else if(rePassword.isEmpty()){
+        }else if(!mobileNo.matches(MOBILE_NUMBER_REGEX)){
+            alertDialog.errorDialog("Please enter valid mobile number").show();
+        }else if(password.isEmpty()) {
+            alertDialog.errorDialog("Please enter password").show();
+        }else if (!isValidPassword(password))    {
+            alertDialog.errorDialog("Password should contain capital letter and symbol").show();
+        }else if(rePassword.isEmpty()){
              alertDialog.errorDialog("Please re-type password").show();
-         }else if(!password.equals(rePassword)){
+        }else if(!password.equals(rePassword)){
             alertDialog.errorDialog("Please check password, Password doesn't match").show();
             Log.d(TAG, "validate: "+password + " " +rePassword );
-         }else{
+        }else{
             isValidated = true;
          }
+    }
+
+    public boolean isValidPassword(final String password) {
+
+        Pattern pattern;
+        Matcher matcher;
+
+        final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{4,}$";
+
+        pattern = Pattern.compile(PASSWORD_PATTERN);
+        matcher = pattern.matcher(password);
+
+        return matcher.matches();
+
     }
 
     @Override

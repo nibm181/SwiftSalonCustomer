@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -19,6 +20,7 @@ import lk.xtracheese.swiftsalon.activity.BookingActivity;
 import lk.xtracheese.swiftsalon.adapter.BannerSlideAdapter;
 import lk.xtracheese.swiftsalon.adapter.LooKBookAdapter;
 import lk.xtracheese.swiftsalon.common.Common;
+import lk.xtracheese.swiftsalon.service.DialogService;
 import lk.xtracheese.swiftsalon.service.PicassoImageLoadingService;
 import lk.xtracheese.swiftsalon.util.Session;
 import lk.xtracheese.swiftsalon.viewmodel.HomeViewModel;
@@ -31,15 +33,17 @@ public class HomeFragment extends Fragment {
 
     private static final String TAG = "HomeFragment";
 
+    HomeViewModel viewModel;
     Session session;
+    DialogService dialogService;
+    LooKBookAdapter lookBookAdapter;
 
     RecyclerView recyclerLookBook;
     Slider bannerSlider;
-    AlertDialog alertDialog;
-    LooKBookAdapter lookBookAdapter;
+    TextView txtUserName;
     ImageView imageView;
 
-    HomeViewModel viewModel;
+
 
 
     public HomeFragment() {
@@ -53,17 +57,21 @@ public class HomeFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         session = new Session(getContext());
+
         bannerSlider = view.findViewById(R.id.banner_slider);
         recyclerLookBook = view.findViewById(R.id.recycler_promotion_book);
         imageView = view.findViewById(R.id.home_user_pic);
+        txtUserName = view.findViewById(R.id.txt_user_name);
 
-        String userImageURL = "http://10.0.2.2/swiftsalon-api/uploads/user_images/user.png";
+        txtUserName.setText(session.getUsername());
         PicassoImageLoadingService picassoImageLoadingService = new PicassoImageLoadingService();
-        picassoImageLoadingService.loadImage(userImageURL, imageView);
+        picassoImageLoadingService.loadImageRound(session.getUserImg(), imageView);
+
 
         initRecyclerView();
-        viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+
 
         //initialize slider
         Slider.init(new PicassoImageLoadingService());

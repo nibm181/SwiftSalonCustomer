@@ -80,7 +80,7 @@ public class AppointmentRepository {
             @NonNull
             @Override
             protected LiveData<List<Appointment>> loadFromDb() {
-                return swiftSalonDao.getAppointments();
+                return swiftSalonDao.getAppointments(userId);
             }
 
             @NonNull
@@ -136,6 +136,22 @@ public class AppointmentRepository {
                 if(item.getContent() != null) {
                     swiftSalonDao.updateAppointment(item.getContent());
                 }
+            }
+        }.getAsLiveData();
+
+    }
+
+    public LiveData<Resource<GenericResponse>> addRating(Appointment appointment){
+        return new NetworkOnlyBoundResource<GenericResponse, GenericResponse>(AppExecutor.getInstance()){
+
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<GenericResponse>> createCall() {
+                return ServiceGenerator.getAppointmentApi().addRating(appointment);
+            }
+
+            @Override
+            protected void saveCallResult(@NonNull GenericResponse item) {
             }
         }.getAsLiveData();
 

@@ -22,4 +22,9 @@
         <item name="android:background">@color/black_overlay</item>
     </style>
 
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/pearl_white</item>
+        <item name="colorControlActivated">@color/dark_dark_purple</item>
+    </style>
+
 </resources>

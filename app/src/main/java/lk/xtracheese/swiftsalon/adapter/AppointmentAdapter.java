@@ -31,8 +31,7 @@ public class AppointmentAdapter extends ListAdapter<Appointment, AppointmentAdap
 
         @Override
         public boolean areContentsTheSame(@NonNull Appointment oldItem, @NonNull Appointment newItem) {
-            return oldItem.getSalonId() == newItem.getSalonId()
-                    && oldItem.getStatus().equals(newItem.getStatus());
+            return false;
         }
     };
 
@@ -59,12 +58,12 @@ public class AppointmentAdapter extends ListAdapter<Appointment, AppointmentAdap
         Log.d(TAG, "onBindViewHolder: ITEM: " + getItem(position).toString());
         picassoImageLoadingService = new PicassoImageLoadingService();
 
-        String userImageURL = "http://10.0.2.2/swiftsalon-api/uploads/salon_images/salon_img1.png";
+
         holder.txtSalonName.setText(getItem(position).getSalonName());
         holder.txtStatus.setText(getItem(position).getStatus());
         holder.txtTime.setText(new StringBuilder(getItem(position).getTime())
                 .append(" on " + getItem(position).getDate()));
-        picassoImageLoadingService.loadImage(userImageURL , holder.imgSalon);
+        picassoImageLoadingService.loadImageRound(getItem(position).getSalonImage() , holder.imgSalon);
 
     }
 

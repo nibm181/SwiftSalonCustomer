@@ -24,6 +24,7 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventList
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import lk.xtracheese.swiftsalon.R;
+import lk.xtracheese.swiftsalon.common.Common;
 import lk.xtracheese.swiftsalon.service.DialogService;
 import lk.xtracheese.swiftsalon.util.Session;
 import lk.xtracheese.swiftsalon.viewmodel.LoginViewModel;
@@ -188,8 +189,9 @@ public class LoginActivity extends AppCompatActivity {
                         if (resource.data.getContent() != null) {
                             session.setUserId(resource.data.getContent().getId());
                             session.setSignedIn(true);
-
-                            //viewModel.updateToken();
+                            session.setUserName(resource.data.getContent().getFirstName());
+                            session.setUserImg(resource.data.getContent().getImage());
+                            viewModel.updateToken();
 
                             Intent mainIntent = new Intent(LoginActivity.this, HomeActivity.class);
                             mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

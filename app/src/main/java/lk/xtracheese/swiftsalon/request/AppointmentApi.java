@@ -43,5 +43,10 @@ public interface AppointmentApi {
     @PUT("Appointment")
     LiveData<ApiResponse<GenericResponse<Appointment>>> updateAppointment(@Body Appointment appointment);
 
+    @PUT("Appointment")
+    LiveData<ApiResponse<GenericResponse>> addRating(@Body Appointment appointment);
+
+    @GET("Appointment")
+    Call<GenericResponse<Appointment>> getWorkerAppointment(@Query("appointment_id") int id);
 
 }

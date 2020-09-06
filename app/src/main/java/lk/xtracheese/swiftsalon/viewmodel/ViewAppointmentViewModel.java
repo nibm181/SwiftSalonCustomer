@@ -46,21 +46,18 @@ public class ViewAppointmentViewModel extends AndroidViewModel {
 
         final LiveData<Resource<List<Appointment>>> repositorySource = appointmentRepository.getAppointments(session.getUserId());
 
-        appointments.addSource(repositorySource, new Observer<Resource<List<Appointment>>>() {
-            @Override
-            public void onChanged(Resource<List<Appointment>> listResource) {
-                if(listResource != null){
-                    appointments.setValue(listResource);
-                    if(listResource.status == Resource.Status.SUCCESS) {
-                        isFetching = false;
-                    }
-                    else if(listResource.status == Resource.Status.ERROR) {
-                        isFetching = false;
-                        appointments.removeSource(repositorySource);
-                    }
-                }else{
+        appointments.addSource(repositorySource, listResource -> {
+            if(listResource != null){
+                appointments.setValue(listResource);
+                if(listResource.status == Resource.Status.SUCCESS) {
+                    isFetching = false;
+                }
+                else if(listResource.status == Resource.Status.ERROR) {
+                    isFetching = false;
                     appointments.removeSource(repositorySource);
                 }
+            }else{
+                appointments.removeSource(repositorySource);
             }
         });
     }

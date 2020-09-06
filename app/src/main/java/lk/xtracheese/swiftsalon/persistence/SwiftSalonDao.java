@@ -44,14 +44,9 @@ public interface SwiftSalonDao {
     @Query("SELECT * FROM tbl_appointment WHERE id = :id")
     LiveData<Appointment> getAppointment(int id);
 
-    @Query("SELECT * FROM tbl_appointment ORDER BY date DESC")
-    LiveData<List<Appointment>> getAppointments();
+    @Query("SELECT * FROM tbl_appointment WHERE customer_id = :userId ORDER BY date DESC")
+    LiveData<List<Appointment>> getAppointments(int userId);
 
-    @Query("SELECT * FROM tbl_appointment WHERE salon_id = :salonId AND status = 'pending'")
-    LiveData<List<Appointment>> getNewAppointments(int salonId);
-
-    @Query("SELECT * FROM tbl_appointment WHERE salon_id = :salonId AND status = 'on schedule'")
-    LiveData<List<Appointment>> getOngoingAppointments(int salonId);
 
 
     //LookBook
@@ -100,11 +95,17 @@ public interface SwiftSalonDao {
     @Insert(onConflict = REPLACE)
     void insertStylists(Stylist... stylists);
 
+    @Query("SELECT image FROM tbl_stylist WHERE id = :id")
+    String getStylistImage(int id);
+
     @Query("SELECT * FROM tbl_stylist WHERE salon_id = :salonId")
     LiveData<List<Stylist>> getStylists(int salonId);
 
     //User
     @Insert(onConflict = REPLACE)
     void insertUser(User user);
+
+    @Query("SELECT * FROM tbl_customer WHERE id = :id")
+    LiveData<User> getUser(int id);
 
 }

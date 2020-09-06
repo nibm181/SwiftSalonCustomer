@@ -21,12 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:src="@drawable/ic_account_circle_black_24dp"
-                android:id="@+id/view_appointment_detail_prof_user_pic"
-                android:background="@drawable/profile_pic_background"
-                android:layout_width="60dp"
-                android:layout_height="60dp"/>
 
             <LinearLayout
                 android:orientation="vertical"
@@ -37,7 +31,7 @@
 
                 <TextView
                     android:id="@+id/txt_user_name"
-                    android:text="Eddy Lee"
+                    android:text="Appointment Details"
                     android:textColor="@color/pearl_white"
                     android:textSize="22sp"
                     android:layout_width="match_parent"
@@ -126,7 +120,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_appointment_detail"
             android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="20dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 

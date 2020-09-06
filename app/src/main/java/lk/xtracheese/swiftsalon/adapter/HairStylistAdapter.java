@@ -72,8 +72,8 @@ public class HairStylistAdapter extends ListAdapter<Stylist, HairStylistAdapter.
         picassoImageLoadingService = new PicassoImageLoadingService();
 
         holder.txtHairStylistName.setText(getItem(position).getName());
-        holder.ratingBar.setRating((float) getItem(position).getRating());
-        picassoImageLoadingService.loadImage(getItem(position).getImg(), holder.imgStylist);
+        holder.ratingBar.setRating(getItem(position).getRating());
+        picassoImageLoadingService.loadImageRound(getItem(position).getImg(), holder.imgStylist);
 
         if (!cardViewList.contains(holder.cardHairStylist))
             cardViewList.add(holder.cardHairStylist);

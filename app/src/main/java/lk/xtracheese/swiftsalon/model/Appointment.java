@@ -18,7 +18,7 @@ public class Appointment implements Parcelable {
 
     @PrimaryKey
     @NonNull
-    @SerializedName("appointment_id")
+    @SerializedName("id")
     private int id;
 
     @ColumnInfo(name = "salon_id")
@@ -65,6 +65,30 @@ public class Appointment implements Parcelable {
     @SerializedName("mobile_no")
     private String mobileNo;
 
+    @ColumnInfo(name = "salon_image")
+    @SerializedName("salon_image")
+    private String salonImage;
+
+    public String getSalonImage() {
+        return salonImage;
+    }
+
+    public void setSalonImage(String salonImage) {
+        this.salonImage = salonImage;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
+    @ColumnInfo(name = "rating")
+    @SerializedName("rating")
+    private float rating;
+
     @ColumnInfo(name = "modified_on")
     @SerializedName("modified_on")
     private String modifiedOn; //timestamp
@@ -74,6 +98,27 @@ public class Appointment implements Parcelable {
     private int[] jobIds;
 
     public Appointment() {
+    }
+
+    @Override
+    public String toString() {
+        return "Appointment{" +
+                "id=" + id +
+                ", salonId=" + salonId +
+                ", customerId=" + customerId +
+                ", stylistId=" + stylistId +
+                ", date='" + date + '\'' +
+                ", time='" + time + '\'' +
+                ", status='" + status + '\'' +
+                ", salonName='" + salonName + '\'' +
+                ", stylistName='" + stylistName + '\'' +
+                ", addr1='" + addr1 + '\'' +
+                ", addr2='" + addr2 + '\'' +
+                ", mobileNo='" + mobileNo + '\'' +
+                ", rating=" + rating +
+                ", modifiedOn='" + modifiedOn + '\'' +
+                ", jobIds=" + Arrays.toString(jobIds) +
+                '}';
     }
 
     protected Appointment(Parcel in) {
@@ -91,6 +136,8 @@ public class Appointment implements Parcelable {
         mobileNo = in.readString();
         modifiedOn = in.readString();
         jobIds = in.createIntArray();
+        rating = in.readFloat();
+        salonImage = in.readString();
     }
 
     public static final Creator<Appointment> CREATOR = new Creator<Appointment>() {
@@ -239,25 +286,9 @@ public class Appointment implements Parcelable {
         dest.writeString(mobileNo);
         dest.writeString(modifiedOn);
         dest.writeIntArray(jobIds);
+        dest.writeFloat(rating);
+        dest.writeString(salonImage);
     }
 
-    @Override
-    public String toString() {
-        return "Appointment{" +
-                "id=" + id +
-                ", salonId=" + salonId +
-                ", customerId=" + customerId +
-                ", stylistId=" + stylistId +
-                ", date='" + date + '\'' +
-                ", time='" + time + '\'' +
-                ", status='" + status + '\'' +
-                ", salonName='" + salonName + '\'' +
-                ", stylistName='" + stylistName + '\'' +
-                ", addr1='" + addr1 + '\'' +
-                ", addr2='" + addr2 + '\'' +
-                ", mobileNo='" + mobileNo + '\'' +
-                ", modifiedOn='" + modifiedOn + '\'' +
-                ", jobIds=" + Arrays.toString(jobIds) +
-                '}';
-    }
+
 }

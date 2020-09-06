@@ -33,4 +33,14 @@ public class PicassoImageLoadingService implements ImageLoadingService {
         placeHolder = R.drawable.my_bg_proj;
         Picasso.get().load(url).placeholder(placeHolder).error(errorDrawable).into(imageView);
     }
+    public void loadImageRound(String url, ImageView imageView) {
+        Picasso.get().load(url)
+                .placeholder(R.drawable.ic_account_circle_black_24dp)
+                .error(R.drawable.ic_account_circle_black_24dp)
+                .transform(new CircleTransform())
+                .fit()
+                .into(imageView);
+    }
+
+
 }

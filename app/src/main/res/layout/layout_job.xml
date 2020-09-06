@@ -5,6 +5,7 @@
     app:cardCornerRadius="10dp"
     android:id="@+id/card_job"
     android:outlineSpotShadowColor="@color/dark_purple"
+    android:layout_margin="7dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 

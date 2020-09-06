@@ -2,6 +2,7 @@ package lk.xtracheese.swiftsalon.service;
 
 import android.content.Context;
 import android.widget.Button;
+import android.widget.Toast;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import lk.xtracheese.swiftsalon.R;
@@ -9,7 +10,9 @@ import lk.xtracheese.swiftsalon.R;
 public class DialogService {
 
     SweetAlertDialog sweetAlertDialog;
+    Toast toast;
     Context context;
+    int duration = Toast.LENGTH_SHORT;
 
     public DialogService(Context context) {
         this.context = context;
@@ -49,5 +52,30 @@ public class DialogService {
         sweetAlertDialog = new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE);
         sweetAlertDialog.setTitleText("Account Created Successfully!");
         return sweetAlertDialog;
+    }
+
+    public SweetAlertDialog appointmentCancelled(){
+        sweetAlertDialog = new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE);
+        sweetAlertDialog.setTitleText("Appointment Cancelled successfully!");
+        return sweetAlertDialog;
+    }
+
+    public SweetAlertDialog notConnected(){
+        sweetAlertDialog = new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE);
+        sweetAlertDialog.setTitleText("Your are not connected, " +
+                "data you see may differ from the real time data! " +
+                "Please connect with internet to see real time data.");
+        return sweetAlertDialog;
+    }
+
+    public SweetAlertDialog ratingSMessage(){
+        sweetAlertDialog = new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE);
+        sweetAlertDialog.setTitleText("Thank you!");
+        return sweetAlertDialog;
+    }
+
+    public void showToast(String msg){
+        toast = Toast.makeText(context, msg, duration );
+        toast.show();
     }
 }

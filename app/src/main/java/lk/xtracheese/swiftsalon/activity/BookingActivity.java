@@ -31,6 +31,8 @@ public class BookingActivity extends AppCompatActivity {
 
     private static final String TAG = "BookingActivity";
 
+
+
     Session session;
 
     LocalBroadcastManager localBroadcastManager;

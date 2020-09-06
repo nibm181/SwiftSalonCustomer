@@ -5,7 +5,11 @@ import android.annotation.SuppressLint;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
@@ -13,6 +17,9 @@ import android.view.View;
 
 import lk.xtracheese.swiftsalon.R;
 import lk.xtracheese.swiftsalon.util.Session;
+
+import static lk.xtracheese.swiftsalon.activity.HomeActivity.CHANNEL_ID;
+import static lk.xtracheese.swiftsalon.activity.HomeActivity.CHANNEL_NAME;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -23,6 +30,10 @@ public class FirstActivity extends AppCompatActivity {
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
      */
+
+    public static final String CHANNEL_ID = "swift_salon";
+    public static final String CHANNEL_NAME = "Swift Salon";
+
     private static final boolean AUTO_HIDE = true;
 
     /**
@@ -102,8 +113,17 @@ public class FirstActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_first);
+
+        // Since android Oreo notification channel is needed.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
+                    CHANNEL_NAME,
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.createNotificationChannel(channel);
+        }
+
 
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);

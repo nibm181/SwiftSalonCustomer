@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="lk.xtracheese.swiftsalon">
+    package="lk.xtracheese.swiftsalon" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -14,8 +16,25 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
-        tools:replace="android:icon">
-        <activity android:name=".activity.ViewSalonActivity"></activity>
+        tools:replace="android:icon" >
+        <activity android:name=".activity.RatingActivity" >
+        </activity>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_notification" />
+
+        <service
+            android:name=".service.SSFirebaseMessagingService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <activity android:name=".activity.UserProfileActivity" />
+        <activity android:name=".activity.EditUserProfileActivity" />
+        <activity android:name=".activity.ViewSalonActivity" />
         <activity
             android:name=".activity.FirstActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -26,18 +45,17 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity android:name=".activity.CreateAccountActivity" />
         <activity android:name=".activity.ViewAppointmentDetailActivity" />
-        <activity android:name=".activity.ViewAppointmentsActivity" />
-        <activity android:name=".activity.ProfileActivity" />
-        <activity android:name=".activity.BookingActivity"></activity>
-        <activity android:name=".activity.HomeActivity"/>
-
-
-        <activity android:name=".activity.LoginActivity"></activity>
-        <activity android:name=".activity.MainActivity"></activity>
+        <activity
+            android:name=".activity.ViewAppointmentsActivity"
+            android:parentActivityName=".activity.HomeActivity" />
+        <activity android:name=".activity.BookingActivity" />
+        <activity android:name=".activity.HomeActivity" />
+        <activity android:name=".activity.LoginActivity" />
+        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.ImageActivity" />
     </application>
 
 </manifest>

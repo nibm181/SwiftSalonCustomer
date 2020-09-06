@@ -1,11 +1,13 @@
 package lk.xtracheese.swiftsalon.network;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClientInstance {
     private static Retrofit retrofit;
-    private static final String BASE_URL = "http://10.0.2.2/SwiftSalon/";
+    private static final String BASE_URL = "http://10.0.2.2/swiftsalon-api/api/";
+
 
     public static Retrofit getRetrofitInstance() {
         if (retrofit == null) {

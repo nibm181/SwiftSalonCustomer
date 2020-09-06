@@ -19,22 +19,14 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
-
-import dmax.dialog.SpotsDialog;
+import lk.xtracheese.swiftsalon.Interface.OnItemClickListener;
+import lk.xtracheese.swiftsalon.R;
 import lk.xtracheese.swiftsalon.activity.ViewSalonActivity;
 import lk.xtracheese.swiftsalon.adapter.SalonAdapter;
-import lk.xtracheese.swiftsalon.activity.BookingActivity;
 import lk.xtracheese.swiftsalon.common.Common;
 import lk.xtracheese.swiftsalon.common.SpacesitemDecoration;
-import lk.xtracheese.swiftsalon.Interface.GetDataService;
-import lk.xtracheese.swiftsalon.Interface.OnItemClickListener;
 import lk.xtracheese.swiftsalon.model.Salon;
-import lk.xtracheese.swiftsalon.network.RetrofitClientInstance;
-import lk.xtracheese.swiftsalon.R;
 import lk.xtracheese.swiftsalon.viewmodel.SelectSalonViewModel;
-import retrofit2.Call;
-import retrofit2.Callback;
 
 public class SelectSalonFragment extends Fragment implements OnItemClickListener {
 
@@ -50,8 +42,8 @@ public class SelectSalonFragment extends Fragment implements OnItemClickListener
 
     String searchText = "";
 
-    public static SelectSalonFragment getInstance(){
-        if(instance == null)
+    public static SelectSalonFragment getInstance() {
+        if (instance == null)
             instance = new SelectSalonFragment();
         return instance;
     }
@@ -64,12 +56,10 @@ public class SelectSalonFragment extends Fragment implements OnItemClickListener
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-         super.onCreateView(inflater, container, savedInstanceState);
-         alertDialog = new SpotsDialog.Builder().setContext(getContext()).build();
-         alertDialog.show();
+        super.onCreateView(inflater, container, savedInstanceState);
 
 
-        View itemView = inflater.inflate(R.layout.fragment_booking_step_one,container, false);
+        View itemView = inflater.inflate(R.layout.fragment_booking_step_one, container, false);
         recyclerView = itemView.findViewById(R.id.recycler_salon);
         txtSearchSalon = itemView.findViewById(R.id.txt_salon_search);
 
@@ -96,7 +86,6 @@ public class SelectSalonFragment extends Fragment implements OnItemClickListener
             }
         });
 
-        alertDialog.dismiss();
         return itemView;
 
     }
@@ -108,8 +97,8 @@ public class SelectSalonFragment extends Fragment implements OnItemClickListener
 
     private void subscribeObservers() {
         viewModel.getSalons().observe(getViewLifecycleOwner(), listResource -> {
-            if(listResource != null) {
-                if(listResource.data != null) {
+            if (listResource != null) {
+                if (listResource.data != null) {
 
                     switch (listResource.status) {
                         case LOADING: {

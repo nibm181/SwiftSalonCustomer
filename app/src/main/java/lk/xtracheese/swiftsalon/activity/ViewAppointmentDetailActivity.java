@@ -1,5 +1,8 @@
 package lk.xtracheese.swiftsalon.activity;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,16 +13,19 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.work.impl.constraints.controllers.NetworkNotRoamingController;
 
 import lk.xtracheese.swiftsalon.R;
 import lk.xtracheese.swiftsalon.adapter.AppointmentAdapter;
 import lk.xtracheese.swiftsalon.adapter.AppointmentDetailAdapter;
-import lk.xtracheese.swiftsalon.common.Common;
+import lk.xtracheese.swiftsalon.common.SpacesitemDecoration;
 import lk.xtracheese.swiftsalon.model.Appointment;
 import lk.xtracheese.swiftsalon.service.DialogService;
 import lk.xtracheese.swiftsalon.service.PicassoImageLoadingService;
+import lk.xtracheese.swiftsalon.util.Session;
 import lk.xtracheese.swiftsalon.viewmodel.ViewAppointmentDetailViewModel;
 import lk.xtracheese.swiftsalon.viewmodel.ViewAppointmentViewModel;
 
@@ -30,11 +36,13 @@ public class ViewAppointmentDetailActivity extends AppCompatActivity {
     private static final String TAG = "ViewAppointmentDetailAc";
 
     DialogService alertDialog;
-
+    PicassoImageLoadingService picassoImageLoadingService;
+    Session session;
+    Appointment appointment;
     ViewAppointmentDetailViewModel viewAppointmentDetailViewModel;
     AppointmentDetailAdapter appointmentDetailAdapter;
+
     RecyclerView recyclerView;
-    ImageView imageView;
     TextView txtSalon, txtStylistName, txtDate, txtStatus;
     Button btnCancel;
 
@@ -42,7 +50,10 @@ public class ViewAppointmentDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_appointment_detail);
-        imageView = findViewById(R.id.view_appointment_detail_prof_user_pic);
+
+        appointment = getIntent().getParcelableExtra("appointment");
+        session = new Session(this);
+
         txtSalon = findViewById(R.id.view_appointment_detail_salon_name);
         txtDate = findViewById(R.id.view_appointment_detail_date);
         txtStatus = findViewById(R.id.view_appointment_detail_status);
@@ -57,19 +68,21 @@ public class ViewAppointmentDetailActivity extends AppCompatActivity {
 
         setData();
 
-        String userImageURL = "http://10.0.2.2/SwiftSalon/user_images/user.jpeg";
-        PicassoImageLoadingService picassoImageLoadingService = new PicassoImageLoadingService();
-        picassoImageLoadingService.loadImage(userImageURL, imageView);
+        picassoImageLoadingService = new PicassoImageLoadingService();
 
         initRecyclerView();
         subscribeObservers();
+        subscribeObserversForUpdate();
         getAppointmentDetail();
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //check is he online!!!
-
+                if(isOnline()){
+                    appointment.setStatus("cancelled");
+                    updateAppointmentApi();
+                }
             }
         });
     }
@@ -77,10 +90,11 @@ public class ViewAppointmentDetailActivity extends AppCompatActivity {
     private void initRecyclerView() {
         appointmentDetailAdapter = new AppointmentDetailAdapter(this);
         recyclerView.setAdapter(appointmentDetailAdapter);
+        recyclerView.addItemDecoration(new SpacesitemDecoration(4));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    private void getAppointmentDetail() {viewAppointmentDetailViewModel.appointmentDetailApi(Common.currentAppointment.getId());}
+    private void getAppointmentDetail() {viewAppointmentDetailViewModel.appointmentDetailApi(appointment.getId());}
 
     private void subscribeObservers() {
         viewAppointmentDetailViewModel.getAppointmentDetail().observe(this, listResource -> {
@@ -92,7 +106,6 @@ public class ViewAppointmentDetailActivity extends AppCompatActivity {
                         }
                         case SUCCESS: {
                             Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
-                            Log.d(TAG, "subscribeObservers: DATA: " + listResource.data.toString());
                             appointmentDetailAdapter.submitList(listResource.data);
                             break;
                         }
@@ -108,42 +121,51 @@ public class ViewAppointmentDetailActivity extends AppCompatActivity {
     }
 
     void setData(){
-        txtSalon.setText(Common.currentAppointment.getSalonName());
-        txtStylistName.setText(Common.currentAppointment.getStylistName());
-        txtStatus.setText("status : "+Common.currentAppointment.getStatus());
-        txtDate.setText(new StringBuilder("on "+Common.currentAppointment.getDate())
-            .append(" at "+Common.currentAppointment.getTime()));
+        txtSalon.setText(appointment.getSalonName());
+        txtStylistName.setText(appointment.getStylistName());
+        txtStatus.setText("status : "+appointment.getStatus());
+        txtDate.setText(new StringBuilder("on "+appointment.getDate())
+            .append(" at "+appointment.getTime()));
 
-        if(Common.currentAppointment.getStatus().equals("pending")){
+        if(appointment.getStatus().equals("pending")){
             btnCancel.setVisibility(View.VISIBLE);
         }
     }
 
     private void updateAppointmentApi() {
-        viewAppointmentDetailViewModel.appointmentUpdateApi(Common.currentAppointment);
+        viewAppointmentDetailViewModel.appointmentUpdateApi(appointment);
     }
 
     private void subscribeObserversForUpdate() {
-        viewAppointmentDetailViewModel.getAppointment().observe(this, resource -> {
+        viewAppointmentDetailViewModel.updateAppointment().observe(this, resource -> {
             switch (resource.status) {
                 case LOADING:
                     alertDialog.loadingDialog().show();
                     break;
                 case ERROR:
                     alertDialog.dismissLoading();
-                    alertDialog.oopsErrorDialog();
+                    alertDialog.oopsErrorDialog().show();
                     break;
                 case SUCCESS:
                     if (resource.data.getStatus() == 1) {
                         if (resource.data.getContent() != null) {
+                            txtStatus.setText("status : cancelled");
+                            btnCancel.setVisibility(View.GONE);
                             alertDialog.dismissLoading();
-                            alertDialog.successAppointmentDialog().show();
+                            alertDialog.appointmentCancelled().show();
                         }
                     }
                     break;
 
             }
         });
+    }
+
+    public boolean isOnline(){
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return  (networkInfo != null && networkInfo.isConnected());
     }
 
 }
