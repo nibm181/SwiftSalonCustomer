@@ -33,7 +33,7 @@
                     android:id="@+id/txt_user_name"
                     android:text="Appointment Details"
                     android:textColor="@color/pearl_white"
-                    android:textSize="22sp"
+                    android:textSize="@dimen/textNameSize"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
 
@@ -128,8 +128,8 @@
         <Button
             android:id="@+id/view_appointment_detail_cancel_btn"
             android:text="Cancel Appointment"
-            android:background="@drawable/appointment_confirm_txt_middle"
-            android:textColor="@color/red"
+            android:background="@drawable/button3_shape"
+            android:textColor="@color/dark"
             android:padding="10dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="10px"

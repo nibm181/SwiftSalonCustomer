@@ -79,6 +79,9 @@ public class ViewAppointmentsActivity extends AppCompatActivity implements OnIte
                             break;
                         }
                     }
+                }else{
+                    Intent intent1 = new Intent(ViewAppointmentsActivity.this, NoAppointmentsActivity.class);
+                    startActivity(intent1);
                 }
             }
         });

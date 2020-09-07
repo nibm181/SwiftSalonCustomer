@@ -35,7 +35,7 @@
                 android:id="@+id/txt_user_name"
                 android:text="Eddy Lee"
                 android:textColor="@color/pearl_white"
-                android:textSize="22sp"
+                android:textSize="@dimen/textNameSize"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
@@ -48,7 +48,8 @@
     <TextView
         android:id="@+id/txt_prof_view_appointments"
         android:text="View Appointments"
-        android:textSize="25dp"
+        android:textColor="@color/dark"
+        android:textSize="@dimen/textProfileSize"
         android:layout_marginTop="40dp"
         android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
@@ -57,7 +58,8 @@
     <TextView
         android:id="@+id/txt_prof_edit_acc"
         android:text="Edit Account"
-        android:textSize="25dp"
+        android:textColor="@color/dark"
+        android:textSize="@dimen/textProfileSize"
         android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -65,7 +67,8 @@
     <TextView
         android:id="@+id/txt_prof_logout"
         android:text="Logout"
-        android:textSize="25dp"
+        android:textColor="@color/dark"
+        android:textSize="@dimen/textProfileSize"
         android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

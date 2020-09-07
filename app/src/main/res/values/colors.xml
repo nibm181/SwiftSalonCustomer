@@ -10,8 +10,9 @@
     <color name="dark_purple">#5B1A82</color>
     <color name="dark_dark_purple">#370A52</color>
     <color name="pink">#b03e94</color>
-    <color name="red">#B53737</color>
-    <color name="main_green_color">#5B1A82</color>
+    <color name="appointment">#145374</color>
+    <color name="red">#FF4B5C</color>
+    <color name="main_green_color">#1E5F74</color>
     <color name="light_blue">#3282B8</color>
     <color name="green_blue">#24A19C</color>
     <color name="pearl_white">#F5F5FF</color>

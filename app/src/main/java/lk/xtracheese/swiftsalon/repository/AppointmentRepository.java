@@ -156,4 +156,9 @@ public class AppointmentRepository {
         }.getAsLiveData();
 
     }
+
+    public String getStylistImage(int id){
+        String image = swiftSalonDao.getStylistImage(id);
+        return image;
+    }
 }

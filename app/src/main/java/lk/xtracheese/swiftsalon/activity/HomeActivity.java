@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -20,16 +21,21 @@ import lk.xtracheese.swiftsalon.R;
 
 public class HomeActivity extends AppCompatActivity {
 
+    private static final String TAG = "HomeActivity";
+    
     public static final String CHANNEL_ID = "swift_salon";
     public static final String CHANNEL_NAME = "Swift Salon";
 
     BottomNavigationView bottomNavigationView;
+
+    boolean isAppointment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        isAppointment = getIntent().getBooleanExtra("isAppointment", true);
         // Since android Oreo notification channel is needed.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
@@ -41,10 +47,14 @@ public class HomeActivity extends AppCompatActivity {
 
 
         //to open home by default
-        if(savedInstanceState == null){
+        if(isAppointment){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new HomeFragment()).commit();
+        }else if(savedInstanceState == null){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new SelectSalonFragment()).commit();
         }
+
 
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);

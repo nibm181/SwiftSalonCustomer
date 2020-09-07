@@ -92,11 +92,9 @@ public class CreateAccountActivity extends AppCompatActivity {
                 case SUCCESS:
                     if (resource.data.getStatus() == 1) {
                         if (resource.data.getContent() != null) {
-                            session.setUserId(resource.data.getContent().getId());
-                            session.setSignedIn(true);
                             alertDialog.dismissLoading();
                             alertDialog.successAccountDialog().show();
-                            Intent intent = new Intent(CreateAccountActivity.this, HomeActivity.class);
+                            Intent intent = new Intent(CreateAccountActivity.this, LoginActivity.class);
                             startActivity(intent);
                         }
                     }
@@ -123,11 +121,11 @@ public class CreateAccountActivity extends AppCompatActivity {
 
         if(firstName.isEmpty()) {
             alertDialog.errorDialog("Please enter first name").show();
-        }else if(!firstName.matches(NAME_REGEX)){
+        }else if(firstName.matches(NAME_REGEX)){
             alertDialog.errorDialog("Please enter valid first name").show();
         }else if(lastName.isEmpty()){
             alertDialog.errorDialog("Please enter last name").show();
-        }else if(!lastName.matches(NAME_REGEX)){
+        }else if(lastName.matches(NAME_REGEX)){
             alertDialog.errorDialog("Please enter valid last name").show();
         }else if(mobileNo.isEmpty()){
              alertDialog.errorDialog("Please enter mobile number").show();

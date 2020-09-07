@@ -46,6 +46,18 @@ public class Salon implements Parcelable {
     @SerializedName("mobile_no")
     private String mobileNo;
 
+    @ColumnInfo(name = "rating")
+    @SerializedName("rating")
+    private Float rating;
+
+    public Float getRating() {
+        return rating;
+    }
+
+    public void setRating(Float rating) {
+        this.rating = rating;
+    }
+
     public void setSalonName(String salonName) {
         this.salonName = salonName;
     }
@@ -92,6 +104,7 @@ public class Salon implements Parcelable {
         closeTime = in.readString();
         image = in.readString();
         mobileNo = in.readString();
+        rating = in.readFloat();
     }
 
     public static final Creator<Salon> CREATOR = new Creator<Salon>() {
@@ -153,6 +166,7 @@ public class Salon implements Parcelable {
         dest.writeString(closeTime);
         dest.writeString(image);
         dest.writeString(mobileNo);
+        dest.writeFloat(rating);
     }
 
     @Override

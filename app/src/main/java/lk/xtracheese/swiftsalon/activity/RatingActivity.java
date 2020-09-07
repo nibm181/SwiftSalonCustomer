@@ -28,7 +28,7 @@ public class RatingActivity extends AppCompatActivity {
     PicassoImageLoadingService picassoImageLoadingService;
     SwiftSalonDao swiftSalonDao;
 
-    TextView txtStylist;
+    TextView txtStylist, txtSalon, txtAppointmentNo;
     RatingBar ratingBar;
     ImageView imageView;
     Button btnSubmit;
@@ -48,11 +48,15 @@ public class RatingActivity extends AppCompatActivity {
         imageView = findViewById(R.id.imageView);
         btnSubmit = findViewById(R.id.btn_submit);
         txtStylist = findViewById(R.id.txt_stylist);
+        txtSalon = findViewById(R.id.txt_salon);
+        txtAppointmentNo = findViewById(R.id.txt_appointment_no);
 
         subscribeObservers();
 
         txtStylist.setText(appointment.getStylistName());
-//        picassoImageLoadingService.loadImageRound(swiftSalonDao.getStylistImage(appointment.getStylistId()), imageView);
+        txtAppointmentNo.setText(appointment.getId());
+        txtSalon.setText(appointment.getSalonName());
+        picassoImageLoadingService.loadImageRound(appointment.getSalonImage(), imageView);
 
         btnSubmit.setOnClickListener(v -> {
             float ratingCount = ratingBar.getRating();
@@ -67,7 +71,7 @@ public class RatingActivity extends AppCompatActivity {
 
     }
 
-    private void subscribeObservers() {
+    public void subscribeObservers() {
         viewModel.getResponse().observe(this, resource -> {
             switch (resource.status) {
                 case LOADING:
@@ -93,9 +97,11 @@ public class RatingActivity extends AppCompatActivity {
         });
     }
 
-    private void addRatingApi(int id, float rating) {
+    public void addRatingApi(int id, float rating) {
         viewModel.addRatingApi(id, rating);
     }
+
+
 
 
 }

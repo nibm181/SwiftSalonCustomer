@@ -29,6 +29,7 @@ import lk.xtracheese.swiftsalon.util.Session;
 import lk.xtracheese.swiftsalon.viewmodel.ViewAppointmentDetailViewModel;
 import lk.xtracheese.swiftsalon.viewmodel.ViewAppointmentViewModel;
 
+import static lk.xtracheese.swiftsalon.util.Constants.STATUS_CANCELED;
 import static lk.xtracheese.swiftsalon.util.Resource.Status.LOADING;
 
 public class ViewAppointmentDetailActivity extends AppCompatActivity {
@@ -80,7 +81,7 @@ public class ViewAppointmentDetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //check is he online!!!
                 if(isOnline()){
-                    appointment.setStatus("cancelled");
+                    appointment.setStatus(STATUS_CANCELED);
                     updateAppointmentApi();
                 }
             }

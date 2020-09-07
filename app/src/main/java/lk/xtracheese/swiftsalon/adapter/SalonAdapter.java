@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -71,6 +72,7 @@ public class SalonAdapter extends ListAdapter<Salon, SalonAdapter.MyViewHolder> 
         holder.txtSalonName.setText(getItem(position).getSalonName());
         holder.txtSalonAddress1.setText(getItem(position).getSalonAddress1());
         holder.txtSalonAddress2.setText(getItem(position).getSalonAddress2());
+        holder.ratingBar.setRating(getItem(position).getRating());
         picassoImageLoadingService.loadImage(getItem(position).getImage(), holder.imgSalon);
         if(!cardViewList.contains(holder.cardSalon))
             cardViewList.add(holder.cardSalon);
@@ -86,6 +88,7 @@ public class SalonAdapter extends ListAdapter<Salon, SalonAdapter.MyViewHolder> 
         TextView txtSalonName, txtSalonAddress1, txtSalonAddress2;
         CardView cardSalon;
         ImageView imgSalon;
+        RatingBar ratingBar;
         RecyclerItemSelectedListener recyclerItemSelectedListener;
         OnItemClickListener onItemClickListener;
 
@@ -99,6 +102,7 @@ public class SalonAdapter extends ListAdapter<Salon, SalonAdapter.MyViewHolder> 
             txtSalonAddress2 = itemView.findViewById(R.id.txt_salon_addr2);
             txtSalonName = itemView.findViewById(R.id.txt_salon_name);
             cardSalon = itemView.findViewById(R.id.card_salon);
+            ratingBar = itemView.findViewById(R.id.rtb_salon);
 
 
             itemView.setOnClickListener(this);

@@ -55,7 +55,7 @@ public class RatingViewModel extends AndroidViewModel {
         }
     }
 
-    private void executeFetch(Appointment objAppointment) {
+    public void executeFetch(Appointment objAppointment) {
         isFetching = true;
 
         final LiveData<Resource<GenericResponse>> repositorySource = appointmentRepository.addRating(objAppointment);
@@ -76,6 +76,11 @@ public class RatingViewModel extends AndroidViewModel {
                 }
             }
         });
+    }
+
+    public String getStylistImage(int id){
+       String image =  appointmentRepository.getStylistImage(id);
+       return image;
     }
 
 

@@ -31,7 +31,7 @@
             <TextView
                 android:text="My Appointments"
                 android:textColor="@color/pearl_white"
-                android:textSize="22sp"
+                android:textSize="@dimen/textNameSize"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 

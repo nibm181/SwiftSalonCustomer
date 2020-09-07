@@ -10,6 +10,14 @@ public class LookBook {
     private int id;
     private String image;
 
+    @Override
+    public String toString() {
+        return "LookBook{" +
+                "id=" + id +
+                ", image='" + image + '\'' +
+                '}';
+    }
+
     public int getId() {
         return id;
     }

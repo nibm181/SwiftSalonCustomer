@@ -36,7 +36,7 @@
                 android:id="@+id/txt_user_name"
                 android:text="Eddy Lee"
                 android:textColor="@color/pearl_white"
-                android:textSize="22sp"
+                android:textSize="@dimen/textNameSize"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
@@ -66,7 +66,7 @@
             />
 
     </LinearLayout>
-    
+
     <LinearLayout
         android:orientation="vertical"
         android:padding="8dp"
