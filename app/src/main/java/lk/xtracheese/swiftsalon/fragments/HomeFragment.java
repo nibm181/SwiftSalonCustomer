@@ -108,11 +108,11 @@ public class HomeFragment extends Fragment {
                                 bannerSlider.setOnSlideClickListener(new OnSlideClickListener() {
                                     @Override
                                     public void onSlideClick(int position) {
-                                        Log.d(TAG, "onSlideClick: Clicked "+position);
-                                        Intent intent =new Intent(getContext(), ViewSalonActivity.class);
-                                        intent.putExtra("salonId", Common.currentPromotion.get(position).getSalonId());
-                                        startActivity(intent);
-
+                                        if(position >= 0){
+                                            Intent intent =new Intent(getContext(), ViewSalonActivity.class);
+                                            intent.putExtra("salonId", Common.currentPromotion.get(position).getSalonId());
+                                            startActivity(intent);
+                                        }
                                     }
                                 });
                             } else {
