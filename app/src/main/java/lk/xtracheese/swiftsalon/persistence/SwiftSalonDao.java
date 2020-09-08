@@ -16,6 +16,7 @@ import lk.xtracheese.swiftsalon.model.Salon;
 import lk.xtracheese.swiftsalon.model.Stylist;
 import lk.xtracheese.swiftsalon.model.StylistJob;
 import lk.xtracheese.swiftsalon.model.User;
+import retrofit2.http.GET;
 
 import static androidx.room.OnConflictStrategy.REPLACE;
 
@@ -44,7 +45,7 @@ public interface SwiftSalonDao {
     @Query("SELECT * FROM tbl_appointment WHERE id = :id")
     LiveData<Appointment> getAppointment(int id);
 
-    @Query("SELECT * FROM tbl_appointment WHERE customer_id = :userId ORDER BY date DESC")
+    @Query("SELECT * FROM tbl_appointment WHERE customer_id = :userId ORDER BY date ASC")
     LiveData<List<Appointment>> getAppointments(int userId);
 
 
@@ -56,6 +57,9 @@ public interface SwiftSalonDao {
 
     @Query("SELECT * from tbl_look_book")
     LiveData<List<LookBook>> getLookBooks();
+
+    @Query("DELETE from tbl_look_book")
+    void deleteLookBooks();
 
     //Promotion
 
@@ -75,6 +79,8 @@ public interface SwiftSalonDao {
     @Query("SELECT * from tbl_stylist_job WHERE stylist_id = :stylistId")
     LiveData<List<StylistJob>> getStylistJobs(int stylistId);
 
+    @Query("DELETE from tbl_stylist_job WHERE salon_id = :salonId")
+    void deleteStylistJobs(int salonId);
 
     // Salon
     @Insert(onConflict = REPLACE)
@@ -82,6 +88,13 @@ public interface SwiftSalonDao {
 
     @Insert(onConflict = REPLACE)
     void insertSalons(Salon... salons);
+
+    @Query("SELECT * FROM  tbl_salon WHERE id = :id")
+    LiveData<Salon> getSalon(int id);
+
+    @Query("DELETE FROM tbl_salon")
+    void deleteSalon();
+
 
 //    @Query("SELECT * FROM tbl_salon")
 //    LiveData<List<Salon>> getSalons();
@@ -100,6 +113,9 @@ public interface SwiftSalonDao {
 
     @Query("SELECT * FROM tbl_stylist WHERE salon_id = :salonId")
     LiveData<List<Stylist>> getStylists(int salonId);
+
+    @Query("DELETE FROM tbl_stylist WHERE salon_id = :salonId")
+    void deleteStylists(int salonId);
 
     //User
     @Insert(onConflict = REPLACE)

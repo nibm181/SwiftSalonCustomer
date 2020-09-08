@@ -50,6 +50,7 @@ public class StylistRepository {
                 Log.d(TAG, "saveCallResult: DATA: " + item.toString());
                 if (item.getContent() != null) {
                     Stylist[] stylists = new Stylist[item.getContent().size()];
+                    swiftSalonDao.deleteStylists(salonId);
                     swiftSalonDao.insertStylists(item.getContent().toArray(stylists));
                 }
             }

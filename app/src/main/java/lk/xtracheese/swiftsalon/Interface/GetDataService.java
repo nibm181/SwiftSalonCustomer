@@ -14,6 +14,6 @@ import retrofit2.http.Query;
 
 public interface GetDataService {
 
-    @PUT("Appointment")
-    Call<Appointment> addRating(@Body Appointment appointment);
+    @GET("Appointment")
+    Call<List<Appointment>> getAppointment(@Query("customer_id") int customerId);
 }

@@ -32,7 +32,7 @@ public interface SalonApi {
     LiveData<ApiResponse<GenericResponse<List<Salon>>>> getSalons(@Query("search_txt") String searchText);
 
     @GET("Salon")
-    LiveData<ApiResponse<GenericResponse<List<Salon>>>> getSalons();
+    LiveData<ApiResponse<GenericResponse<Salon>>> getSalon(@Query("id") int id);
 
     @FormUrlEncoded
     @POST("Login")

@@ -41,7 +41,7 @@ public class ViewAppointmentsActivity extends AppCompatActivity implements OnIte
         alertDialog = new DialogService(this);
 
         if(!isOnline()){
-            alertDialog.notConnected();
+            alertDialog.notConnected().show();
         }
 
         alertDialog = new DialogService(this);
@@ -69,20 +69,24 @@ public class ViewAppointmentsActivity extends AppCompatActivity implements OnIte
                         }
                         case SUCCESS: {
                             alertDialog.dismissLoading();
-                            appointmentAdapter.submitList(listResource.data);
+                            if(listResource.data == null) {
+                                Intent intent1 = new Intent(ViewAppointmentsActivity.this, NoAppointmentsActivity.class);
+                                startActivity(intent1);
+                            }else {
+                                appointmentAdapter.submitList(listResource.data);
+                            }
+
                             break;
                         }
                         case ERROR: {
                             alertDialog.dismissLoading();
-                            Toast.makeText(this, listResource.message, Toast.LENGTH_SHORT).show();
+                            alertDialog.showToast(listResource.message);
                             appointmentAdapter.submitList(listResource.data);
                             break;
                         }
                     }
-                }else{
-                    Intent intent1 = new Intent(ViewAppointmentsActivity.this, NoAppointmentsActivity.class);
-                    startActivity(intent1);
                 }
+
             }
         });
     }

@@ -26,6 +26,7 @@ import lk.xtracheese.swiftsalon.adapter.SalonAdapter;
 import lk.xtracheese.swiftsalon.common.Common;
 import lk.xtracheese.swiftsalon.common.SpacesitemDecoration;
 import lk.xtracheese.swiftsalon.model.Salon;
+import lk.xtracheese.swiftsalon.service.DialogService;
 import lk.xtracheese.swiftsalon.viewmodel.SelectSalonViewModel;
 
 public class SelectSalonFragment extends Fragment implements OnItemClickListener {
@@ -37,7 +38,7 @@ public class SelectSalonFragment extends Fragment implements OnItemClickListener
     RecyclerView recyclerView;
     EditText txtSearchSalon;
 
-    AlertDialog alertDialog;
+    DialogService alertDialog;
     SelectSalonViewModel viewModel;
 
     String searchText = "";
@@ -58,13 +59,15 @@ public class SelectSalonFragment extends Fragment implements OnItemClickListener
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
+        viewModel = new ViewModelProvider(this).get(SelectSalonViewModel.class);
+        alertDialog = new DialogService(getContext());
 
         View itemView = inflater.inflate(R.layout.fragment_booking_step_one, container, false);
         recyclerView = itemView.findViewById(R.id.recycler_salon);
         txtSearchSalon = itemView.findViewById(R.id.txt_salon_search);
 
-        initRecyclerView();
-        viewModel = new ViewModelProvider(this).get(SelectSalonViewModel.class);
+//        initRecyclerView();
+
         subscribeObservers();
         getSalonsApi(searchText);
 
@@ -102,17 +105,18 @@ public class SelectSalonFragment extends Fragment implements OnItemClickListener
 
                     switch (listResource.status) {
                         case LOADING: {
-                            Log.d(TAG, "subscribeObservers: LOADING");
                             break;
                         }
 
                         case ERROR: {
-                            Toast.makeText(getContext(), listResource.message, Toast.LENGTH_SHORT).show();
+                            alertDialog.showToast(listResource.message);
+                            initRecyclerView();
                             salonAdapter.submitList(listResource.data);
                             break;
                         }
 
                         case SUCCESS: {
+                            initRecyclerView();
                             salonAdapter.submitList(listResource.data);
                             break;
                         }
@@ -137,13 +141,6 @@ public class SelectSalonFragment extends Fragment implements OnItemClickListener
         recyclerView.setAdapter(salonAdapter);
         recyclerView.setHasFixedSize(true);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1);
-        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                return 0;
-            }
-        });
 
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
         recyclerView.addItemDecoration(new SpacesitemDecoration(4));

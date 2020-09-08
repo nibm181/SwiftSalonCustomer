@@ -34,15 +34,14 @@ public class BookingActivity extends AppCompatActivity {
 
 
     Session session;
-
     LocalBroadcastManager localBroadcastManager;
     DialogService alertDialog;
+    AppointmentViewModel viewModel;
+
     StepView stepView;
     NonSwipeViewPager viewPager;
     Button btnPrevStep;
     Button btnNxtStep;
-
-    AppointmentViewModel viewModel;
 
 
     //broadcast receiver
@@ -82,14 +81,14 @@ public class BookingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_booking);
 
         alertDialog = new DialogService(this);
+        session = new Session(BookingActivity.this);
+        viewModel = new AppointmentViewModel(getApplication());
 
         stepView = findViewById(R.id.step_view);
         viewPager = findViewById(R.id.view_pager);
         btnPrevStep = findViewById(R.id.btn_prev_step);
         btnNxtStep = findViewById(R.id.btn_nxt_step);
 
-        session = new Session(BookingActivity.this);
-        viewModel = new AppointmentViewModel(getApplication());
 
         localBroadcastManager = LocalBroadcastManager.getInstance(this);
         localBroadcastManager.registerReceiver(buttonNextReceiver, new IntentFilter(Common.KEY_ENABLE_BUTTON_NEXT));
@@ -257,7 +256,7 @@ public class BookingActivity extends AppCompatActivity {
                     break;
                 case ERROR:
                     alertDialog.dismissLoading();
-                    alertDialog.oopsErrorDialog();
+                    alertDialog.showToast(resource.message);
                     break;
                 case SUCCESS:
                     if (resource.data.getStatus() == 1) {
@@ -290,5 +289,6 @@ public class BookingActivity extends AppCompatActivity {
 
         setAppointmentApi(appointment);
     }
+
 
 }

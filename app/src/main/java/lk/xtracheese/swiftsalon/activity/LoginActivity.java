@@ -173,9 +173,9 @@ public class LoginActivity extends AppCompatActivity {
                     showProgressBar(false);
 
                     if (resource.data != null) {
-                        dialogService.errorDialog(resource.data.getMessage()).show();
+                        dialogService.showToast(resource.data.getMessage());
                     } else {
-                       dialogService.oopsErrorDialog();
+                       dialogService.showToast(resource.message);
 
                     }
                     break;

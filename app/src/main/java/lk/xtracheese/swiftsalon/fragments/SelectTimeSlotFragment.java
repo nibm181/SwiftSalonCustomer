@@ -33,17 +33,20 @@ import lk.xtracheese.swiftsalon.common.Common;
 import lk.xtracheese.swiftsalon.common.SpacesitemDecoration;
 import lk.xtracheese.swiftsalon.model.TimeSlot;
 import lk.xtracheese.swiftsalon.R;
+import lk.xtracheese.swiftsalon.service.DialogService;
 import lk.xtracheese.swiftsalon.viewmodel.SelectJobViewModel;
 import lk.xtracheese.swiftsalon.viewmodel.SelectTimeSlotViewModel;
 
 public class SelectTimeSlotFragment extends Fragment {
 
     private static final String TAG = "SelectTimeSlotFragment";
-    
+
+    SelectTimeSlotViewModel viewModel;
+    DialogService dialogService;
+
     RecyclerView recyclerTimeSlots;
     HorizontalCalendarView horizontalCalendarView;
     SimpleDateFormat simpleDateFormat;
-    SelectTimeSlotViewModel viewModel;
     TimeSlotAdapter timeSlotAdapter;
 
 
@@ -77,6 +80,7 @@ public class SelectTimeSlotFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        dialogService = new DialogService(getContext());
         localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
         localBroadcastManager.registerReceiver(displayTimeSlot, new IntentFilter(Common.KEY_JOB_SELECTED));
 
@@ -178,7 +182,7 @@ public class SelectTimeSlotFragment extends Fragment {
                         }
 
                         case ERROR:{
-                            Toast.makeText(getContext(), listResource.message, Toast.LENGTH_SHORT).show();
+                            dialogService.showToast(listResource.message);
                         }
                         case SUCCESS:{
                             if(listResource.data.getStatus() == 1){

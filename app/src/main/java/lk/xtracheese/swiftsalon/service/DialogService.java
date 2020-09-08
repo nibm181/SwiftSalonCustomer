@@ -1,7 +1,11 @@
 package lk.xtracheese.swiftsalon.service;
 
 import android.content.Context;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -61,12 +65,13 @@ public class DialogService {
     }
 
     public SweetAlertDialog notConnected(){
-        sweetAlertDialog = new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE);
+        sweetAlertDialog = new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE);
         sweetAlertDialog.setTitleText("Your are not connected, " +
                 "data you see may differ from the real time data! " +
                 "Please connect with internet to see real time data.");
         return sweetAlertDialog;
     }
+
 
     public SweetAlertDialog ratingSMessage(){
         sweetAlertDialog = new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE);
@@ -74,8 +79,29 @@ public class DialogService {
         return sweetAlertDialog;
     }
 
+    public SweetAlertDialog areYouSure(){
+        sweetAlertDialog = new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE);
+        sweetAlertDialog.setTitleText("Are you sure?");
+        sweetAlertDialog.setContentText("Do you want to logout?");
+        sweetAlertDialog.setConfirmText("Yes, log me out");
+        return sweetAlertDialog;
+    }
+
     public void showToast(String msg){
-        toast = Toast.makeText(context, msg, duration );
+        toast = Toast.makeText(context, msg, duration);
         toast.show();
+    }
+
+    public Toast showCustomToast(String msg){
+        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.custom_toast_layout, null);
+        TextView text = layout.findViewById(R.id.text);
+        text.setText(msg);
+
+        toast = new Toast(context);
+        toast.setGravity(Gravity.BOTTOM, 0, 40);
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(layout);
+        return  toast;
     }
 }

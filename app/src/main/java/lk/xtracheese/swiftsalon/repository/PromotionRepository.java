@@ -42,9 +42,9 @@ public class PromotionRepository {
 
             @Override
             protected void saveCallResult(@NonNull GenericResponse<List<Promotion>> item) {
-                swiftSalonDao.deletePromotions();
                 if(item.getContent() != null) {
                     Promotion[] promotions = new Promotion[item.getContent().size()];
+                    swiftSalonDao.deletePromotions();
                     swiftSalonDao.insertPromotions(item.getContent().toArray(promotions));
                 }
             }

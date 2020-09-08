@@ -7,5 +7,5 @@
         android:color="@color/dark"
 
      />
-    <solid android:color="#F5F5FF"/>
+    <solid android:color="#F5F5FF" />
 </shape>

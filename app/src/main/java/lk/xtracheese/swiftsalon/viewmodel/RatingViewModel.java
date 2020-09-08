@@ -78,10 +78,7 @@ public class RatingViewModel extends AndroidViewModel {
         });
     }
 
-    public String getStylistImage(int id){
-       String image =  appointmentRepository.getStylistImage(id);
-       return image;
-    }
+
 
 
 

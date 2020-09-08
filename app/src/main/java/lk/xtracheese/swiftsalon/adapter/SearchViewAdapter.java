@@ -6,7 +6,6 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import lk.xtracheese.swiftsalon.fragments.AppointmentResultFragment;
 import lk.xtracheese.swiftsalon.fragments.SelectJobFragment;
-import lk.xtracheese.swiftsalon.fragments.SelectStylistFragment;
 import lk.xtracheese.swiftsalon.fragments.SelectTimeSlotFragment;
 import lk.xtracheese.swiftsalon.fragments.ConfirmAppointmentFragment;
 

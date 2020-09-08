@@ -83,6 +83,8 @@ public class ViewAppointmentDetailActivity extends AppCompatActivity {
                 if(isOnline()){
                     appointment.setStatus(STATUS_CANCELED);
                     updateAppointmentApi();
+                }else {
+                    alertDialog.notConnected().show();
                 }
             }
         });
@@ -106,7 +108,6 @@ public class ViewAppointmentDetailActivity extends AppCompatActivity {
                             break;
                         }
                         case SUCCESS: {
-                            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                             appointmentDetailAdapter.submitList(listResource.data);
                             break;
                         }
@@ -145,7 +146,7 @@ public class ViewAppointmentDetailActivity extends AppCompatActivity {
                     break;
                 case ERROR:
                     alertDialog.dismissLoading();
-                    alertDialog.oopsErrorDialog().show();
+                    alertDialog.showToast(resource.message);
                     break;
                 case SUCCESS:
                     if (resource.data.getStatus() == 1) {

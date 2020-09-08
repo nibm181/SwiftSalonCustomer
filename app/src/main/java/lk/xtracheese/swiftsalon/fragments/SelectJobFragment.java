@@ -27,6 +27,7 @@ import lk.xtracheese.swiftsalon.common.SpacesitemDecoration;
 import lk.xtracheese.swiftsalon.model.Stylist;
 import lk.xtracheese.swiftsalon.model.StylistJob;
 import lk.xtracheese.swiftsalon.model.TimeSlot;
+import lk.xtracheese.swiftsalon.service.DialogService;
 import lk.xtracheese.swiftsalon.viewmodel.SelectJobViewModel;
 
 
@@ -38,7 +39,7 @@ public class SelectJobFragment extends Fragment {
     JobAdapter jobAdapter;
     RecyclerView recyclerView;
     SelectJobViewModel viewModel;
-
+    DialogService dialogService;
 
     LocalBroadcastManager localBroadcastManager;
     BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -95,9 +96,12 @@ public class SelectJobFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View itemView = inflater.inflate(R.layout.fragment_select_job, container, false);
-        recyclerView = itemView.findViewById(R.id.recycler_job);
+
         viewModel = new ViewModelProvider(this).get(SelectJobViewModel.class);
-        initRecyclerView();
+        dialogService = new DialogService(getContext());
+
+        recyclerView = itemView.findViewById(R.id.recycler_job);
+
         subscribeObservers();
         getJobApi();
         return itemView;
@@ -116,10 +120,12 @@ public class SelectJobFragment extends Fragment {
                         }
 
                         case ERROR:{
-                            Toast.makeText(getContext(), listResource.message, Toast.LENGTH_SHORT).show();
+                            dialogService.showToast(listResource.message);
+                            initRecyclerView();
                             jobAdapter.submitList(listResource.data);
                         }
                         case SUCCESS:{
+                            initRecyclerView();
                             jobAdapter.submitList(listResource.data);
                         }
                     }

@@ -11,95 +11,107 @@
 
     <LinearLayout
         android:id="@+id/layout_user_information"
-        android:orientation="horizontal"
-        android:weightSum="4"
-        android:padding="8dp"
-        android:elevation="10dp"
-        android:background="@drawable/top_user_information_background"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/top_user_information_background"
+        android:elevation="10dp"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:weightSum="4">
 
         <ImageView
             android:id="@+id/home_user_pic"
-            android:background="@drawable/profile_pic_background"
             android:layout_width="60dp"
-            android:layout_height="60dp" />
+            android:layout_height="60dp"
+            android:background="@drawable/profile_pic_background" />
 
         <LinearLayout
-            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/txt_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:text="Eddy Lee"
                 android:textColor="@color/pearl_white"
-                android:textSize="@dimen/textNameSize"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:textSize="@dimen/textNameSize" />
 
 
         </LinearLayout>
 
 
-
-
-
-
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:weightSum="4"
-        android:padding="8dp"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-        <ss.com.bannerslider.Slider
-            android:id="@+id/banner_slider"
-            android:layout_width="match_parent"
-            android:layout_height="400px"
-            app:slider_loopSlides="true"
-            />
-
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:scrollbars="none">
 
     <LinearLayout
-        android:orientation="vertical"
-        android:padding="8dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="2dp">
-
-            <TextView
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:gravity="center_vertical"
-                android:text="Look of the Month"
-                android:textColor="@color/dark"
-                android:textSize="20dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:weightSum="4">
 
 
-        </RelativeLayout>
+            <ss.com.bannerslider.Slider
+                android:id="@+id/banner_slider"
+                android:layout_width="match_parent"
+                android:layout_height="600px"
+                app:slider_loopSlides="true" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_promotion_book"
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:orientation="horizontal"/>
+            android:orientation="vertical"
+            android:padding="8dp">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:text="Look of the Month"
+                    android:textColor="@color/dark"
+                    android:textSize="20dp" />
+
+
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_promotion_book"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:orientation="horizontal" />
+
+
+        </LinearLayout>
 
     </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
 
 </LinearLayout>

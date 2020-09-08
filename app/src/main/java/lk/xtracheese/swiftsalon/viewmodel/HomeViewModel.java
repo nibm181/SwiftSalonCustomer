@@ -12,8 +12,10 @@ import java.util.List;
 
 import lk.xtracheese.swiftsalon.model.Promotion;
 import lk.xtracheese.swiftsalon.model.LookBook;
+import lk.xtracheese.swiftsalon.model.Salon;
 import lk.xtracheese.swiftsalon.repository.PromotionRepository;
 import lk.xtracheese.swiftsalon.repository.LookBookRepository;
+import lk.xtracheese.swiftsalon.repository.SalonRepository;
 import lk.xtracheese.swiftsalon.util.Resource;
 
 public class HomeViewModel extends AndroidViewModel {
@@ -37,6 +39,7 @@ public class HomeViewModel extends AndroidViewModel {
 
     public LiveData<Resource<List<LookBook>>> getLookBooks(){return lookbooks;}
 
+
     public void bannerApi(){
         if(!isFetching){
             executeFetch();
@@ -44,7 +47,7 @@ public class HomeViewModel extends AndroidViewModel {
     }
 
     private void executeFetch(){
-        //isFetching =true;
+        isFetching =true;
 
         final LiveData<Resource<List<Promotion>>> bannerRepositorySource = promotionRepository.getBannersApi();
 
@@ -89,5 +92,7 @@ public class HomeViewModel extends AndroidViewModel {
             }
         });
     }
+
+
 
 }

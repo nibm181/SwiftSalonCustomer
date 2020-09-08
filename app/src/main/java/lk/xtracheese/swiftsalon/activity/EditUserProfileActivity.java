@@ -243,12 +243,12 @@ public class EditUserProfileActivity extends AppCompatActivity {
                                     finish();
                                 } else {
                                     showProgressBar(false);
-                                    alertDialog.oopsErrorDialog();
+                                    alertDialog.showToast(resource.message);
                                 }
 
                             } else {
                                 showProgressBar(false);
-                                alertDialog.errorDialog(resource.data.getMessage());
+                                alertDialog.showToast(resource.data.getMessage());
                             }
                             break;
                         }
@@ -358,7 +358,7 @@ public class EditUserProfileActivity extends AppCompatActivity {
             viewModel.updateApi(user);
         }
         else {
-            alertDialog.errorDialog("Check your connection and try again.");
+            alertDialog.showToast("Check your connection and try again.");
         }
 
     }

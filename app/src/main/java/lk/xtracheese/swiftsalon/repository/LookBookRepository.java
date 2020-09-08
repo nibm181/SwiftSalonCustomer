@@ -42,6 +42,7 @@ public class LookBookRepository {
             protected void saveCallResult(@NonNull GenericResponse<List<LookBook>> item) {
                 if(item.getContent() != null){
                     LookBook[] lookBook = new LookBook[item.getContent().size()];
+                    swiftSalonDao.deleteLookBooks();
                     swiftSalonDao.insertLookBooks(item.getContent().toArray(lookBook));
                 }
             }

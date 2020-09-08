@@ -157,8 +157,4 @@ public class AppointmentRepository {
 
     }
 
-    public String getStylistImage(int id){
-        String image = swiftSalonDao.getStylistImage(id);
-        return image;
-    }
 }

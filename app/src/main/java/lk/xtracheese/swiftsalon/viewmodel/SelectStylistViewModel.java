@@ -12,7 +12,9 @@ import androidx.lifecycle.Observer;
 import java.util.List;
 
 import lk.xtracheese.swiftsalon.common.Common;
+import lk.xtracheese.swiftsalon.model.Salon;
 import lk.xtracheese.swiftsalon.model.Stylist;
+import lk.xtracheese.swiftsalon.repository.SalonRepository;
 import lk.xtracheese.swiftsalon.repository.StylistRepository;
 import lk.xtracheese.swiftsalon.request.response.ApiResponse;
 import lk.xtracheese.swiftsalon.request.response.GenericResponse;
@@ -23,17 +25,27 @@ import lk.xtracheese.swiftsalon.util.Resource;
 public class SelectStylistViewModel extends AndroidViewModel {
 
     private MediatorLiveData<Resource<List<Stylist>>> stylists = new MediatorLiveData<>();
+    private MediatorLiveData<Resource<Salon>> salon = new MediatorLiveData<>();
+
     private StylistRepository repository;
+    private SalonRepository salonRepository;
+
+
     private boolean isFetching;
+    private boolean isPromotionSalonFetching;
 
     public SelectStylistViewModel(@NonNull Application application) {
         super(application);
         repository = StylistRepository.getInstance(application);
+        salonRepository = SalonRepository.getInstance(application);
     }
+
 
     public LiveData<Resource<List<Stylist>>> getStylist() {
         return  stylists;
     }
+    public LiveData<Resource<Salon>> getPromotionSalon(){return salon;};
+
 
     public void stylistApi(){
         if(!isFetching) {
@@ -61,6 +73,37 @@ public class SelectStylistViewModel extends AndroidViewModel {
                 }
                 else {
                     stylists.removeSource(repositorySource);
+                }
+            }
+        });
+
+    }
+
+    public void salonApi(int id){
+        if(!isPromotionSalonFetching){
+            executeSalonFetch(id);
+        }
+    }
+
+    private void executeSalonFetch(int id) {
+        isPromotionSalonFetching = true;
+
+        final LiveData<Resource<Salon>> salonRepositoryResource = salonRepository.getSalonApi(id);
+        salon.addSource(salonRepositoryResource, new Observer<Resource<Salon>>() {
+            @Override
+            public void onChanged(Resource<Salon> salonResource) {
+                if(salonResource != null){
+                    salon.setValue(salonResource);
+                    if(salonResource.status == Resource.Status.SUCCESS){
+                        isPromotionSalonFetching = false;
+                    }
+                    else if(salonResource.status == Resource.Status.ERROR){
+                        isPromotionSalonFetching = false;
+                        salon.removeSource(salonRepositoryResource);
+                    }
+                }
+                else {
+                    salon.removeSource(salonRepositoryResource);
                 }
             }
         });

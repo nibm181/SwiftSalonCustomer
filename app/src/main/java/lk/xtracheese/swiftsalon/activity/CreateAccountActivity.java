@@ -87,7 +87,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                     break;
                 case ERROR:
                     alertDialog.dismissLoading();
-                    alertDialog.oopsErrorDialog();
+                    alertDialog.showToast(resource.message);
                     break;
                 case SUCCESS:
                     if (resource.data.getStatus() == 1) {

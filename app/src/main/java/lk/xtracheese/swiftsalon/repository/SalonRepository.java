@@ -48,6 +48,7 @@ public class SalonRepository {
                 protected void saveCallResult(@NonNull GenericResponse<List<Salon>> item) {
                     if(item.getContent() != null) {
                         Salon[] salon = new Salon[item.getContent().size()];
+                        swiftSalonDao.deleteSalon();
                         swiftSalonDao.insertSalons(item.getContent().toArray(salon));
                     }
                 }
@@ -87,6 +88,35 @@ public class SalonRepository {
                 }
             }
 
+        }.getAsLiveData();
+    }
+
+    public LiveData<Resource<Salon>> getSalonApi(int id){
+
+        return new NetworkBoundResource<Salon, GenericResponse<Salon>>(AppExecutor.getInstance()){
+
+            @Override
+            protected void saveCallResult(@NonNull GenericResponse<Salon> item) {
+
+            }
+
+            @Override
+            protected boolean shouldFetch(@Nullable Salon data) {
+                return data == null;
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<Salon> loadFromDb() {
+                return swiftSalonDao.getSalon(id);
+
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<GenericResponse<Salon>>> createCall() {
+                return ServiceGenerator.getSalonApi().getSalon(id);
+            }
         }.getAsLiveData();
     }
 }

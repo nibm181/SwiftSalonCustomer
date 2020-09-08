@@ -8,6 +8,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import lk.xtracheese.swiftsalon.R;
@@ -39,7 +40,7 @@ public class RatingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rating);
 
         Appointment appointment = getIntent().getParcelableExtra("appointment");
-        viewModel = new RatingViewModel(getApplication());
+        viewModel = new ViewModelProvider(this).get(RatingViewModel.class);
         picassoImageLoadingService = new PicassoImageLoadingService();
         swiftSalonDao = SwiftSalonDatabase.getInstance(this).getDao();
         alertDialog = new DialogService(this);
@@ -54,7 +55,7 @@ public class RatingActivity extends AppCompatActivity {
         subscribeObservers();
 
         txtStylist.setText(appointment.getStylistName());
-        txtAppointmentNo.setText(appointment.getId());
+        txtAppointmentNo.setText("Appointment No. : "+appointment.getId());
         txtSalon.setText(appointment.getSalonName());
         picassoImageLoadingService.loadImageRound(appointment.getSalonImage(), imageView);
 
@@ -80,18 +81,15 @@ public class RatingActivity extends AppCompatActivity {
                 case SUCCESS:
                     if (resource.data.getStatus() == 1) {
                         alertDialog.dismissLoading();
-                        alertDialog.ratingSMessage().setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                Intent intent = new Intent(RatingActivity.this, HomeActivity.class);
-                                startActivity(intent);
-                            }
+                        alertDialog.ratingSMessage().setConfirmClickListener(sweetAlertDialog -> {
+                            Intent intent = new Intent(RatingActivity.this, HomeActivity.class);
+                            startActivity(intent);
                         }).show();
                     }
                     break;
                 case ERROR:
                     alertDialog.dismissLoading();
-                    alertDialog.oopsErrorDialog().show();
+                    alertDialog.showToast(resource.message);
                     break;
             }
         });

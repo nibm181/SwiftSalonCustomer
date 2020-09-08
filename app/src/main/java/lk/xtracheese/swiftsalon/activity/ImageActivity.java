@@ -250,10 +250,10 @@ public class ImageActivity extends AppCompatActivity {
                             showProgressBar(false);
 
                             if(resource.data != null) {
-                                alertDialog.errorDialog(resource.data.getMessage());
+                                alertDialog.showToast(resource.data.getMessage());
                             }
                             else {
-                                alertDialog.errorDialog(resource.message);
+                                alertDialog.showToast(resource.message);
                             }
                             break;
                         }
@@ -268,13 +268,12 @@ public class ImageActivity extends AppCompatActivity {
                                     supportFinishAfterTransition();
                                 } else {
                                     showProgressBar(false);
-                                    alertDialog.oopsErrorDialog();
+                                    alertDialog.showToast(resource.message);
                                 }
 
                             } else {
-                                Log.d(TAG, "subscribeObservers: MESSAGE: " + resource.data.getMessage());
                                 showProgressBar(false);
-                                alertDialog.errorDialog(resource.data.getMessage());
+                                alertDialog.showToast(resource.data.getMessage());
                             }
                             break;
                         }

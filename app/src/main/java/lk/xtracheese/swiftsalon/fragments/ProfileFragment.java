@@ -2,37 +2,37 @@ package lk.xtracheese.swiftsalon.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import lk.xtracheese.swiftsalon.R;
-import lk.xtracheese.swiftsalon.activity.EditUserProfileActivity;
-import lk.xtracheese.swiftsalon.activity.RatingActivity;
 import lk.xtracheese.swiftsalon.activity.FirstActivity;
 import lk.xtracheese.swiftsalon.activity.UserProfileActivity;
 import lk.xtracheese.swiftsalon.activity.ViewAppointmentsActivity;
+import lk.xtracheese.swiftsalon.service.DialogService;
 import lk.xtracheese.swiftsalon.service.PicassoImageLoadingService;
 import lk.xtracheese.swiftsalon.util.Session;
 
 
 public class ProfileFragment extends Fragment {
 
-  ImageView imageView;
-  TextView txtUserName, txtEditProfile, txtViewAppointments, txtLogout;
-  Session session;
-  PicassoImageLoadingService picassoImageLoadingService;
+    static ProfileFragment instance;
+    Session session;
+    PicassoImageLoadingService picassoImageLoadingService;
+    DialogService dialogService;
+
+    ImageView imageView;
+    TextView txtUserName, txtEditProfile, txtViewAppointments, txtLogout;
 
     public ProfileFragment() {
         // Required empty public constructor
     }
-
-    static ProfileFragment instance;
 
     public static ProfileFragment getInstance() {
         if (instance == null)
@@ -45,6 +45,7 @@ public class ProfileFragment extends Fragment {
         super.onCreate(savedInstanceState);
         session = new Session(getContext());
         picassoImageLoadingService = new PicassoImageLoadingService();
+        dialogService = new DialogService(getContext());
 
     }
 
@@ -52,6 +53,7 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
         txtUserName = view.findViewById(R.id.txt_user_name);
         imageView = view.findViewById(R.id.prof_user_pic);
         txtEditProfile = view.findViewById(R.id.txt_prof_edit_acc);
@@ -80,9 +82,12 @@ public class ProfileFragment extends Fragment {
         txtLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                session.clearSession();
-                Intent intent = new Intent(getContext(), FirstActivity.class);
-                startActivity(intent);
+                dialogService.areYouSure().setConfirmClickListener(sweetAlertDialog -> {
+                    session.clearSession();
+                    Intent intent = new Intent(getContext(), FirstActivity.class);
+                    startActivity(intent);
+                }).show();
+
             }
         });
 
