@@ -287,6 +287,7 @@ public class BookingActivity extends AppCompatActivity {
         }
         appointment.setJobIds(jobIds);
 
+        Common.currentAppointment = appointment;
         setAppointmentApi(appointment);
     }
 

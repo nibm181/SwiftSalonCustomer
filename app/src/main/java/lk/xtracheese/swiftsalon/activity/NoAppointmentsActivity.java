@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import lk.xtracheese.swiftsalon.R;
+import lk.xtracheese.swiftsalon.fragments.ProfileFragment;
 
 public class NoAppointmentsActivity extends AppCompatActivity {
 
@@ -24,5 +25,12 @@ public class NoAppointmentsActivity extends AppCompatActivity {
             intent.putExtra("isAppointment", false);
             startActivity(intent);
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(NoAppointmentsActivity.this, HomeActivity.class);
+        startActivity(intent);
     }
 }

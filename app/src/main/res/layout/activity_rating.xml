@@ -17,28 +17,28 @@
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_salon" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_stylist" />
 
     <RatingBar
         android:id="@+id/ratingBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         android:max="5"
         style="@style/RatingBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_stylist" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_salon" />
 
     <Button
         android:id="@+id/btn_submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/button2_shape"
         android:textColor="@color/pearl_white"
@@ -67,11 +67,11 @@
       android:id="@+id/txt_stylist"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginTop="30dp"
+      android:layout_marginTop="10dp"
       android:text="Stylist Name"
       android:textSize="25sp"
       android:textColor="@color/dark"
-      app:layout_constraintTop_toBottomOf="@id/imageView"
+      app:layout_constraintTop_toBottomOf="@id/txt_appointment_no"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent" />
 
@@ -79,11 +79,11 @@
         android:id="@+id/txt_salon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="Stylist Name"
+        android:layout_marginTop="5dp"
+        android:text="Salon Name"
         android:textSize="25sp"
         android:textColor="@color/dark"
-        app:layout_constraintTop_toBottomOf="@id/txt_appointment_no"
+        app:layout_constraintTop_toBottomOf="@id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -91,7 +91,7 @@
         android:id="@+id/txt_appointment_no"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
         android:text="Appointment No:"
         android:textSize="20sp"
         android:textColor="@color/dark"

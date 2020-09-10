@@ -17,8 +17,10 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:icon">
-        <activity android:name=".activity.NoAppointmentsActivity"></activity>
-        <activity android:name=".activity.RatingActivity"></activity>
+        <activity android:name=".activity.NoAppointmentsActivity" />
+        <activity
+            android:name=".activity.RatingActivity"
+            android:parentActivityName=".activity.HomeActivity" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
@@ -46,7 +48,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.CreateAccountActivity" />
-        <activity android:name=".activity.ViewAppointmentDetailActivity" />
+        <activity
+            android:name=".activity.ViewAppointmentDetailActivity"
+            android:parentActivityName=".activity.ViewAppointmentsActivity" />
         <activity
             android:name=".activity.ViewAppointmentsActivity"
             android:parentActivityName=".activity.HomeActivity" />

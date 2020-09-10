@@ -45,8 +45,11 @@ public interface SwiftSalonDao {
     @Query("SELECT * FROM tbl_appointment WHERE id = :id")
     LiveData<Appointment> getAppointment(int id);
 
-    @Query("SELECT * FROM tbl_appointment WHERE customer_id = :userId ORDER BY date ASC")
+    @Query("SELECT * FROM tbl_appointment WHERE customer_id = :userId ORDER BY date DESC")
     LiveData<List<Appointment>> getAppointments(int userId);
+
+    @Query("DELETE FROM tbl_appointment WHERE customer_id = :userId")
+    void deleteAppointments(int userId);
 
 
 

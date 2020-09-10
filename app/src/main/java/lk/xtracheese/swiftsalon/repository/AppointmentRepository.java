@@ -68,6 +68,7 @@ public class AppointmentRepository {
             protected void saveCallResult(@NonNull GenericResponse<List<Appointment>> item) {
                 if(item.getContent() != null){
                     Appointment[] appointments = new Appointment[item.getContent().size()];
+                    swiftSalonDao.deleteAppointments(userId);
                     swiftSalonDao.insertAppointments(item.getContent().toArray(appointments));
                 }
             }

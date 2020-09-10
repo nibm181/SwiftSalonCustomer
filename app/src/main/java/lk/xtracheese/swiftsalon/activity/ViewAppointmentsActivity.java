@@ -69,19 +69,18 @@ public class ViewAppointmentsActivity extends AppCompatActivity implements OnIte
                         }
                         case SUCCESS: {
                             alertDialog.dismissLoading();
-                            if(listResource.data == null) {
-                                Intent intent1 = new Intent(ViewAppointmentsActivity.this, NoAppointmentsActivity.class);
-                                startActivity(intent1);
-                            }else {
-                                appointmentAdapter.submitList(listResource.data);
-                            }
-
+                            appointmentAdapter.submitList(listResource.data);
                             break;
                         }
                         case ERROR: {
                             alertDialog.dismissLoading();
-                            alertDialog.showToast(listResource.message);
-                            appointmentAdapter.submitList(listResource.data);
+                            if(listResource.data.isEmpty()){
+                                Intent intent1 = new Intent(ViewAppointmentsActivity.this, NoAppointmentsActivity.class);
+                                startActivity(intent1);
+                            }else {
+                                alertDialog.showToast(listResource.message);
+                                appointmentAdapter.submitList(listResource.data);
+                            }
                             break;
                         }
                     }
@@ -112,4 +111,6 @@ public class ViewAppointmentsActivity extends AppCompatActivity implements OnIte
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         return  (networkInfo != null && networkInfo.isConnected());
     }
+
+
 }

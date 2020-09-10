@@ -99,7 +99,10 @@ public class RatingActivity extends AppCompatActivity {
         viewModel.addRatingApi(id, rating);
     }
 
-
-
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(RatingActivity.this, HomeActivity.class);
+        startActivity(intent);
+    }
 }

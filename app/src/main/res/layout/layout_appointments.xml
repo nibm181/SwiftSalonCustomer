@@ -46,7 +46,7 @@
                 android:maxLines="1"
                 android:text="10:00-11:00 on 15-06-2020"
                 android:textColor="@color/dark"
-                android:textSize="20dp"
+                android:textSize="16sp"
                 android:textStyle="normal" />
 
             <TextView
@@ -58,7 +58,7 @@
                 android:maxLines="1"
                 android:text="Pending"
                 android:textColor="@color/dark"
-                android:textSize="20dp"
+                android:textSize="@dimen/textCardSize"
                 android:textStyle="normal" />
 
         </LinearLayout>

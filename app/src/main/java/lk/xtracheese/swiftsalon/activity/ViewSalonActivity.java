@@ -108,9 +108,7 @@ public class ViewSalonActivity extends AppCompatActivity {
                         }
                         case ERROR:{
                             alertDialog.dismissLoading();
-                            if(listResource.message != null){
-                                alertDialog.showToast(listResource.message);
-                            }
+                            alertDialog.showToast(listResource.message);
                             stylistAdapter.submitList(listResource.data);
                             break;
                         }

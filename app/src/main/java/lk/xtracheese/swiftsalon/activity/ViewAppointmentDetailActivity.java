@@ -1,6 +1,7 @@
 package lk.xtracheese.swiftsalon.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -170,4 +171,10 @@ public class ViewAppointmentDetailActivity extends AppCompatActivity {
         return  (networkInfo != null && networkInfo.isConnected());
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(ViewAppointmentDetailActivity.this, ViewAppointmentsActivity.class);
+        startActivity(intent);
+    }
 }

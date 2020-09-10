@@ -52,7 +52,7 @@
             android:maxLines="1"
             android:text="Address of Salon #1"
             android:textColor="@color/dark"
-            android:textSize="20dp"
+            android:textSize="@dimen/textCardSize"
             android:textStyle="normal" />
 
         <TextView
@@ -67,7 +67,7 @@
             android:maxLines="1"
             android:text="Address of Salon #1"
             android:textColor="@color/dark"
-            android:textSize="20dp"
+            android:textSize="@dimen/textCardSize"
             android:textStyle="normal" />
 
     </LinearLayout>
