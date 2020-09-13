@@ -46,7 +46,8 @@ public class HomeActivity extends AppCompatActivity {
         }
 
 
-        //to open home by default
+        //to open home by default is else if
+        //to open select salon if there is no appointment (data from no appointment activity)
         if(isAppointment){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new HomeFragment()).commit();

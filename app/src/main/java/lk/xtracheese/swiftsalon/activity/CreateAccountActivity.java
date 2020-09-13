@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModel;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import lk.xtracheese.swiftsalon.R;
 import lk.xtracheese.swiftsalon.common.Common;
 import lk.xtracheese.swiftsalon.model.User;
@@ -35,6 +36,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     User objUser;
 
     DialogService alertDialog;
+    SweetAlertDialog sweetAlertDialog;
 
     CreateAccountViewModel viewModel;
 
@@ -47,6 +49,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         session = new Session(getApplicationContext());
         viewModel = new CreateAccountViewModel(getApplication());
         alertDialog = new DialogService(this);
+        sweetAlertDialog = new SweetAlertDialog(this);
 
         isValidated = false;
 
@@ -83,16 +86,17 @@ public class CreateAccountActivity extends AppCompatActivity {
         viewModel.getUser().observe(this, resource -> {
             switch (resource.status) {
                 case LOADING:
-                    alertDialog.loadingDialog().show();
+                    sweetAlertDialog = alertDialog.loadingDialog();
+                    sweetAlertDialog.show();
                     break;
                 case ERROR:
-                    alertDialog.dismissLoading();
+                    sweetAlertDialog.dismissWithAnimation();
                     alertDialog.showToast(resource.message);
                     break;
                 case SUCCESS:
                     if (resource.data.getStatus() == 1) {
                         if (resource.data.getContent() != null) {
-                            alertDialog.dismissLoading();
+                            sweetAlertDialog.dismissWithAnimation();
                             alertDialog.successAccountDialog().show();
                             Intent intent = new Intent(CreateAccountActivity.this, LoginActivity.class);
                             startActivity(intent);

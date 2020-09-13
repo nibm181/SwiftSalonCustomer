@@ -51,11 +51,35 @@
         android:textColor="@color/dark"
         android:textStyle="bold"
         android:textSize="20dp"
-        android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
         android:drawablePadding="10dp"
         android:layout_marginBottom="10dp"
         android:layout_marginStart="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+
+    <TextView
+        android:id="@+id/txt_salon_type"
+        android:text="Salon Type"
+        android:layout_marginStart="20dp"
+        android:textColor="@color/dark"
+        android:textSize="@dimen/textCardSize"
+        android:drawablePadding="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/txt_salon_open_time"
+        android:text="Open Time"
+        android:layout_marginStart="20dp"
+        android:textColor="@color/dark"
+        android:textSize="@dimen/textCardSize"
+        android:drawablePadding="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
@@ -64,8 +88,7 @@
         android:text="Address"
         android:textColor="@color/dark"
         android:layout_marginLeft="10dp"
-
-        android:textSize="20dp"
+        android:textSize="@dimen/textCardSize"
         android:drawableStart="@drawable/ic_baseline_location_black_on_24"
         android:drawablePadding="10dp"
         android:layout_marginBottom="10dp"
@@ -77,13 +100,14 @@
         android:text="Contact"
         android:layout_marginRight="10dp"
         android:textColor="@color/dark"
-        android:textSize="20dp"
+        android:textSize="@dimen/textCardSize"
         android:drawablePadding="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="10dp"
         android:drawableLeft="@drawable/ic_baseline_local_phone_black_24"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_salon_stylist"

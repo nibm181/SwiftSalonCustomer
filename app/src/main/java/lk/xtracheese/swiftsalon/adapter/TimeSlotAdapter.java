@@ -2,6 +2,7 @@ package lk.xtracheese.swiftsalon.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,12 +80,11 @@ public class TimeSlotAdapter extends ListAdapter<TimeSlot,  TimeSlotAdapter.MyVi
             @Override
             public void onItemSelectedListener(View view, int pos) {
 
+                Log.d(TAG, "onItemSelectedListener: POS: " + pos);
                 if(holder.getAdapterPosition() != oldItem){
                     cardViewList.get(oldItem).setSelected(false);
-                    holder.cardTimeSlot.setSelected(true);
-                }else {
-                    holder.cardTimeSlot.setSelected(true);
                 }
+                holder.cardTimeSlot.setSelected(true);
 
                 oldItem = holder.getAdapterPosition();
 

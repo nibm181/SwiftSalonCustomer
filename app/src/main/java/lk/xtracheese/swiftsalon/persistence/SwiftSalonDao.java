@@ -96,7 +96,10 @@ public interface SwiftSalonDao {
     LiveData<Salon> getSalon(int id);
 
     @Query("DELETE FROM tbl_salon")
-    void deleteSalon();
+    void deleteSalons();
+
+    @Query("DELETE FROM tbl_salon WHERE id = :id")
+    void deleteSalon(int id);
 
 
 //    @Query("SELECT * FROM tbl_salon")

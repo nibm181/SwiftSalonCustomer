@@ -24,14 +24,12 @@ public class SearchViewAdapter extends FragmentPagerAdapter {
                 return SelectTimeSlotFragment.getInstance();
             case 2:
                 return ConfirmAppointmentFragment.getInstance();
-            case 3:
-                return AppointmentResultFragment.getInstance();
         }
         return null;
     }
 
     @Override
     public int getCount() {
-        return 4;
+        return 3;
     }
 }

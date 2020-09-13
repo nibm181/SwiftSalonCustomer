@@ -10,13 +10,22 @@ import android.widget.Toast;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import lk.xtracheese.swiftsalon.R;
+import lk.xtracheese.swiftsalon.fragments.SelectJobFragment;
 
 public class DialogService {
 
+//    static DialogService instance;
     SweetAlertDialog sweetAlertDialog;
     Toast toast;
     Context context;
     int duration = Toast.LENGTH_SHORT;
+
+//    public static DialogService getInstance(Context context) {
+//        if (instance == null)
+//            instance = new DialogService(context);
+//        return instance;
+//    }
+
 
     public DialogService(Context context) {
         this.context = context;
@@ -30,7 +39,7 @@ public class DialogService {
               return sweetAlertDialog;
     }
     public void dismissLoading(){
-            sweetAlertDialog.dismissWithAnimation();
+        sweetAlertDialog.dismissWithAnimation();
     }
 
     public SweetAlertDialog errorDialog(String message){

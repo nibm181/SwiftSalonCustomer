@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.ViewAppointmentsActivity">
+    tools:context=".activity.ViewAppointmentDetailActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -71,7 +71,7 @@
                 android:id="@+id/view_appointment_detail_stylist_name"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:text="Xen Salon"
+                android:text="Stylist"
                 android:minHeight="40dp"
                 android:paddingStart="10dp"
                 android:textAlignment="textStart"
@@ -125,17 +125,43 @@
             android:layout_height="match_parent"/>
 
 
-        <Button
-            android:id="@+id/view_appointment_detail_cancel_btn"
-            android:text="Cancel Appointment"
-            android:background="@drawable/button3_shape"
-            android:textColor="@color/dark"
-            android:padding="10dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10px"
-            android:layout_gravity="right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/view_appointment_detail_cancel_btn"
+                android:text="Cancel Appointment"
+                android:background="@drawable/button3_shape"
+                android:textColor="@color/dark"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/view_appointment_detail_nav"
+                android:text="Navigate"
+                android:background="@drawable/button2_shape"
+                android:layout_weight="1"
+                android:textColor="@color/white"
+                android:padding="10dp"
+                android:drawableStart="@drawable/ic_baseline_navigation_blue_24"
+                android:drawablePadding="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
 
     </LinearLayout>
 

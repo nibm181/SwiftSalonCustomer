@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -12,21 +15,11 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
-import java.util.ArrayList;
-
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import lk.xtracheese.swiftsalon.R;
 import lk.xtracheese.swiftsalon.adapter.JobAdapter;
 import lk.xtracheese.swiftsalon.common.Common;
 import lk.xtracheese.swiftsalon.common.SpacesitemDecoration;
-import lk.xtracheese.swiftsalon.model.Stylist;
-import lk.xtracheese.swiftsalon.model.StylistJob;
-import lk.xtracheese.swiftsalon.model.TimeSlot;
 import lk.xtracheese.swiftsalon.service.DialogService;
 import lk.xtracheese.swiftsalon.viewmodel.SelectJobViewModel;
 
@@ -34,14 +27,16 @@ import lk.xtracheese.swiftsalon.viewmodel.SelectJobViewModel;
 public class SelectJobFragment extends Fragment {
 
     private static final String TAG = "SelectJobFragment";
-
-
+    static SelectJobFragment instance;
     JobAdapter jobAdapter;
     RecyclerView recyclerView;
-    SelectJobViewModel viewModel;
+
+    SweetAlertDialog sweetAlertDialog;
     DialogService dialogService;
 
+    SelectJobViewModel viewModel;
     LocalBroadcastManager localBroadcastManager;
+
     BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -52,16 +47,14 @@ public class SelectJobFragment extends Fragment {
         }
     };
 
-    static SelectJobFragment instance;
+    public SelectJobFragment() {
+        // Required empty public constructor
+    }
 
     public static SelectJobFragment getInstance() {
         if (instance == null)
             instance = new SelectJobFragment();
         return instance;
-    }
-
-    public SelectJobFragment() {
-        // Required empty public constructor
     }
 
     /**
@@ -75,7 +68,6 @@ public class SelectJobFragment extends Fragment {
 //        SelectJobFragment fragment = new SelectJobFragment();
 //        return fragment;
 //    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,7 +91,7 @@ public class SelectJobFragment extends Fragment {
 
         viewModel = new ViewModelProvider(this).get(SelectJobViewModel.class);
         dialogService = new DialogService(getContext());
-
+        sweetAlertDialog = dialogService.loadingDialog();
         recyclerView = itemView.findViewById(R.id.recycler_job);
 
         subscribeObservers();
@@ -107,24 +99,28 @@ public class SelectJobFragment extends Fragment {
         return itemView;
     }
 
-    private void getJobApi(){viewModel.StylistJobApi();}
+    private void getJobApi() {
+        viewModel.StylistJobApi();
+    }
 
-    private void subscribeObservers(){
+    private void subscribeObservers() {
         viewModel.getStylistJobs().observe(getViewLifecycleOwner(), listResource -> {
             if (listResource != null) {
-                if(listResource.data != null){
+                switch (listResource.status) {
+                    case LOADING: {
+                        sweetAlertDialog.show();
+                        break;
+                    }
 
-                    switch (listResource.status){
-                        case LOADING:{
-                            break;
-                        }
-
-                        case ERROR:{
-                            dialogService.showToast(listResource.message);
-                            initRecyclerView();
-                            jobAdapter.submitList(listResource.data);
-                        }
-                        case SUCCESS:{
+                    case ERROR: {
+                        sweetAlertDialog.dismissWithAnimation();
+                        dialogService.showToast(listResource.message);
+                        initRecyclerView();
+                        jobAdapter.submitList(listResource.data);
+                    }
+                    case SUCCESS: {
+                        sweetAlertDialog.dismissWithAnimation();
+                        if (listResource.data != null) {
                             initRecyclerView();
                             jobAdapter.submitList(listResource.data);
                         }
@@ -134,10 +130,11 @@ public class SelectJobFragment extends Fragment {
         });
     }
 
-    void initRecyclerView(){
+    void initRecyclerView() {
         jobAdapter = new JobAdapter(getActivity());
         recyclerView.setAdapter(jobAdapter);
-        recyclerView.setHasFixedSize(true);;
+        recyclerView.setHasFixedSize(true);
+        ;
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
         recyclerView.addItemDecoration(new SpacesitemDecoration(4));
 

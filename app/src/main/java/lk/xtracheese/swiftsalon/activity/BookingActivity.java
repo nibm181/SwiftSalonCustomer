@@ -18,6 +18,7 @@ import com.shuhart.stepview.StepView;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import lk.xtracheese.swiftsalon.R;
 import lk.xtracheese.swiftsalon.adapter.SearchViewAdapter;
 import lk.xtracheese.swiftsalon.common.Common;
@@ -32,10 +33,10 @@ public class BookingActivity extends AppCompatActivity {
     private static final String TAG = "BookingActivity";
 
 
-
     Session session;
     LocalBroadcastManager localBroadcastManager;
     DialogService alertDialog;
+    SweetAlertDialog sweetAlertDialog;
     AppointmentViewModel viewModel;
 
     StepView stepView;
@@ -43,6 +44,7 @@ public class BookingActivity extends AppCompatActivity {
     Button btnPrevStep;
     Button btnNxtStep;
 
+    int req = 0; //0=not init, 1=not sent, 2=sent
 
     //broadcast receiver
     private BroadcastReceiver buttonNextReceiver = new BroadcastReceiver() {
@@ -81,6 +83,7 @@ public class BookingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_booking);
 
         alertDialog = new DialogService(this);
+        sweetAlertDialog = alertDialog.loadingDialog();
         session = new Session(BookingActivity.this);
         viewModel = new AppointmentViewModel(getApplication());
 
@@ -101,7 +104,7 @@ public class BookingActivity extends AppCompatActivity {
 
         //view
         viewPager.setAdapter(new SearchViewAdapter(getSupportFragmentManager()));
-        viewPager.setOffscreenPageLimit(4); //for limiting the pages, in this case i have 4 fragments
+        viewPager.setOffscreenPageLimit(3); //for limiting the pages, in this case i have 4 fragments
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -117,12 +120,15 @@ public class BookingActivity extends AppCompatActivity {
                 if (position == 0) {
                     btnPrevStep.setEnabled(false);
                     showPreviousButton(false);
+                } else if (position == 1) {
+                    showPreviousButton(true);
+                    btnPrevStep.setEnabled(true);
+                    btnNxtStep.setEnabled(false);
                 } else if (position == 2) {
-                    btnNxtStep.setEnabled(true);
-                } else if(position == 3) {
-                    showPreviousButton(false);
-                    btnNxtStep.setText("Exit");
-                }else {
+                    showPreviousButton(true);
+                    btnPrevStep.setEnabled(true);
+                    btnNxtStep.setText("Confirm");
+                } else {
                     showPreviousButton(true);
                     btnPrevStep.setEnabled(true);
                     btnNxtStep.setEnabled(false);
@@ -143,7 +149,7 @@ public class BookingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (Common.step <= 4 || Common.step == 0) {
+                if (Common.step <= 3 || Common.step == 0) {
                     Common.step++;
                     if (Common.step == 1) {
                         if (Common.currentStylist != null) {
@@ -151,6 +157,8 @@ public class BookingActivity extends AppCompatActivity {
                             localBroadcastManager.sendBroadcast(intent);
                         }
                         viewPager.setCurrentItem(Common.step);
+                        Log.d(TAG, "onClick: step "+Common.step);
+
 
                     } else if (Common.step == 2) {
                         if (Common.currentJob != null && !Common.currentJob.isEmpty()) {
@@ -159,19 +167,13 @@ public class BookingActivity extends AppCompatActivity {
                             confirmBookingSetData();
                         }
                         viewPager.setCurrentItem(Common.step);
+                        Log.d(TAG, "onClick: step "+Common.step);
+
 
                     } else if (Common.step == 3) { //confirm
+                        Log.d(TAG, "onClick: step "+Common.step);
                         saveData();
-                        viewPager.setCurrentItem(Common.step);
-                        Log.d(TAG, "onClick: step 3");
-                    } else if (Common.step == 4) {
-                        Log.d(TAG, "onClick: step 4");
-                        Common.step = 0;
-                        final Intent intent = new Intent(BookingActivity.this, HomeActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
                     }
-
                 }
             }
         });
@@ -179,6 +181,7 @@ public class BookingActivity extends AppCompatActivity {
         btnPrevStep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG, "onClick: PREV BTN: "+Common.step);
                 if (Common.step == 2) {
                     Common.step--;
                     btnNxtStep.setText("Next");
@@ -202,8 +205,6 @@ public class BookingActivity extends AppCompatActivity {
         //send broadcast to fragment step four
         Intent intent = new Intent(Common.KEY_CONFIRM_BOOKING);
         localBroadcastManager.sendBroadcast(intent);
-        //change button text
-        btnNxtStep.setText("Confirm");
     }
 
 
@@ -239,7 +240,6 @@ public class BookingActivity extends AppCompatActivity {
         stepList.add("Jobs");
         stepList.add("Time");
         stepList.add("Confirm");
-        stepList.add("Report");
         stepView.setSteps(stepList);
     }
 
@@ -250,24 +250,43 @@ public class BookingActivity extends AppCompatActivity {
 
     private void subscribeObservers() {
         viewModel.getAppointment().observe(this, resource -> {
-            switch (resource.status) {
-                case LOADING:
-                    alertDialog.loadingDialog().show();
-                    break;
-                case ERROR:
-                    alertDialog.dismissLoading();
-                    alertDialog.showToast(resource.message);
-                    break;
-                case SUCCESS:
-                    if (resource.data.getStatus() == 1) {
-                        if (resource.data.getContent() != null) {
-                            alertDialog.dismissLoading();
-                            alertDialog.successAppointmentDialog().show();
-                        }
+            if (resource != null) {
+
+                switch (resource.status) {
+                    case LOADING: {
+                        sweetAlertDialog = alertDialog.loadingDialog();
+                        sweetAlertDialog.show();
+                        break;
                     }
-                    break;
+                    case ERROR: {
+                        sweetAlertDialog.dismissWithAnimation();
+                        alertDialog.showToast(resource.message);
+                        Common.step--;
+                        break;
+                    }
+                    case SUCCESS: {
+                        sweetAlertDialog.dismissWithAnimation();
+                        if (resource.data != null) {
+                            if (resource.data.getStatus() == 1) {
+                                if (resource.data.getContent() != null) {
+                                    Common.step = 0;
+                                    alertDialog.successAppointmentDialog().setConfirmClickListener(sweetAlertDialog1 -> {
+                                        final Intent intent = new Intent(BookingActivity.this, HomeActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(intent);
+                                    }).show();
+                                }
+                            }else{
+                                Common.step--;
+                                alertDialog.oopsErrorDialog().show();
+                            }
+                        }
+                        break;
+                    }
+                }
 
             }
+
         });
     }
 
@@ -278,11 +297,11 @@ public class BookingActivity extends AppCompatActivity {
         appointment.setSalonId(Common.currentSalon.getSalID());
         appointment.setStylistId(Common.currentStylist.getId());
         appointment.setDate(Common.currentDate.getTime().toString());
-        Log.d(TAG, "saveData: SEND DATE "+ Common.currentDate.getTime().toString());
+        Log.d(TAG, "saveData: SEND DATE " + Common.currentDate.getTime().toString());
         appointment.setTime(Common.currentTimeSlot.getSlotTiming());
 
         int[] jobIds = new int[Common.currentJob.size()];
-        for(int i = 0; i < Common.currentJob.size(); i++) {
+        for (int i = 0; i < Common.currentJob.size(); i++) {
             jobIds[i] = Common.currentJob.get(i).getJobId();
         }
         appointment.setJobIds(jobIds);

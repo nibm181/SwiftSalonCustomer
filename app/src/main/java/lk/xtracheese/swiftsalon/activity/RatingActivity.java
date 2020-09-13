@@ -26,6 +26,7 @@ public class RatingActivity extends AppCompatActivity {
     RatingViewModel viewModel;
 
     DialogService alertDialog;
+    SweetAlertDialog sweetAlertDialog;
     PicassoImageLoadingService picassoImageLoadingService;
     SwiftSalonDao swiftSalonDao;
 
@@ -44,6 +45,7 @@ public class RatingActivity extends AppCompatActivity {
         picassoImageLoadingService = new PicassoImageLoadingService();
         swiftSalonDao = SwiftSalonDatabase.getInstance(this).getDao();
         alertDialog = new DialogService(this);
+        sweetAlertDialog = alertDialog.loadingDialog();
 
         ratingBar = findViewById(R.id.ratingBar);
         imageView = findViewById(R.id.imageView);
@@ -55,7 +57,7 @@ public class RatingActivity extends AppCompatActivity {
         subscribeObservers();
 
         txtStylist.setText(appointment.getStylistName());
-        txtAppointmentNo.setText("Appointment No. : "+appointment.getId());
+        txtAppointmentNo.setText("Appointment No. : " + appointment.getId());
         txtSalon.setText(appointment.getSalonName());
         picassoImageLoadingService.loadImageRound(appointment.getSalonImage(), imageView);
 
@@ -74,24 +76,34 @@ public class RatingActivity extends AppCompatActivity {
 
     public void subscribeObservers() {
         viewModel.getResponse().observe(this, resource -> {
-            switch (resource.status) {
-                case LOADING:
-                    alertDialog.loadingDialog().show();
-                    break;
-                case SUCCESS:
-                    if (resource.data.getStatus() == 1) {
-                        alertDialog.dismissLoading();
-                        alertDialog.ratingSMessage().setConfirmClickListener(sweetAlertDialog -> {
-                            Intent intent = new Intent(RatingActivity.this, HomeActivity.class);
-                            startActivity(intent);
-                        }).show();
+            if(resource != null){
+                switch (resource.status) {
+                    case LOADING:
+                        sweetAlertDialog.show();
+                        break;
+                    case SUCCESS: {
+                        if(resource.data != null){
+                            if (resource.data.getStatus() == 1) {
+                                sweetAlertDialog.dismissWithAnimation();
+                                alertDialog.ratingSMessage().setConfirmClickListener(sweetAlertDialog -> {
+                                    Intent intent = new Intent(RatingActivity.this, HomeActivity.class);
+                                    startActivity(intent);
+                                }).show();
+                            }
+                        }
+
+                        break;
                     }
-                    break;
-                case ERROR:
-                    alertDialog.dismissLoading();
-                    alertDialog.showToast(resource.message);
-                    break;
+
+                    case ERROR: {
+                        sweetAlertDialog.dismissWithAnimation();
+                        alertDialog.showToast(resource.message);
+                        break;
+                    }
+
+                }
             }
+
         });
     }
 

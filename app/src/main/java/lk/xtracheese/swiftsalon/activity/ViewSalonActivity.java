@@ -1,15 +1,16 @@
 package lk.xtracheese.swiftsalon.activity;
 
+import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Bundle;
-import android.widget.ImageView;
-import android.widget.TextView;
-
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import lk.xtracheese.swiftsalon.R;
 import lk.xtracheese.swiftsalon.adapter.HairStylistAdapter;
 import lk.xtracheese.swiftsalon.common.Common;
@@ -27,12 +28,13 @@ public class ViewSalonActivity extends AppCompatActivity {
 
     HairStylistAdapter stylistAdapter;
     DialogService alertDialog;
+    SweetAlertDialog sweetAlertDialog;
     RecyclerView recyclerView;
     Session session;
     PicassoImageLoadingService picassoImageLoadingService;
 
 
-    TextView  txtName, txtAddress, txtMobile, txtUsername;
+    TextView txtName, txtAddress, txtMobile, txtUsername, txtType, txtOpenTime;
     ImageView imageView;
 
     int salonId;
@@ -44,15 +46,18 @@ public class ViewSalonActivity extends AppCompatActivity {
 
         session = new Session(ViewSalonActivity.this);
         selectStylistViewModel = new ViewModelProvider(this).get(SelectStylistViewModel.class);
-        PicassoImageLoadingService picassoImageLoadingService = new PicassoImageLoadingService();
         alertDialog = new DialogService(this);
+        sweetAlertDialog = alertDialog.loadingDialog();
+        PicassoImageLoadingService picassoImageLoadingService = new PicassoImageLoadingService();
         salonId = getIntent().getIntExtra("salonId", 0);
 
         txtName = findViewById(R.id.txt_salon_name);
         txtAddress = findViewById(R.id.txt_salon_addr);
-        txtMobile =findViewById(R.id.txt_salon_mob);
+        txtMobile = findViewById(R.id.txt_salon_mob);
         recyclerView = findViewById(R.id.recycler_salon_stylist);
         txtUsername = findViewById(R.id.txt_user_name);
+        txtOpenTime = findViewById(R.id.txt_salon_open_time);
+        txtType = findViewById(R.id.txt_salon_type);
         imageView = findViewById(R.id.prof_user_pic);
 
         txtUsername.setText(session.getUsername());
@@ -65,20 +70,34 @@ public class ViewSalonActivity extends AppCompatActivity {
 
     }
 
-    public void setSalonData(){
-        txtName.setText(Common.currentSalon.getSalonName());
-        txtMobile.setText(Common.currentSalon.getMobileNo());
-        txtAddress.setText(new StringBuilder(Common.currentSalon.getSalonAddress1())
-                .append(" "+Common.currentSalon.getSalonAddress2()));
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        sweetAlertDialog.dismissWithAnimation();
     }
 
-    public void selectSalon(){
-        if(salonId != 0){
+    public void setSalonData() {
+        if (Common.currentSalon != null) {
+            txtName.setText(Common.currentSalon.getSalonName());
+            txtMobile.setText(Common.currentSalon.getMobileNo());
+            txtAddress.setText(new StringBuilder(Common.currentSalon.getSalonAddress1())
+                    .append(" " + Common.currentSalon.getSalonAddress2()));
+            txtType.setText("Type: " + Common.currentSalon.getType());
+            txtOpenTime.setText("Open Time: " + Common.currentSalon.getOpenTime() + " - " + Common.currentSalon.getCloseTime());
+        } else {
+            alertDialog.showToast("Network error!");
+        }
+
+    }
+
+
+    public void selectSalon() {
+        if (salonId != 0) {
             subscribeObserversForSalon();
             subscribeObservers();
             getSalonApi(salonId);
 
-        }else{
+        } else {
             setSalonData();
             subscribeObservers();
             getStylists();
@@ -94,52 +113,63 @@ public class ViewSalonActivity extends AppCompatActivity {
     }
 
     private void subscribeObservers() {
+
         selectStylistViewModel.getStylist().observe(this, listResource -> {
-            if(listResource != null){
-                if(listResource.data != null){
-                    switch (listResource.status){
-                        case LOADING:{
-                            alertDialog.loadingDialog().show();
-                            break;
-                        }
-                        case SUCCESS:{
-                            alertDialog.dismissLoading();
+            if (listResource != null) {
+                switch (listResource.status) {
+                    case LOADING: {
+                        sweetAlertDialog.show();
+                        break;
+                    }
+                    case ERROR: {
+                        sweetAlertDialog.dismissWithAnimation();
+                        alertDialog.showToast(listResource.message);
+                        stylistAdapter.submitList(listResource.data);
+                        break;
+                    }
+                    case SUCCESS: {
+                        sweetAlertDialog.dismissWithAnimation();
+                        if (listResource.data != null) {
                             stylistAdapter.submitList(listResource.data);
                         }
-                        case ERROR:{
-                            alertDialog.dismissLoading();
-                            alertDialog.showToast(listResource.message);
-                            stylistAdapter.submitList(listResource.data);
-                            break;
-                        }
+                        break;
+
                     }
                 }
             }
         });
     }
 
-    private void getStylists() {selectStylistViewModel.stylistApi();}
+    private void getStylists() {
+        selectStylistViewModel.stylistApi();
+    }
 
-    private void subscribeObserversForSalon(){
+    private void subscribeObserversForSalon() {
         selectStylistViewModel.getPromotionSalon().observe(this, salonResource -> {
-            switch (salonResource.status) {
-                case LOADING:
-                    alertDialog.loadingDialog().show();
-                    break;
-                case ERROR:
-                    alertDialog.dismissLoading();
-                    alertDialog.showToast(salonResource.message);
-                    break;
-                case SUCCESS:
-                    if (salonResource.data != null) {
-                        alertDialog.dismissLoading();
-                        Common.currentSalon = salonResource.data;
-                        setSalonData();
-                        getStylists();
+            if (salonResource != null) {
+                switch (salonResource.status) {
+                    case LOADING: {
+                        sweetAlertDialog.show();
+                        break;
                     }
-                    break;
-
+                    case ERROR: {
+                        sweetAlertDialog.dismissWithAnimation();
+                        alertDialog.showToast(salonResource.message);
+                        break;
+                    }
+                    case SUCCESS: {
+                        sweetAlertDialog.dismissWithAnimation();
+                        if (salonResource.data != null) {
+                            Common.currentSalon = salonResource.data;
+                            setSalonData();
+                            getStylists();
+                        }
+                        break;
+                    }
+                }
             }
+
+
         });
     }
 

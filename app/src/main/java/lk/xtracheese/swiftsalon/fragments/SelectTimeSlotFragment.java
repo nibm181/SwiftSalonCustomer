@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import devs.mulham.horizontalcalendar.HorizontalCalendar;
 import devs.mulham.horizontalcalendar.HorizontalCalendarView;
 import devs.mulham.horizontalcalendar.utils.HorizontalCalendarListener;
@@ -34,7 +35,6 @@ import lk.xtracheese.swiftsalon.common.SpacesitemDecoration;
 import lk.xtracheese.swiftsalon.model.TimeSlot;
 import lk.xtracheese.swiftsalon.R;
 import lk.xtracheese.swiftsalon.service.DialogService;
-import lk.xtracheese.swiftsalon.viewmodel.SelectJobViewModel;
 import lk.xtracheese.swiftsalon.viewmodel.SelectTimeSlotViewModel;
 
 public class SelectTimeSlotFragment extends Fragment {
@@ -43,6 +43,7 @@ public class SelectTimeSlotFragment extends Fragment {
 
     SelectTimeSlotViewModel viewModel;
     DialogService dialogService;
+    SweetAlertDialog sweetAlertDialog;
 
     RecyclerView recyclerTimeSlots;
     HorizontalCalendarView horizontalCalendarView;
@@ -80,7 +81,6 @@ public class SelectTimeSlotFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        dialogService = new DialogService(getContext());
         localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
         localBroadcastManager.registerReceiver(displayTimeSlot, new IntentFilter(Common.KEY_JOB_SELECTED));
 
@@ -103,9 +103,10 @@ public class SelectTimeSlotFragment extends Fragment {
         View itemView = inflater.inflate(R.layout.fragment_booking_step_three,container, false);
         recyclerTimeSlots = itemView.findViewById(R.id.recycler_time_slot);
 
+        dialogService = new DialogService(getContext());
+        sweetAlertDialog = dialogService.loadingDialog();
         viewModel = new ViewModelProvider(this).get(SelectTimeSlotViewModel.class);
 
-        initRecyclerView();
         initCalender(itemView);
         return itemView;
 
@@ -145,7 +146,6 @@ public class SelectTimeSlotFragment extends Fragment {
         recyclerTimeSlots.setHasFixedSize(true);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
         recyclerTimeSlots.setLayoutManager(gridLayoutManager);
-        recyclerTimeSlots.addItemDecoration(new SpacesitemDecoration(2));
 
         //calender
 
@@ -173,25 +173,34 @@ public class SelectTimeSlotFragment extends Fragment {
     private void subscribeObservers(){
         viewModel.getTimeSlots().observe(getViewLifecycleOwner(), listResource -> {
             if (listResource != null) {
-                Log.d(TAG, "subscribeObservers: RESOURCE: " + listResource.message);
-                if(listResource.data != null){
+                Log.d(TAG, "subscribeObservers: RESOURCE: " + listResource.data);
 
-                    switch (listResource.status){
-                        case LOADING:{
-                            break;
-                        }
+                switch (listResource.status){
+                    case LOADING:{
+                        Log.d(TAG, "subscribeObservers: LOADING");
+                        sweetAlertDialog.show();
+                        break;
+                    }
 
-                        case ERROR:{
-                            dialogService.showToast(listResource.message);
-                        }
-                        case SUCCESS:{
-                            if(listResource.data.getStatus() == 1){
+                    case ERROR:{
+                        Log.d(TAG, "subscribeObservers: ERROR");
+                        sweetAlertDialog.dismiss();
+                        dialogService.showToast(listResource.message);
+                        break;
+                    }
+                    case SUCCESS:{
+                        Log.d(TAG, "subscribeObservers: SUCCESS");
+                        sweetAlertDialog.dismiss();
+                        if(listResource.data != null) {
+                            if (listResource.data.getStatus() == 1) {
+                                initRecyclerView();
                                 timeSlotAdapter.submitList(listResource.data.getContent());
                             }
-
                         }
+                        break;
                     }
                 }
+
             }
         });
     }

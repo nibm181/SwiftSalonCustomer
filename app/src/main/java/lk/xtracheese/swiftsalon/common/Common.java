@@ -22,6 +22,7 @@ public class Common {
     public static final String KEY_TIME_SLOT_SELECTED = "KEY_TIME_SLOT_SELECTED";
     public static final String KEY_CONFIRM_BOOKING = "CONFIRM_BOOKING";
     public static final String KEY_JOB_SELECTED = "JOB_SELECTED";
+    public static final String KEY_APPOINTMENT_SENT = "KEY_APPOINTMENT_SENT";
     public static int step = 0;
     public static List<Promotion> currentPromotion;
     public static Salon currentSalon;

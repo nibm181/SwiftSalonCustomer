@@ -37,6 +37,7 @@ public class JobAdapter extends ListAdapter <StylistJob, JobAdapter.MyViewHolder
 
     LocalBroadcastManager localBroadcastManager;
 
+    int i;
     public JobAdapter(Context context) {
         super(DIFF_CALLBACK);
         this.context = context;
@@ -81,21 +82,25 @@ public class JobAdapter extends ListAdapter <StylistJob, JobAdapter.MyViewHolder
             @Override
             public void onItemSelectedListener(View view, int pos) {
 
+                if(stylistJobs != null){
+                    i = stylistJobs.size();
+                }
 
                 if(stylistJobs != null){
                     if(holder.cardJob.isSelected()){
-                        holder.cardJob.setSelected(false);
-                        stylistJobs.remove(getItem(pos));
-
+                        if(i == 1){
+                            holder.cardJob.setSelected(true);
+                        }else{
+                            holder.cardJob.setSelected(false);
+                            stylistJobs.remove(getItem(pos));
+                        }
 
                     } else{
 //                    cardViewList.get(oldItem).setSelected(false);
                         holder.cardJob.setSelected(true);
                         stylistJobs.add(getItem(pos));
-
                     }
                 }
-
 
 
 

@@ -19,11 +19,14 @@ public class Stylist implements Parcelable {
     @SerializedName("image")
     @ColumnInfo(name = "image")
     private String img;
-    private boolean status;
+    private int status;
     @SerializedName("salon_id")
     @ColumnInfo(name = "salon_id")
     private int salID;
-    private long rating;
+
+    @SerializedName("rating")
+    @ColumnInfo(name = "rating")
+    private float rating;
 
     public Stylist() {
     }
@@ -33,9 +36,9 @@ public class Stylist implements Parcelable {
         gender = in.readString();
         id = in.readInt();
         img = in.readString();
-        status = in.readByte() != 0;
+        status = in.readInt();
         salID = in.readInt();
-        rating = in.readLong();
+        rating = in.readFloat();
     }
 
     public static final Creator<Stylist> CREATOR = new Creator<Stylist>() {
@@ -82,11 +85,11 @@ public class Stylist implements Parcelable {
         this.img = img;
     }
 
-    public boolean isStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
@@ -98,11 +101,11 @@ public class Stylist implements Parcelable {
         this.salID = salID;
     }
 
-    public long getRating() {
+    public float getRating() {
         return rating;
     }
 
-    public void setRating(long rating) {
+    public void setRating(float rating) {
         this.rating = rating;
     }
 
@@ -117,9 +120,9 @@ public class Stylist implements Parcelable {
         dest.writeString(gender);
         dest.writeInt(id);
         dest.writeString(img);
-        dest.writeByte((byte) (status ? 1 : 0));
+        dest.writeInt(status);
         dest.writeInt(salID);
-        dest.writeLong(rating);
+        dest.writeFloat(rating);
     }
 
     @Override

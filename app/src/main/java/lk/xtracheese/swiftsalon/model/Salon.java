@@ -13,6 +13,12 @@ import com.google.gson.annotations.SerializedName;
 @Entity(tableName = "tbl_salon")
 public class Salon implements Parcelable {
 
+    @PrimaryKey
+    @NonNull
+    @ColumnInfo(name = "id")
+    @SerializedName("id")
+    private int salID;
+
     @ColumnInfo(name = "name")
     @SerializedName("name")
     private String salonName;
@@ -25,11 +31,13 @@ public class Salon implements Parcelable {
     @SerializedName("addr2")
     private String salonAddress2;
 
-    @PrimaryKey
-    @NonNull
-    @ColumnInfo(name = "id")
-    @SerializedName("id")
-    private int salID;
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     @ColumnInfo(name = "open_time")
     @SerializedName("open_time")
@@ -48,13 +56,41 @@ public class Salon implements Parcelable {
 
     @ColumnInfo(name = "rating")
     @SerializedName("rating")
-    private Float rating;
+    private float rating;
 
-    public Float getRating() {
+    @ColumnInfo(name = "type")
+    @SerializedName("type")
+    private String type;
+
+    @ColumnInfo(name = "longitude")
+    @SerializedName("longitude")
+    private String longitude;
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    @ColumnInfo(name = "latitude")
+    @SerializedName("latitude")
+    private String latitude;
+
+    public float getRating() {
         return rating;
     }
 
-    public void setRating(Float rating) {
+    public void setRating(float rating) {
         this.rating = rating;
     }
 
@@ -105,6 +141,9 @@ public class Salon implements Parcelable {
         image = in.readString();
         mobileNo = in.readString();
         rating = in.readFloat();
+        type = in.readString();
+        longitude = in.readString();
+        latitude = in.readString();
     }
 
     public static final Creator<Salon> CREATOR = new Creator<Salon>() {
@@ -167,6 +206,9 @@ public class Salon implements Parcelable {
         dest.writeString(image);
         dest.writeString(mobileNo);
         dest.writeFloat(rating);
+        dest.writeString(type);
+        dest.writeString(longitude);
+        dest.writeString(latitude);
     }
 
     @Override

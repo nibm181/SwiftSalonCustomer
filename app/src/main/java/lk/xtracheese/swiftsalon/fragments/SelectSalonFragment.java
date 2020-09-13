@@ -1,16 +1,13 @@
 package lk.xtracheese.swiftsalon.fragments;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import lk.xtracheese.swiftsalon.Interface.OnItemClickListener;
 import lk.xtracheese.swiftsalon.R;
 import lk.xtracheese.swiftsalon.activity.ViewSalonActivity;
@@ -39,6 +37,8 @@ public class SelectSalonFragment extends Fragment implements OnItemClickListener
     EditText txtSearchSalon;
 
     DialogService alertDialog;
+    SweetAlertDialog sweetAlertDialog;
+
     SelectSalonViewModel viewModel;
 
     String searchText = "";
@@ -61,6 +61,7 @@ public class SelectSalonFragment extends Fragment implements OnItemClickListener
 
         viewModel = new ViewModelProvider(this).get(SelectSalonViewModel.class);
         alertDialog = new DialogService(getContext());
+        sweetAlertDialog = alertDialog.loadingDialog();
 
         View itemView = inflater.inflate(R.layout.fragment_booking_step_one, container, false);
         recyclerView = itemView.findViewById(R.id.recycler_salon);
@@ -93,6 +94,12 @@ public class SelectSalonFragment extends Fragment implements OnItemClickListener
 
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        sweetAlertDialog.dismissWithAnimation();
+    }
+
     private void getSalonsApi(String searchText) {
         this.searchText = searchText;
         viewModel.salonsApi(searchText);
@@ -101,21 +108,25 @@ public class SelectSalonFragment extends Fragment implements OnItemClickListener
     private void subscribeObservers() {
         viewModel.getSalons().observe(getViewLifecycleOwner(), listResource -> {
             if (listResource != null) {
-                if (listResource.data != null) {
 
-                    switch (listResource.status) {
-                        case LOADING: {
-                            break;
-                        }
+                switch (listResource.status) {
+                    case LOADING: {
+                        sweetAlertDialog.show();
+                        break;
+                    }
 
-                        case ERROR: {
-                            alertDialog.showToast(listResource.message);
-                            initRecyclerView();
-                            salonAdapter.submitList(listResource.data);
-                            break;
-                        }
+                    case ERROR: {
+                        sweetAlertDialog.dismissWithAnimation();
+                        alertDialog.showToast(listResource.message);
+                        initRecyclerView();
+                        salonAdapter.submitList(listResource.data);
+                        break;
+                    }
 
-                        case SUCCESS: {
+                    case SUCCESS: {
+                        sweetAlertDialog.dismissWithAnimation();
+                        if (listResource.data != null) {
+
                             initRecyclerView();
                             salonAdapter.submitList(listResource.data);
                             break;

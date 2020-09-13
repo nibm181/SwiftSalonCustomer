@@ -1,7 +1,6 @@
 package lk.xtracheese.swiftsalon.repository;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -48,7 +47,7 @@ public class SalonRepository {
                 protected void saveCallResult(@NonNull GenericResponse<List<Salon>> item) {
                     if(item.getContent() != null) {
                         Salon[] salon = new Salon[item.getContent().size()];
-                        swiftSalonDao.deleteSalon();
+                        swiftSalonDao.deleteSalons();
                         swiftSalonDao.insertSalons(item.getContent().toArray(salon));
                     }
                 }
@@ -97,7 +96,7 @@ public class SalonRepository {
 
             @Override
             protected void saveCallResult(@NonNull GenericResponse<Salon> item) {
-
+                swiftSalonDao.insertSalon(item.getContent());
             }
 
             @Override
