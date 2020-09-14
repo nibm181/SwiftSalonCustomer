@@ -32,7 +32,6 @@ public class CreateAccountActivity extends AppCompatActivity {
     String firstName, lastName, mobileNo, password, rePassword;
     Button btnRegister;
 
-    Session session;
     User objUser;
 
     DialogService alertDialog;
@@ -46,10 +45,9 @@ public class CreateAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
 
-        session = new Session(getApplicationContext());
         viewModel = new CreateAccountViewModel(getApplication());
         alertDialog = new DialogService(this);
-        sweetAlertDialog = new SweetAlertDialog(this);
+        sweetAlertDialog = alertDialog.loadingDialog();
 
         isValidated = false;
 
@@ -66,9 +64,7 @@ public class CreateAccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                validate();
-
-                if(isValidated){
+                if(validate()){
                     setUserData();
                     registerUserApi(objUser);
                 }
@@ -86,23 +82,27 @@ public class CreateAccountActivity extends AppCompatActivity {
         viewModel.getUser().observe(this, resource -> {
             switch (resource.status) {
                 case LOADING:
-                    sweetAlertDialog = alertDialog.loadingDialog();
                     sweetAlertDialog.show();
                     break;
-                case ERROR:
-                    sweetAlertDialog.dismissWithAnimation();
+                case ERROR:{
+                    sweetAlertDialog.dismiss();
                     alertDialog.showToast(resource.message);
                     break;
-                case SUCCESS:
+                }
+
+                case SUCCESS:{
+                    sweetAlertDialog.dismiss();
                     if (resource.data.getStatus() == 1) {
                         if (resource.data.getContent() != null) {
-                            sweetAlertDialog.dismissWithAnimation();
-                            alertDialog.successAccountDialog().show();
+                            alertDialog.showToast("Account Created Successfully!");
                             Intent intent = new Intent(CreateAccountActivity.this, LoginActivity.class);
                             startActivity(intent);
                         }
+                    }else {
+                        alertDialog.errorDialog("Mobile Number already registered. Please try Login").show();
                     }
                     break;
+                }
 
             }
         });
@@ -116,7 +116,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         objUser.setPassword(password);
     }
 
-     void validate(){
+     public boolean validate(){
          firstName = txtFirstName.getText().toString().trim();
          lastName = txtLastName.getText().toString().trim();
          mobileNo = txtMobileNo.getText().toString();
@@ -125,27 +125,37 @@ public class CreateAccountActivity extends AppCompatActivity {
 
         if(firstName.isEmpty()) {
             alertDialog.errorDialog("Please enter first name").show();
-        }else if(firstName.matches(NAME_REGEX)){
+            return false;
+        }else if(!firstName.matches(NAME_REGEX)){
             alertDialog.errorDialog("Please enter valid first name").show();
+            return false;
         }else if(lastName.isEmpty()){
             alertDialog.errorDialog("Please enter last name").show();
-        }else if(lastName.matches(NAME_REGEX)){
+            return false;
+        }else if(!lastName.matches(NAME_REGEX)){
             alertDialog.errorDialog("Please enter valid last name").show();
+            return false;
         }else if(mobileNo.isEmpty()){
              alertDialog.errorDialog("Please enter mobile number").show();
+            return false;
         }else if(!mobileNo.matches(MOBILE_NUMBER_REGEX)){
             alertDialog.errorDialog("Please enter valid mobile number").show();
+            return false;
         }else if(password.isEmpty()) {
             alertDialog.errorDialog("Please enter password").show();
+            return false;
         }else if (!isValidPassword(password))    {
             alertDialog.errorDialog("Password should contain capital letter and symbol").show();
+            return false;
         }else if(rePassword.isEmpty()){
              alertDialog.errorDialog("Please re-type password").show();
+            return false;
         }else if(!password.equals(rePassword)){
             alertDialog.errorDialog("Please check password, Password doesn't match").show();
             Log.d(TAG, "validate: "+password + " " +rePassword );
+            return false;
         }else{
-            isValidated = true;
+            return true;
          }
     }
 

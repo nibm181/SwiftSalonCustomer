@@ -66,7 +66,8 @@ public class UserRepository {
 
             @Override
             protected void saveCallResult(@NonNull GenericResponse<User> item) {
-                swiftSalonDao.insertUser(item.getContent());
+                if(item.getContent() != null)
+                    swiftSalonDao.insertUser(item.getContent());
             }
         }.getAsLiveData();
     }

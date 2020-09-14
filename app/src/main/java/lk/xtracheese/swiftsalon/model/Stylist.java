@@ -28,6 +28,7 @@ public class Stylist implements Parcelable {
     @ColumnInfo(name = "rating")
     private float rating;
 
+
     public Stylist() {
     }
 

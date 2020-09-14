@@ -113,13 +113,13 @@ public class SelectJobFragment extends Fragment {
                     }
 
                     case ERROR: {
-                        sweetAlertDialog.dismissWithAnimation();
+                        sweetAlertDialog.dismiss();
                         dialogService.showToast(listResource.message);
                         initRecyclerView();
                         jobAdapter.submitList(listResource.data);
                     }
                     case SUCCESS: {
-                        sweetAlertDialog.dismissWithAnimation();
+                        sweetAlertDialog.dismiss();
                         if (listResource.data != null) {
                             initRecyclerView();
                             jobAdapter.submitList(listResource.data);

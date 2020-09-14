@@ -73,7 +73,6 @@ public class ViewSalonActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        sweetAlertDialog.dismissWithAnimation();
     }
 
     public void setSalonData() {
@@ -122,13 +121,13 @@ public class ViewSalonActivity extends AppCompatActivity {
                         break;
                     }
                     case ERROR: {
-                        sweetAlertDialog.dismissWithAnimation();
+                        sweetAlertDialog.dismiss();
                         alertDialog.showToast(listResource.message);
                         stylistAdapter.submitList(listResource.data);
                         break;
                     }
                     case SUCCESS: {
-                        sweetAlertDialog.dismissWithAnimation();
+                        sweetAlertDialog.dismiss();
                         if (listResource.data != null) {
                             stylistAdapter.submitList(listResource.data);
                         }
@@ -153,12 +152,12 @@ public class ViewSalonActivity extends AppCompatActivity {
                         break;
                     }
                     case ERROR: {
-                        sweetAlertDialog.dismissWithAnimation();
+                        sweetAlertDialog.dismiss();
                         alertDialog.showToast(salonResource.message);
                         break;
                     }
                     case SUCCESS: {
-                        sweetAlertDialog.dismissWithAnimation();
+                        sweetAlertDialog.dismiss();
                         if (salonResource.data != null) {
                             Common.currentSalon = salonResource.data;
                             setSalonData();

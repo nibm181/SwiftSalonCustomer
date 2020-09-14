@@ -117,7 +117,7 @@ public interface SwiftSalonDao {
     @Query("SELECT image FROM tbl_stylist WHERE id = :id")
     String getStylistImage(int id);
 
-    @Query("SELECT * FROM tbl_stylist WHERE salon_id = :salonId")
+    @Query("SELECT * FROM tbl_stylist WHERE salon_id = :salonId AND status = 1")
     LiveData<List<Stylist>> getStylists(int salonId);
 
     @Query("DELETE FROM tbl_stylist WHERE salon_id = :salonId")

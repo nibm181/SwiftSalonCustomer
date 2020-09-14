@@ -10,13 +10,12 @@
 
     <TextView
         android:id="@+id/header"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Create Account"
         android:textAlignment="center"
         android:textColor="@color/pearl_white"
-        android:textSize="50sp"
-        android:layout_marginStart="25dp"
+        android:textSize="25sp"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="60dp"/>
 
@@ -93,15 +92,15 @@
 
         <Button
             android:id="@+id/btn_register"
-            android:layout_width="wrap_content"
+            android:layout_width="116dp"
             android:layout_height="wrap_content"
-            android:background="@color/dark_dark_purple"
+            android:background="@drawable/button1_shape"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="30dp"
             android:layout_centerInParent="true"
-            android:textColor="@color/pearl_white"
-            android:text=" Create Account "/>
+            android:textColor="@color/dark"
+            android:text=" Register "/>
 
 
 

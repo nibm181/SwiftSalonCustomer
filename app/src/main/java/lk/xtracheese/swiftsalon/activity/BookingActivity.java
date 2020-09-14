@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -172,7 +174,13 @@ public class BookingActivity extends AppCompatActivity {
 
                     } else if (Common.step == 3) { //confirm
                         Log.d(TAG, "onClick: step "+Common.step);
-                        saveData();
+                        if(isOnline()){
+                            saveData();
+                        }else{
+                            Common.step--;
+                            alertDialog.noInternetConnection().show();
+                        }
+
                     }
                 }
             }
@@ -270,11 +278,10 @@ public class BookingActivity extends AppCompatActivity {
                             if (resource.data.getStatus() == 1) {
                                 if (resource.data.getContent() != null) {
                                     Common.step = 0;
-                                    alertDialog.successAppointmentDialog().setConfirmClickListener(sweetAlertDialog1 -> {
-                                        final Intent intent = new Intent(BookingActivity.this, HomeActivity.class);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        startActivity(intent);
-                                    }).show();
+                                    alertDialog.showToast("Appointment Requested Successfully");
+                                    final Intent intent = new Intent(BookingActivity.this, HomeActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
                                 }
                             }else{
                                 Common.step--;
@@ -310,5 +317,11 @@ public class BookingActivity extends AppCompatActivity {
         setAppointmentApi(appointment);
     }
 
+    public boolean isOnline() {
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
+    }
 
 }

@@ -110,6 +110,11 @@ public class ViewAppointmentDetailActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
     private void initRecyclerView() {
         appointmentDetailAdapter = new AppointmentDetailAdapter(this);
         recyclerView.setAdapter(appointmentDetailAdapter);
@@ -124,21 +129,20 @@ public class ViewAppointmentDetailActivity extends AppCompatActivity {
     private void subscribeObserversForAppointmentDetails() {
         viewAppointmentDetailViewModel.getAppointmentDetail().observe(this, listResource -> {
             if (listResource != null) {
-                if (listResource.data != null) {
-                    switch (listResource.status) {
-                        case LOADING: {
-                            sweetAlertDialog = alertDialog.loadingDialog();
-                            sweetAlertDialog.show();
-                            break;
-                        }
-                        case SUCCESS: {
-                            sweetAlertDialog.dismissWithAnimation();
-                            appointmentDetailAdapter.submitList(listResource.data);
-                            break;
-                        }
-                        case ERROR: {
-                            sweetAlertDialog.dismissWithAnimation();
-                            Toast.makeText(this, listResource.message, Toast.LENGTH_SHORT).show();
+                switch (listResource.status) {
+                    case LOADING: {
+                        sweetAlertDialog.show();
+                        break;
+                    }
+                    case ERROR: {
+                        sweetAlertDialog.dismiss();
+                        Toast.makeText(this, listResource.message, Toast.LENGTH_SHORT).show();
+                        appointmentDetailAdapter.submitList(listResource.data);
+                        break;
+                    }
+                    case SUCCESS: {
+                        sweetAlertDialog.dismiss();
+                        if (listResource.data != null) {
                             appointmentDetailAdapter.submitList(listResource.data);
                             break;
                         }
@@ -161,12 +165,12 @@ public class ViewAppointmentDetailActivity extends AppCompatActivity {
                         sweetAlertDialog.show();
                         break;
                     case ERROR: {
-                        sweetAlertDialog.dismissWithAnimation();
+                        sweetAlertDialog.dismiss();
                         alertDialog.showToast(resource.message);
                         break;
                     }
                     case SUCCESS: {
-                        sweetAlertDialog.dismissWithAnimation();
+                        sweetAlertDialog.dismiss();
                         if (resource.data != null) {
                             if (resource.data.getStatus() == 1) {
                                 txtStatus.setText("status : cancelled");
@@ -188,20 +192,19 @@ public class ViewAppointmentDetailActivity extends AppCompatActivity {
     private void subscribeObserversForSalon() {
         viewAppointmentDetailViewModel.getSalon().observe(this, salonResource -> {
             if (salonResource != null) {
-                if (salonResource.data != null) {
-                    switch (salonResource.status) {
-                        case LOADING: {
-                            sweetAlertDialog = alertDialog.loadingDialog();
-                            sweetAlertDialog.show();
-                            break;
-                        }
-                        case ERROR: {
-                            sweetAlertDialog.dismissWithAnimation();
-                            alertDialog.showToast(salonResource.message + " from salon api");
-                            break;
-                        }
-                        case SUCCESS: {
-                            sweetAlertDialog.dismissWithAnimation();
+                switch (salonResource.status) {
+                    case LOADING: {
+                        sweetAlertDialog.show();
+                        break;
+                    }
+                    case ERROR: {
+                        sweetAlertDialog.dismiss();
+                        alertDialog.showToast(salonResource.message + " from salon api");
+                        break;
+                    }
+                    case SUCCESS: {
+                        sweetAlertDialog.dismiss();
+                        if (salonResource.data != null) {
                             salon = salonResource.data;
                             break;
                         }

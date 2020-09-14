@@ -97,7 +97,6 @@ public class SelectSalonFragment extends Fragment implements OnItemClickListener
     @Override
     public void onDestroy() {
         super.onDestroy();
-        sweetAlertDialog.dismissWithAnimation();
     }
 
     private void getSalonsApi(String searchText) {
@@ -116,7 +115,7 @@ public class SelectSalonFragment extends Fragment implements OnItemClickListener
                     }
 
                     case ERROR: {
-                        sweetAlertDialog.dismissWithAnimation();
+                        sweetAlertDialog.dismiss();
                         alertDialog.showToast(listResource.message);
                         initRecyclerView();
                         salonAdapter.submitList(listResource.data);
@@ -124,7 +123,7 @@ public class SelectSalonFragment extends Fragment implements OnItemClickListener
                     }
 
                     case SUCCESS: {
-                        sweetAlertDialog.dismissWithAnimation();
+                        sweetAlertDialog.dismiss();
                         if (listResource.data != null) {
 
                             initRecyclerView();

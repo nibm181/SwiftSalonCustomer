@@ -81,6 +81,12 @@ public class DialogService {
         return sweetAlertDialog;
     }
 
+    public SweetAlertDialog noInternetConnection(){
+        sweetAlertDialog = new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE);
+        sweetAlertDialog.setTitleText("No Internet Connection!");
+        return sweetAlertDialog;
+    }
+
 
     public SweetAlertDialog ratingSMessage(){
         sweetAlertDialog = new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE);

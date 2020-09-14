@@ -95,7 +95,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        sweetAlertDialog.dismissWithAnimation();
     }
 
     private void getHomeApi() {
@@ -111,7 +110,7 @@ public class HomeFragment extends Fragment {
                         break;
                     }
                     case SUCCESS: {
-                        sweetAlertDialog.dismissWithAnimation();
+                        sweetAlertDialog.dismiss();
                         if (!listResource.data.isEmpty()) {
                             Common.currentPromotion = listResource.data;
                             //set adapter on slider
@@ -142,14 +141,15 @@ public class HomeFragment extends Fragment {
                     }
 
                     case ERROR: {
-                        sweetAlertDialog.dismissWithAnimation();
+                        sweetAlertDialog.dismiss();
                         dialogService.showToast(listResource.message);
                         if (!listResource.data.isEmpty()) {
+                            Common.currentPromotion = listResource.data;
                             //set adapter on slider
+
                             bannerSlider.setAdapter(new BannerSlideAdapter(listResource.data));
                             bannerSlider.setInterval(5000);
                             setPromotionData(0);
-                            Common.currentPromotion = listResource.data;
                         } else {
                             noPromotion();
                         }
@@ -168,7 +168,7 @@ public class HomeFragment extends Fragment {
                         break;
                     }
                     case ERROR: {
-                        sweetAlertDialog.dismissWithAnimation();
+                        sweetAlertDialog.dismiss();
                         dialogService.showToast(listResource.message);
                         if (!listResource.data.isEmpty()) {
                             initRecyclerView();
@@ -177,7 +177,7 @@ public class HomeFragment extends Fragment {
                         break;
                     }
                     case SUCCESS: {
-                        sweetAlertDialog.dismissWithAnimation();
+                        sweetAlertDialog.dismiss();
                         if (listResource.data != null) {
                             initRecyclerView();
                             lookBookAdapter.submitList(listResource.data);

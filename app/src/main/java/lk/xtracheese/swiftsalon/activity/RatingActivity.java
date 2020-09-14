@@ -76,19 +76,18 @@ public class RatingActivity extends AppCompatActivity {
 
     public void subscribeObservers() {
         viewModel.getResponse().observe(this, resource -> {
-            if(resource != null){
+            if (resource != null) {
                 switch (resource.status) {
                     case LOADING:
                         sweetAlertDialog.show();
                         break;
                     case SUCCESS: {
-                        if(resource.data != null){
+                        sweetAlertDialog.dismiss();
+                        if (resource.data != null) {
                             if (resource.data.getStatus() == 1) {
-                                sweetAlertDialog.dismissWithAnimation();
-                                alertDialog.ratingSMessage().setConfirmClickListener(sweetAlertDialog -> {
-                                    Intent intent = new Intent(RatingActivity.this, HomeActivity.class);
-                                    startActivity(intent);
-                                }).show();
+                                alertDialog.showToast("Thank you!");
+                                Intent intent = new Intent(RatingActivity.this, HomeActivity.class);
+                                startActivity(intent);
                             }
                         }
 
@@ -96,7 +95,7 @@ public class RatingActivity extends AppCompatActivity {
                     }
 
                     case ERROR: {
-                        sweetAlertDialog.dismissWithAnimation();
+                        sweetAlertDialog.dismiss();
                         alertDialog.showToast(resource.message);
                         break;
                     }

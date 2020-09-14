@@ -66,13 +66,13 @@ public class ViewAppointmentsActivity extends AppCompatActivity implements OnIte
                     }
                     case SUCCESS: {
                         if (listResource.data != null) {
-                            sweetAlertDialog.dismissWithAnimation();
+                            sweetAlertDialog.dismiss();
                             appointmentAdapter.submitList(listResource.data);
                         }
                         break;
                     }
                     case ERROR: {
-                        sweetAlertDialog.dismissWithAnimation();
+                        sweetAlertDialog.dismiss();
                         if (listResource.data.isEmpty()) {
                             Intent intent1 = new Intent(ViewAppointmentsActivity.this, NoAppointmentsActivity.class);
                             startActivity(intent1);

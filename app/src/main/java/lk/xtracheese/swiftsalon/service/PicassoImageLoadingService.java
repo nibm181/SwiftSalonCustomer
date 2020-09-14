@@ -15,11 +15,20 @@ public class PicassoImageLoadingService implements ImageLoadingService {
 
     @Override
     public void loadImage(String url, ImageView imageView) {
-        Picasso.get().load(url)
-                .placeholder(R.drawable.ic_account_circle_black_24dp)
-                .error(R.drawable.ic_account_circle_black_24dp)
-                .fit()
-                .into(imageView);
+        if(url != null){
+            if (url.isEmpty()) {
+                imageView.setImageResource(R.drawable.placeholder);
+            } else{
+                Picasso.get().load(url)
+                        .placeholder(R.drawable.placeholder)
+                        .error(R.drawable.error_image)
+                        .fit()
+                        .into(imageView);
+            }
+        }else{
+            imageView.setImageResource(R.drawable.placeholder);
+        }
+
     }
 
     @Override
@@ -34,12 +43,21 @@ public class PicassoImageLoadingService implements ImageLoadingService {
         Picasso.get().load(url).placeholder(placeHolder).error(errorDrawable).into(imageView);
     }
     public void loadImageRound(String url, ImageView imageView) {
-        Picasso.get().load(url)
-                .placeholder(R.drawable.ic_account_circle_black_24dp)
-                .error(R.drawable.ic_account_circle_black_24dp)
-                .transform(new CircleTransform())
-                .fit()
-                .into(imageView);
+        if(url != null){
+            if (url.isEmpty()) {
+                imageView.setImageResource(R.drawable.ic_account_circle_black_24dp);
+            }else{
+                Picasso.get().load(url)
+                        .placeholder(R.drawable.ic_account_circle_black_24dp)
+                        .error(R.drawable.ic_account_circle_black_24dp)
+                        .transform(new CircleTransform())
+                        .fit()
+                        .into(imageView);
+            }
+        }else{
+            imageView.setImageResource(R.drawable.ic_account_circle_black_24dp);
+        }
+
     }
 
 
